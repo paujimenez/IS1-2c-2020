@@ -19,13 +19,13 @@ I class
 + unNumero 
 	^unNumero next.! !
 
-!I class methodsFor: 'Operaciones' stamp: 'PJ 9/16/2020 21:30:21'!
+!I class methodsFor: 'Operaciones' stamp: 'PJ 9/17/2020 17:28:20'!
 - unNumero 
-	^self descripcionDeErrorDeNumerosNegativosNoSoportados.! !
+	^self error: self descripcionDeErrorDeNumerosNegativosNoSoportados.! !
 
-!I class methodsFor: 'Operaciones' stamp: 'PJ 9/16/2020 21:19:37'!
+!I class methodsFor: 'Operaciones' stamp: 'PJ 9/17/2020 17:29:08'!
 / unNumero 
-	(unNumero isDescendantOf: self) ifTrue: [^self error: 'descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor'].
+	(unNumero isDescendantOf: self) ifTrue: [^self error: self descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor].
 	unNumero = self ifTrue: [^I] ifFalse: [^(self - unNumero / unNumero) + I].! !
 
 !I class methodsFor: 'Operaciones' stamp: 'PJ 9/14/2020 21:54:05'!
@@ -33,13 +33,13 @@ next
 	^self createChildNamed: self name, 'I'! !
 
 
-!I class methodsFor: 'as yet unclassified' stamp: 'PJ 9/16/2020 21:31:22'!
+!I class methodsFor: 'as yet unclassified' stamp: 'PJ 9/17/2020 17:27:38'!
 descripcionDeErrorDeNoSePuedeDividirPorUnNumeroMayor
-	^ self error: 'NoSePuedeDividirPorUnNumeroMayor'! !
+	^'NoSePuedeDividirPorUnNumeroMayor'! !
 
-!I class methodsFor: 'as yet unclassified' stamp: 'PJ 9/16/2020 21:31:34'!
+!I class methodsFor: 'as yet unclassified' stamp: 'PJ 9/17/2020 17:27:53'!
 descripcionDeErrorDeNumerosNegativosNoSoportados
-	^ self error: 'NumerosNegativosNoSoportados'! !
+	^'NumerosNegativosNoSoportados'! !
 
 
 !classDefinition: #II category: #'Numeros De Peano'!
@@ -63,9 +63,9 @@ II class
 + unNumero 
 	^self previous + unNumero next.! !
 
-!II class methodsFor: 'as yet unclassified' stamp: 'PJ 9/16/2020 21:27:55'!
+!II class methodsFor: 'as yet unclassified' stamp: 'PJ 9/17/2020 17:29:36'!
 - unNumero 
-	(unNumero isDescendantOf: self) ifTrue: [^self descripcionDeErrorDeNumerosNegativosNoSoportados].
+	(unNumero isDescendantOf: self) ifTrue: [^self error: self descripcionDeErrorDeNumerosNegativosNoSoportados].
 	unNumero = I ifTrue: [^self parent] ifFalse: [^self previous - unNumero previous].! !
 
 !II class methodsFor: 'as yet unclassified' stamp: 'PJ 9/14/2020 21:53:29'!
@@ -89,6 +89,7 @@ III subclass: #IIII
 	category: 'Numeros De Peano'!
 
 
+!classDefinition: #IIIII category: #'Numeros De Peano'!
 IIII subclass: #IIIII
 	instanceVariableNames: ''
 	classVariableNames: ''
