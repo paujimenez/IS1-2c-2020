@@ -21,50 +21,31 @@ TestCase subclass: #CustomerBookTest
 	poolDictionaries: ''
 	category: 'CodigoRepetido-Ejercicio'!
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'PGTA 9/17/2020 21:59:50'!
-medirTiempoDeCostumerBook: accionAMedir tiempo: valorEnMilisegundos
-
-	| customerBook millisecondsBeforeRunning millisecondsAfterRunning |
-	
-	customerBook := CustomerBook new.
-	accionAMedir with: customerBook.
-	
-	millisecondsBeforeRunning := Time millisecondClockValue * millisecond.
-	accionAMedir send.
-	millisecondsAfterRunning := Time millisecondClockValue * millisecond.
-	
-	self assert: (millisecondsAfterRunning-millisecondsBeforeRunning) < (valorEnMilisegundos * millisecond)! !
-
-!CustomerBookTest methodsFor: 'testing' stamp: 'PGTA 9/17/2020 22:01:38'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'PGTA 9/19/2020 20:05:07'!
 test01AddingCustomerShouldNotTakeMoreThan50Milliseconds
 
-	"| customerBook millisecondsBeforeRunning millisecondsAfterRunning |
+	| milisegundosDeDiferencia customerBookTest |
+	customerBookTest := CustomerBook new.
 	
-	customerBook := CustomerBook new.
+	milisegundosDeDiferencia := self medirTiempoDeCustomerBook: customerBookTest bloqueDeTest:[:customerBook | customerBook addCustomerNamed: 'John Lennon'.].
 	
-	millisecondsBeforeRunning := Time millisecondClockValue * millisecond.
-	customerBook addCustomerNamed: 'John Lennon'.
-	millisecondsAfterRunning := Time millisecondClockValue * millisecond.
+	self assert: milisegundosDeDiferencia < (50 * millisecond)
 	
-	self assert: (millisecondsAfterRunning-millisecondsBeforeRunning) < (50 * millisecond)"
-	
-	self medirTiempoDeCustomerBook: [:customerBook | customerBook addCustomerNamed: 'John Lennon'.] tiempo:50.! !
+	! !
 
-!CustomerBookTest methodsFor: 'testing' stamp: 'NR 4/3/2019 10:50:13'!
+!CustomerBookTest methodsFor: 'testing' stamp: 'PGTA 9/19/2020 20:06:28'!
 test02RemovingCustomerShouldNotTakeMoreThan100Milliseconds
 
-	| customerBook millisecondsBeforeRunning millisecondsAfterRunning paulMcCartney |
+	| milisegundosDeDiferencia paulMcCartney customerBookTest |
 	
-	customerBook := CustomerBook new.
+	customerBookTest := CustomerBook new.
 	paulMcCartney := 'Paul McCartney'.
 	
-	customerBook addCustomerNamed: paulMcCartney.
-	  
-	millisecondsBeforeRunning := Time millisecondClockValue * millisecond.
-	customerBook removeCustomerNamed: paulMcCartney.
-	millisecondsAfterRunning := Time millisecondClockValue * millisecond.
+	customerBookTest addCustomerNamed: paulMcCartney.
 	
-	self assert: (millisecondsAfterRunning-millisecondsBeforeRunning) < (100 * millisecond)
+	milisegundosDeDiferencia := self medirTiempoDeCustomerBook: customerBookTest bloqueDeTest:[:customerBook | customerBook removeCustomerNamed: paulMcCartney.].
+	
+	self assert: milisegundosDeDiferencia < (100 * millisecond)
 	
 ! !
 
@@ -175,6 +156,18 @@ test08CanNotSuspendAnAlreadySuspendedCustomer
 			self assert: (customerBook includesCustomerNamed: johnLennon) ]
 ! !
 
+
+!CustomerBookTest methodsFor: 'helperMethods' stamp: 'PGTA 9/19/2020 20:05:25'!
+medirTiempoDeCustomerBook: customerBook bloqueDeTest: accionAMedir
+
+	| millisecondsBeforeRunning millisecondsAfterRunning |
+	
+	millisecondsBeforeRunning := Time millisecondClockValue * millisecond.
+	accionAMedir value: customerBook.
+	millisecondsAfterRunning := Time millisecondClockValue * millisecond.
+	
+	^(millisecondsAfterRunning-millisecondsBeforeRunning)! !
+
 
 !classDefinition: #CustomerBook category: #'CodigoRepetido-Ejercicio'!
 Object subclass: #CustomerBook
@@ -224,10 +217,34 @@ numberOfSuspendedCustomers
 	
 	^suspended size! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
-removeCustomerNamed: aName 
+!CustomerBook methodsFor: 'customer management' stamp: 'PGTA 9/19/2020 20:58:55'!
+removeCustomerFrom: aCollection customerNamed: aName 
  
-	1 to: active size do: 
+	1 to: aCollection size do: 
+	[ :index |
+		aName = (aCollection at: index)
+			ifTrue: [
+				aCollection removeAt: index.
+				^true 
+			] 
+	].
+	
+	^false! !
+
+!CustomerBook methodsFor: 'customer management' stamp: 'PGTA 9/19/2020 21:00:04'!
+removeCustomerNamed: aName 
+
+ 	| activeFound suspendedFound |
+	
+	activeFound:= self removeCustomerFrom: active customerNamed: aName.
+	activeFound ifTrue:[^aName].
+	
+	suspendedFound:= self removeCustomerFrom: suspended customerNamed: aName.
+	suspendedFound ifTrue:[^aName].
+	
+	^ NotFound signal.
+	
+	"1 to: active size do: 
 	[ :index |
 		aName = (active at: index)
 			ifTrue: [
@@ -246,6 +263,9 @@ removeCustomerNamed: aName
 	].
 	
 	^ NotFound signal.
+	"
+	
+	
 ! !
 
 !CustomerBook methodsFor: 'customer management' stamp: 'HernanWilkinson 7/6/2011 17:52'!
@@ -258,15 +278,30 @@ signalCustomerNameCannotBeEmpty
 
 	self error: self class customerCanNotBeEmptyErrorMessage ! !
 
-!CustomerBook methodsFor: 'customer management' stamp: 'NR 4/3/2019 10:14:26'!
+!CustomerBook methodsFor: 'customer management' stamp: 'PGTA 9/19/2020 21:18:18'!
 suspendCustomerNamed: aName 
+
+	self customerCanBeSuspended: aName.
+	self suspendExistentCustomer: aName.
+! !
+
+
+!CustomerBook methodsFor: 'cosasNuestras' stamp: 'PGTA 9/19/2020 21:14:06'!
+customerCanBeSuspended: aName 
 	
-	(active includes: aName) ifFalse: [^CantSuspend signal].
+	(active includes: aName) ifFalse: [^CantSuspend signal].! !
+
+!CustomerBook methodsFor: 'cosasNuestras' stamp: 'PGTA 9/19/2020 21:17:08'!
+suspendCustomer: aName 
 	
 	active remove: aName.
+	suspended add: aName.! !
+
+!CustomerBook methodsFor: 'cosasNuestras' stamp: 'PGTA 9/19/2020 21:17:58'!
+suspendExistentCustomer: aName 
 	
-	suspended add: aName
-! !
+	active remove: aName.
+	suspended add: aName.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
