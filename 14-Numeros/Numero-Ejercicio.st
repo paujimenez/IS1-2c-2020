@@ -433,16 +433,13 @@ Numero subclass: #Entero
 	
 	^self class with: value // aDivisor integerValue! !
 
-!Entero methodsFor: 'arithmetic operations' stamp: 'HAW 9/24/2018 08:47:50'!
+!Entero methodsFor: 'arithmetic operations' stamp: 'PGTA 10/1/2020 05:22:36'!
 fibonacci
 
 	| one two |
 	
 	one := Entero with: 1.
 	two := Entero with: 2.
-	
-	self isNegative ifTrue: [self error: Entero negativeFibonacciErrorDescription ].	
-	(self isZero or: [self isOne]) ifTrue: [^one].
 	
 	^ (self - one) fibonacci + (self - two) fibonacci
 		! !
@@ -464,7 +461,7 @@ hash
 	^value hash! !
 
 
-!Entero methodsFor: 'initialization' stamp: 'HernanWilkinson 5/7/2016 20:09'!
+!Entero methodsFor: 'initialization' stamp: 'PGTA 10/1/2020 01:51:56'!
 initalizeWith: aValue 
 	
 	value := aValue! !
@@ -513,6 +510,13 @@ addAnEntero: anEnteroAdder
 	
 ! !
 
+!Entero methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 03:41:42'!
+divideACero: aCero
+	
+	^aCero
+	
+! !
+
 !Entero methodsFor: 'private arithmetic operations' stamp: 'PJ 9/29/2020 21:29:31'!
 divideAFraccion: aFraccionDividend
 	
@@ -520,12 +524,10 @@ divideAFraccion: aFraccionDividend
 	
 ! !
 
-!Entero methodsFor: 'private arithmetic operations' stamp: 'PJ 9/29/2020 21:05:07'!
+!Entero methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 05:14:32'!
 divideAnEntero: anEnteroDividend
-	
-	^Fraccion with: anEnteroDividend over: self
-	
-! !
+
+	^Fraccion with: anEnteroDividend over: self! !
 
 !Entero methodsFor: 'private arithmetic operations' stamp: 'PJ 9/29/2020 20:16:34'!
 multiplyAFraccion: aFraccionMultiplier
@@ -570,13 +572,95 @@ Entero class
 negativeFibonacciErrorDescription
 	^ ' Fibonacci no está definido aquí para Enteros Negativos'! !
 
-!Entero class methodsFor: 'instance creation' stamp: 'HernanWilkinson 5/7/2016 22:53'!
+!Entero class methodsFor: 'instance creation' stamp: 'PGTA 10/1/2020 04:34:28'!
 with: aValue 
 	
 	"Esta verificacion esta puesta por si se equivocan y quieren crear un Entero pasando otra cosa que un Integer - Hernan"
 	aValue isInteger ifFalse: [  self error: 'aValue debe ser anInteger' ].
 	
+	aValue = 0 ifTrue:[^Cero new initalizeWith: aValue ].
+	aValue = 1 ifTrue:[^Uno  new initalizeWith: aValue ].
+	aValue < 0 ifTrue:[^Negativo  new initalizeWith: aValue].
 	^self new initalizeWith: aValue! !
+
+
+!classDefinition: #Cero category: 'Numero-Exercise'!
+Entero subclass: #Cero
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!Cero methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 03:04:19'!
+divideACero: aCero
+	
+	"Se podría hacer un error más específico pero no me parece tan relevante para el ejercicio"
+	^self error: self class canNotDivideByZeroErrorDescription.! !
+
+!Cero methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 04:31:25'!
+divideAnEntero: anEnteroDividend
+	
+	^Fraccion error: Fraccion canNotDivideByZeroErrorDescription.! !
+
+
+!Cero methodsFor: 'arithmetic operations' stamp: 'PGTA 10/1/2020 02:57:07'!
+/ aDivisor
+	
+	^aDivisor divideACero: self! !
+
+!Cero methodsFor: 'arithmetic operations' stamp: 'PGTA 10/1/2020 05:21:55'!
+fibonacci
+
+	^Entero with: 1! !
+
+
+!classDefinition: #Negativo category: 'Numero-Exercise'!
+Entero subclass: #Negativo
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!Negativo methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 04:59:25'!
+divideAnEntero: anEnteroDividend 
+	
+	^anEnteroDividend negated / self negated! !
+
+!Negativo methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 05:13:28'!
+multiplyAnEntero: anEnteroMultiplier 
+	
+	^Entero with: value * anEnteroMultiplier integerValue! !
+
+
+!Negativo methodsFor: 'arithmetic operations' stamp: 'PGTA 10/1/2020 05:18:31'!
+fibonacci
+
+	^self error: Entero negativeFibonacciErrorDescription! !
+
+
+!classDefinition: #Uno category: 'Numero-Exercise'!
+Entero subclass: #Uno
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Numero-Exercise'!
+
+!Uno methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 02:03:30'!
+addAnEntero: anEnteroValue
+	
+	^Entero with: anEnteroValue integerValue + value.! !
+
+!Uno methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 02:10:05'!
+subtractFromAnEntero: anEnteroMinuend
+	
+	^ Entero with: anEnteroMinuend integerValue - value! !
+
+
+!Uno methodsFor: 'arithmetic operations' stamp: 'PGTA 10/1/2020 05:20:08'!
+fibonacci
+
+	^self
+		! !
 
 
 !classDefinition: #Fraccion category: 'Numero-Exercise'!
@@ -695,6 +779,11 @@ divideAFraccion: aFraccionDividend
 	
 	^aFraccionDividend numerator * denominator / (aFraccionDividend denominator * numerator)! !
 
+!Fraccion methodsFor: 'private arithmetic operations' stamp: 'PGTA 10/1/2020 03:52:28'!
+divideAUno: aUno
+	
+	^self class with: denominator over: numerator ! !
+
 !Fraccion methodsFor: 'private arithmetic operations' stamp: 'PJ 9/29/2020 21:07:56'!
 divideAnEntero: anEnteroDividend
 	
@@ -731,15 +820,10 @@ subtractFromAnEntero: anEnteroMinuend
 Fraccion class
 	instanceVariableNames: ''!
 
-!Fraccion class methodsFor: 'intance creation' stamp: 'NR 9/23/2018 23:45:19'!
+!Fraccion class methodsFor: 'instance creation' stamp: 'PGTA 10/1/2020 05:15:53'!
 with: aDividend over: aDivisor
 
 	| greatestCommonDivisor numerator denominator |
-	
-	aDivisor isZero ifTrue: [ self error: self canNotDivideByZeroErrorDescription ].
-	aDividend isZero ifTrue: [ ^aDividend ].
-	
-	aDivisor isNegative ifTrue:[ ^aDividend negated / aDivisor negated].
 	
 	greatestCommonDivisor := aDividend greatestCommonDivisorWith: aDivisor. 
 	numerator := aDividend // greatestCommonDivisor.
