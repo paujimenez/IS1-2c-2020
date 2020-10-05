@@ -1,11 +1,11 @@
-!classDefinition: #OOStackTest category: #'Stack-Exercise'!
+!classDefinition: #OOStackTest category: 'Stack-Exercise'!
 TestCase subclass: #OOStackTest
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackTest methodsFor: 'test' stamp: 'HernanWilkinson 5/7/2012 11:30'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 16:50:14'!
 test01StackShouldBeEmptyWhenCreated
 
 	| stack |
@@ -14,7 +14,7 @@ test01StackShouldBeEmptyWhenCreated
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:29:55'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 16:50:20'!
 test02PushAddElementsToTheStack
 
 	| stack |
@@ -24,7 +24,7 @@ test02PushAddElementsToTheStack
 	
 	self deny: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:01'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 17:57:12'!
 test03PopRemovesElementsFromTheStack
 
 	| stack |
@@ -35,7 +35,7 @@ test03PopRemovesElementsFromTheStack
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:09'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 20:22:27'!
 test04PopReturnsLastPushedObject
 
 	| stack pushedObject |
@@ -46,7 +46,7 @@ test04PopReturnsLastPushedObject
 	
 	self assert: stack pop = pushedObject! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:48'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 16:52:17'!
 test05StackBehavesLIFO
 
 	| stack firstPushedObject secondPushedObject |
@@ -63,7 +63,7 @@ test05StackBehavesLIFO
 	self assert: stack isEmpty 
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:20'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 17:32:15'!
 test06TopReturnsLastPushedObject
 
 	| stack pushedObject |
@@ -76,7 +76,7 @@ test06TopReturnsLastPushedObject
 	self assert: stack top = pushedObject.
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'NR 5/13/2020 13:30:24'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 17:53:15'!
 test07TopDoesNotRemoveObjectFromStack
 
 	| stack pushedObject |
@@ -91,7 +91,7 @@ test07TopDoesNotRemoveObjectFromStack
 	self assert: stack size = 1.
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HAW 4/14/2017 22:48:26'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 18:15:00'!
 test08CanNotPopWhenThereAreNoObjectsInTheStack
 
 	| stack  |
@@ -99,7 +99,7 @@ test08CanNotPopWhenThereAreNoObjectsInTheStack
 	stack := OOStack new.
 	self
 		should: [ stack pop ]
-		raise: Error - MessageNotUnderstood 
+		raise: Error - MessageNotUnderstood
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = OOStack stackEmptyErrorDescription ]
 		
@@ -122,7 +122,7 @@ test09CanNotPopWhenThereAreNoObjectsInTheStackAndTheStackHadObjects
 		
 ! !
 
-!OOStackTest methodsFor: 'test' stamp: 'HAW 4/14/2017 22:48:44'!
+!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 18:01:56'!
 test10CanNotTopWhenThereAreNoObjectsInTheStack
 
 	| stack  |
@@ -137,7 +137,7 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 ! !
 
 
-!classDefinition: #SentenceFinderByPrefixTest category: #'Stack-Exercise'!
+!classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
 TestCase subclass: #SentenceFinderByPrefixTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -145,26 +145,124 @@ TestCase subclass: #SentenceFinderByPrefixTest
 	category: 'Stack-Exercise'!
 
 
-!classDefinition: #OOStack category: #'Stack-Exercise'!
+!classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
+!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/4/2020 18:41:21'!
+pop
+	self subclassResponsibility ! !
+
+!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/4/2020 18:42:15'!
+push: anObject
+	self subclassResponsibility ! !
+
+!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/4/2020 18:49:11'!
+top
+	self subclassResponsibility ! !
+
+
+
+!OOStack methodsFor: 'comparing' stamp: 'PJ 10/4/2020 18:29:45'!
+isEmpty
+	self subclassResponsibility! !
+
+!OOStack methodsFor: 'comparing' stamp: 'PJ 10/4/2020 18:45:39'!
+size
+	self subclassResponsibility! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'OOStack class' category: #'Stack-Exercise'!
+!classDefinition: 'OOStack class' category: 'Stack-Exercise'!
 OOStack class
 	instanceVariableNames: ''!
 
-!OOStack class methodsFor: 'error descriptions' stamp: 'NR 10/1/2020 18:08:13'!
+!OOStack class methodsFor: 'error descriptions' stamp: 'PJ 10/4/2020 19:52:31'!
+new
+	^EmptyOOStack basicNew! !
+
+!OOStack class methodsFor: 'error descriptions' stamp: 'PJ 10/4/2020 16:53:28'!
 stackEmptyErrorDescription
 	
 	^ 'Stack is empty!!'! !
 
 
-!classDefinition: #SentenceFinderByPrefix category: #'Stack-Exercise'!
+!classDefinition: #EmptyOOStack category: 'Stack-Exercise'!
+OOStack subclass: #EmptyOOStack
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!EmptyOOStack methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:30:03'!
+isEmpty
+	^true! !
+
+!EmptyOOStack methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:40:36'!
+pop
+	^self error: self class stackEmptyErrorDescription! !
+
+!EmptyOOStack methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 20:53:53'!
+push: anObject
+	
+	^OOStackWithAtLeastOneElement with: anObject.! !
+
+!EmptyOOStack methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:45:57'!
+size
+	^0.! !
+
+!EmptyOOStack methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:49:30'!
+top
+	^self error: self class stackEmptyErrorDescription! !
+
+
+!classDefinition: #OOStackWithAtLeastOneElement category: 'Stack-Exercise'!
+OOStack subclass: #OOStackWithAtLeastOneElement
+	instanceVariableNames: 'elements'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackWithAtLeastOneElement methodsFor: 'initialization' stamp: 'PJ 10/4/2020 18:59:19'!
+initializeWith: anObject
+	elements := OrderedCollection with: anObject.! !
+
+
+!OOStackWithAtLeastOneElement methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:32:26'!
+isEmpty
+	^elements isEmpty! !
+
+!OOStackWithAtLeastOneElement methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:40:52'!
+pop
+	^elements removeLast.! !
+
+!OOStackWithAtLeastOneElement methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:44:49'!
+push: anObject
+	elements addLast: anObject! !
+
+!OOStackWithAtLeastOneElement methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:46:11'!
+size
+	^elements size.! !
+
+!OOStackWithAtLeastOneElement methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 18:49:46'!
+top
+	^elements last! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'OOStackWithAtLeastOneElement class' category: 'Stack-Exercise'!
+OOStackWithAtLeastOneElement class
+	instanceVariableNames: ''!
+
+!OOStackWithAtLeastOneElement class methodsFor: 'initialization' stamp: 'PJ 10/4/2020 20:19:52'!
+with: anObject
+	^self basicNew initializeWith: anObject ! !
+
+
+!classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
 Object subclass: #SentenceFinderByPrefix
 	instanceVariableNames: ''
 	classVariableNames: ''
