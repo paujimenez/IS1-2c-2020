@@ -283,10 +283,18 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'PJ 10/5/2020 20:44:29'!
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'PJ 10/6/2020 20:31:09'!
 find: aPrefix in: aStack
 
-	|auxStack findResults sentence|
+	|findResults sentence |
 	
+	aStack isEmpty ifTrue: [^OrderedCollection new]
+		ifFalse: [
+			sentence := aStack pop.
+			findResults := self find: aPrefix in: aStack.
+			(sentence beginsWith: aPrefix) ifTrue: [findResults add: sentence].
+			aStack push: sentence.
+			^findResults
+		]
 	
 	! !
