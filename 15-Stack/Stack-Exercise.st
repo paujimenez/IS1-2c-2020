@@ -147,32 +147,47 @@ TestCase subclass: #SentenceFinderByPrefixTest
 
 !classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
-	instanceVariableNames: ''
+	instanceVariableNames: 'elements'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/4/2020 18:41:21'!
+!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 22:22:53'!
 pop
-	self subclassResponsibility ! !
 
-!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/4/2020 18:42:15'!
+	^elements last popMe: self.! !
+
+!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 22:23:13'!
 push: anObject
-	self subclassResponsibility ! !
 
-!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/4/2020 18:49:11'!
+	elements addLast: (OOStackElementContainer with: anObject).! !
+
+!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 22:30:09'!
 top
-	self subclassResponsibility ! !
+
+	^elements last value.! !
 
 
+!OOStack methodsFor: 'initialization' stamp: 'PJ 10/5/2020 22:28:35'!
+initialize
+	elements := OrderedCollection with: OOStackBase new.! !
 
-!OOStack methodsFor: 'comparing' stamp: 'PJ 10/4/2020 18:29:45'!
+
+!OOStack methodsFor: 'privateStackOperations' stamp: 'PJ 10/5/2020 22:25:54'!
+safeRemoveTop
+
+	^elements removeLast.! !
+
+
+!OOStack methodsFor: 'comparing' stamp: 'PJ 10/5/2020 22:28:49'!
 isEmpty
-	self subclassResponsibility! !
 
-!OOStack methodsFor: 'comparing' stamp: 'PJ 10/4/2020 18:45:39'!
+	^elements size = 1! !
+
+!OOStack methodsFor: 'comparing' stamp: 'PJ 10/5/2020 22:29:20'!
 size
-	self subclassResponsibility! !
+
+	^elements size - 1.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -180,35 +195,55 @@ size
 OOStack class
 	instanceVariableNames: ''!
 
-!OOStack class methodsFor: 'error descriptions' stamp: 'PJ 10/5/2020 18:10:57'!
-new
-	^OOStackElements basicNew initialize! !
-
 !OOStack class methodsFor: 'error descriptions' stamp: 'PJ 10/4/2020 16:53:28'!
 stackEmptyErrorDescription
 	
 	^ 'Stack is empty!!'! !
 
 
-!classDefinition: #OOStackBase category: 'Stack-Exercise'!
-OOStack subclass: #OOStackBase
+!classDefinition: #OOStackElements category: 'Stack-Exercise'!
+Object subclass: #OOStackElements
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackBase methodsFor: 'privateStackOperations' stamp: 'PJ 10/5/2020 17:42:50'!
+!OOStackElements methodsFor: 'initialization' stamp: 'PJ 10/5/2020 22:30:45'!
+initializeWith: anObject
+
+	self subclassResponsibility ! !
+
+
+!OOStackElements methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 22:31:26'!
+popMe: aStack
+
+	self subclassResponsibility ! !
+
+!OOStackElements methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 22:31:55'!
+value
+
+	self subclassResponsibility ! !
+
+
+!classDefinition: #OOStackBase category: 'Stack-Exercise'!
+OOStackElements subclass: #OOStackBase
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Stack-Exercise'!
+
+!OOStackBase methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 17:42:50'!
 popMe: aStack
 
 	^self error: OOStack stackEmptyErrorDescription! !
 
-!OOStackBase methodsFor: 'privateStackOperations' stamp: 'PJ 10/4/2020 22:25:22'!
+!OOStackBase methodsFor: 'stackElementOperations' stamp: 'PJ 10/4/2020 22:25:22'!
 value
 	^self error: OOStack stackEmptyErrorDescription! !
 
 
 !classDefinition: #OOStackElementContainer category: 'Stack-Exercise'!
-OOStack subclass: #OOStackElementContainer
+OOStackElements subclass: #OOStackElementContainer
 	instanceVariableNames: 'value'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -219,16 +254,15 @@ initializeWith: anObject
 	value := anObject ! !
 
 
-!OOStackElementContainer methodsFor: 'privateStackOperations' stamp: 'PJ 10/5/2020 17:58:06'!
+!OOStackElementContainer methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 22:31:03'!
 popMe: aStack
 
-	"|currentTop|
-	currentTop := value."
 	aStack safeRemoveTop.
 	^value! !
 
-!OOStackElementContainer methodsFor: 'privateStackOperations' stamp: 'PJ 10/4/2020 22:23:00'!
+!OOStackElementContainer methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 22:31:33'!
 value
+
 	^value! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -242,52 +276,17 @@ with: anObject
 	^self basicNew initializeWith: anObject ! !
 
 
-!classDefinition: #OOStackElements category: 'Stack-Exercise'!
-OOStack subclass: #OOStackElements
-	instanceVariableNames: 'elements'
-	classVariableNames: ''
-	poolDictionaries: ''
-	category: 'Stack-Exercise'!
-
-!OOStackElements methodsFor: 'initialization' stamp: 'PJ 10/5/2020 18:01:14'!
-initialize
-	elements := OrderedCollection new.
-	elements add: OOStackBase basicNew.! !
-
-
-!OOStackElements methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 17:58:54'!
-pop
-
-	^elements last popMe: self.! !
-
-!OOStackElements methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 18:11:39'!
-push: anObject
-
-	elements addLast: (OOStackElementContainer with: anObject).! !
-
-!OOStackElements methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 17:47:16'!
-top
-	^elements last value.! !
-
-
-!OOStackElements methodsFor: 'comparing' stamp: 'PJ 10/5/2020 17:36:01'!
-isEmpty
-	^elements size = 1! !
-
-!OOStackElements methodsFor: 'comparing' stamp: 'PJ 10/5/2020 17:46:39'!
-size
-	^elements size - 1.! !
-
-
-!OOStackElements methodsFor: 'privateStackOperations' stamp: 'PJ 10/5/2020 17:44:43'!
-safeRemoveTop
-
-	^elements removeLast.! !
-
-
 !classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
 Object subclass: #SentenceFinderByPrefix
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+!SentenceFinderByPrefix methodsFor: 'as yet unclassified' stamp: 'PJ 10/5/2020 20:44:29'!
+find: aPrefix in: aStack
+
+	|auxStack findResults sentence|
+	
+	
+	! !
