@@ -139,10 +139,78 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 
 !classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
 TestCase subclass: #SentenceFinderByPrefixTest
-	instanceVariableNames: ''
+	instanceVariableNames: 'stackWithZeroStrings stackWithOneString stackWithTwoStrings stackWithThreeStrings'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/6/2020 20:55:34'!
+setUp
+	
+	stackWithZeroStrings := OOStack new.
+	
+	stackWithOneString := OOStack new.
+	stackWithOneString push: 'Paula'.
+	
+	stackWithTwoStrings := OOStack new.
+	stackWithTwoStrings push: 'Paula'.
+	stackWithTwoStrings push: 'Pablo'.
+	
+	stackWithThreeStrings := OOStack new.
+	stackWithThreeStrings push: 'Paula'.
+	stackWithThreeStrings push: 'Pablo'.
+	stackWithThreeStrings push: 'Juan'.
+	! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/6/2020 21:00:19'!
+test01FinderByPrefixReturnsEmptyCollectionIfPrefixNotFound
+	
+	|finder prefix searchResults|
+	
+	finder := SentenceFinderByPrefix new.
+	prefix := 'Ra'.
+	
+	searchResults := finder find: prefix in: stackWithThreeStrings.
+	
+	self assert: searchResults isEmpty.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/6/2020 21:07:11'!
+test02FinderByPrefixReturnsAllStackStringsWithFoundPrefix
+	
+	|finder prefix searchResults expectedResult|
+	
+	expectedResult := OrderedCollection with: 'Paula' with: 'Pablo'.
+	
+	finder := SentenceFinderByPrefix new.
+	prefix := 'Pa'.
+	
+	searchResults := finder find: prefix in: stackWithThreeStrings.
+	
+	self assert: searchResults = expectedResult.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/6/2020 21:08:01'!
+test03FinderByPrefixIsCaseSensitive
+	
+	|finder prefix searchResults|
+	
+	finder := SentenceFinderByPrefix new.
+	prefix := 'pa'.
+	
+	searchResults := finder find: prefix in: stackWithThreeStrings.
+	
+	self assert: searchResults isEmpty.! !
+
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/6/2020 21:09:33'!
+test04FinderByPrefixLeavesStackUnchanged
+	
+	|finder prefix searchResults|
+	
+	finder := SentenceFinderByPrefix new.
+	prefix := 'pa'.
+	
+	searchResults := finder find: prefix in: stackWithThreeStrings.
+	
+	self assert: searchResults isEmpty.! !
 
 
 !classDefinition: #OOStack category: 'Stack-Exercise'!
