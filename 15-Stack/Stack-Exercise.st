@@ -5,7 +5,7 @@ TestCase subclass: #OOStackTest
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 16:50:14'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:23'!
 test01StackShouldBeEmptyWhenCreated
 
 	| stack |
@@ -14,7 +14,7 @@ test01StackShouldBeEmptyWhenCreated
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 16:50:20'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:27'!
 test02PushAddElementsToTheStack
 
 	| stack |
@@ -24,7 +24,7 @@ test02PushAddElementsToTheStack
 	
 	self deny: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 17:57:12'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:31'!
 test03PopRemovesElementsFromTheStack
 
 	| stack |
@@ -35,7 +35,7 @@ test03PopRemovesElementsFromTheStack
 	
 	self assert: stack isEmpty! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 20:22:27'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:35'!
 test04PopReturnsLastPushedObject
 
 	| stack pushedObject |
@@ -46,7 +46,7 @@ test04PopReturnsLastPushedObject
 	
 	self assert: stack pop = pushedObject! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 16:52:17'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:39'!
 test05StackBehavesLIFO
 
 	| stack firstPushedObject secondPushedObject |
@@ -63,7 +63,7 @@ test05StackBehavesLIFO
 	self assert: stack isEmpty 
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 17:32:15'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:44'!
 test06TopReturnsLastPushedObject
 
 	| stack pushedObject |
@@ -76,7 +76,7 @@ test06TopReturnsLastPushedObject
 	self assert: stack top = pushedObject.
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 17:53:15'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:48'!
 test07TopDoesNotRemoveObjectFromStack
 
 	| stack pushedObject |
@@ -91,7 +91,7 @@ test07TopDoesNotRemoveObjectFromStack
 	self assert: stack size = 1.
 	! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 18:15:00'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:52'!
 test08CanNotPopWhenThereAreNoObjectsInTheStack
 
 	| stack  |
@@ -105,7 +105,7 @@ test08CanNotPopWhenThereAreNoObjectsInTheStack
 		
 ! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 23:08:46'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:56'!
 test09CanNotPopWhenThereAreNoObjectsInTheStackAndTheStackHadObjects
 
 	| stack  |
@@ -122,7 +122,7 @@ test09CanNotPopWhenThereAreNoObjectsInTheStackAndTheStackHadObjects
 		
 ! !
 
-!OOStackTest methodsFor: 'test' stamp: 'PJ 10/4/2020 18:01:56'!
+!OOStackTest methodsFor: 'test' stamp: 'PGTA 10/8/2020 14:49:59'!
 test10CanNotTopWhenThereAreNoObjectsInTheStack
 
 	| stack  |
@@ -163,7 +163,7 @@ setUp
 	stackWithSentences push: 'The winds of Winter'.
 	stackWithSentences push: 'Winter is here'.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/6/2020 21:00:19'!
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/8/2020 14:50:14'!
 test01FinderByPrefixReturnsEmptyCollectionIfPrefixNotFound
 	
 	|finder prefix searchResults|
@@ -175,7 +175,7 @@ test01FinderByPrefixReturnsEmptyCollectionIfPrefixNotFound
 	
 	self assert: searchResults isEmpty.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/6/2020 21:07:11'!
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/8/2020 14:50:18'!
 test02FinderByPrefixReturnsAllStackStringsWithFoundPrefix
 	
 	|finder prefix searchResults expectedResult|
@@ -189,7 +189,7 @@ test02FinderByPrefixReturnsAllStackStringsWithFoundPrefix
 	
 	self assert: searchResults = expectedResult.! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/7/2020 20:09:56'!
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/8/2020 13:30:18'!
 test03FinderByPrefixIsCaseSensitive
 	
 	|finder prefix searchResults|
@@ -309,6 +309,23 @@ test11FinderByPrefixReturnSentencesInWhichPrefixIsOnlyPrefixOfTheFirstWord
 	self assert: searchResults size = 1.
 	self assert: searchResults last = 'Winter is here'.! !
 
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/8/2020 13:45:28'!
+test12FinderByPrefixReturnTheCollectionEvenIfTheStackContainsNonStringObjects
+	
+	|finder prefix searchResults|
+	
+	stackWithThreeStrings push: 4856.
+	stackWithThreeStrings push: OOStack new.
+	stackWithThreeStrings push: false.
+	
+	finder := SentenceFinderByPrefix new.
+	prefix := 'Ju'.
+	
+	searchResults := finder find: prefix in: stackWithThreeStrings.
+	
+	self assert: searchResults size = 1.
+	self assert: searchResults last = 'Juan'.! !
+
 
 !classDefinition: #OOStack category: 'Stack-Exercise'!
 Object subclass: #OOStack
@@ -317,28 +334,29 @@ Object subclass: #OOStack
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 22:22:53'!
+!OOStack methodsFor: 'stackOperations' stamp: 'PGTA 10/8/2020 14:58:26'!
 pop
 
-	^elements last popMe: self.! !
+	^elements last popMeFrom: self.! !
 
-!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 22:23:13'!
+!OOStack methodsFor: 'stackOperations' stamp: 'PGTA 10/8/2020 14:42:16'!
 push: anObject
 
 	elements addLast: (OOStackElementContainer with: anObject).! !
 
-!OOStack methodsFor: 'stackOperations' stamp: 'PJ 10/5/2020 22:30:09'!
+!OOStack methodsFor: 'stackOperations' stamp: 'PGTA 10/8/2020 15:46:50'!
 top
 
-	^elements last value.! !
+	^elements last containedObject.! !
 
 
-!OOStack methodsFor: 'initialization' stamp: 'PJ 10/5/2020 22:28:35'!
+!OOStack methodsFor: 'initialization' stamp: 'PGTA 10/8/2020 15:45:03'!
 initialize
+
 	elements := OrderedCollection with: OOStackBase new.! !
 
 
-!OOStack methodsFor: 'privateStackOperations' stamp: 'PJ 10/5/2020 22:25:54'!
+!OOStack methodsFor: 'privateStackOperations' stamp: 'PGTA 10/8/2020 14:48:15'!
 safeRemoveTop
 
 	^elements removeLast.! !
@@ -360,7 +378,7 @@ size
 OOStack class
 	instanceVariableNames: ''!
 
-!OOStack class methodsFor: 'error descriptions' stamp: 'PJ 10/4/2020 16:53:28'!
+!OOStack class methodsFor: 'error descriptions' stamp: 'PGTA 10/8/2020 14:44:27'!
 stackEmptyErrorDescription
 	
 	^ 'Stack is empty!!'! !
@@ -373,19 +391,14 @@ Object subclass: #OOStackElements
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackElements methodsFor: 'initialization' stamp: 'PJ 10/5/2020 22:30:45'!
-initializeWith: anObject
+
+!OOStackElements methodsFor: 'stackElementOperations' stamp: 'PGTA 10/8/2020 15:46:50'!
+containedObject
 
 	self subclassResponsibility ! !
 
-
-!OOStackElements methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 22:31:26'!
-popMe: aStack
-
-	self subclassResponsibility ! !
-
-!OOStackElements methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 22:31:55'!
-value
+!OOStackElements methodsFor: 'stackElementOperations' stamp: 'PGTA 10/8/2020 14:58:26'!
+popMeFrom: aStack
 
 	self subclassResponsibility ! !
 
@@ -397,38 +410,40 @@ OOStackElements subclass: #OOStackBase
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackBase methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 17:42:50'!
-popMe: aStack
+!OOStackBase methodsFor: 'stackElementOperations' stamp: 'PGTA 10/8/2020 15:46:50'!
+containedObject
 
 	^self error: OOStack stackEmptyErrorDescription! !
 
-!OOStackBase methodsFor: 'stackElementOperations' stamp: 'PJ 10/4/2020 22:25:22'!
-value
+!OOStackBase methodsFor: 'stackElementOperations' stamp: 'PGTA 10/8/2020 14:58:26'!
+popMeFrom: aStack
+
 	^self error: OOStack stackEmptyErrorDescription! !
 
 
 !classDefinition: #OOStackElementContainer category: 'Stack-Exercise'!
 OOStackElements subclass: #OOStackElementContainer
-	instanceVariableNames: 'value'
+	instanceVariableNames: 'objectInside'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!OOStackElementContainer methodsFor: 'initialization' stamp: 'PJ 10/4/2020 22:28:23'!
+!OOStackElementContainer methodsFor: 'initialization' stamp: 'PGTA 10/8/2020 15:48:27'!
 initializeWith: anObject
-	value := anObject ! !
+
+	objectInside := anObject ! !
 
 
-!OOStackElementContainer methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 22:31:03'!
-popMe: aStack
+!OOStackElementContainer methodsFor: 'stackElementOperations' stamp: 'PGTA 10/8/2020 15:48:20'!
+containedObject
+
+	^objectInside ! !
+
+!OOStackElementContainer methodsFor: 'stackElementOperations' stamp: 'PGTA 10/8/2020 15:48:16'!
+popMeFrom: aStack
 
 	aStack safeRemoveTop.
-	^value! !
-
-!OOStackElementContainer methodsFor: 'stackElementOperations' stamp: 'PJ 10/5/2020 22:31:33'!
-value
-
-	^value! !
+	^objectInside ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -436,9 +451,9 @@ value
 OOStackElementContainer class
 	instanceVariableNames: ''!
 
-!OOStackElementContainer class methodsFor: 'as yet unclassified' stamp: 'PJ 10/4/2020 22:27:48'!
+!OOStackElementContainer class methodsFor: 'instance creation' stamp: 'PGTA 10/8/2020 15:38:42'!
 with: anObject
-	^self basicNew initializeWith: anObject ! !
+	^self new initializeWith: anObject! !
 
 
 !classDefinition: #SentenceFinderByPrefix category: 'Stack-Exercise'!
@@ -448,7 +463,7 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'privateFinderOperations' stamp: 'PJ 10/7/2020 21:39:07'!
+!SentenceFinderByPrefix methodsFor: 'privateFinderOperations' stamp: 'PJ 10/8/2020 13:34:00'!
 inputValidatedFind: aPrefix in: aStringStack
 
 	|findResults sentence |
@@ -458,10 +473,17 @@ inputValidatedFind: aPrefix in: aStringStack
 	sentence := aStringStack pop.
 	findResults := self inputValidatedFind: aPrefix in: aStringStack.
 	
-	(sentence beginsWith: aPrefix) ifTrue: [findResults add: sentence].
+	self validateAndCheck: sentence against: aPrefix thenDo: [findResults add: sentence].
 	aStringStack push: sentence.
 	
 	^findResults
+	
+	! !
+
+!SentenceFinderByPrefix methodsFor: 'privateFinderOperations' stamp: 'PJ 10/8/2020 13:36:53'!
+validateAndCheck: aSentence against: aPrefix thenDo: aBlockToExecute
+
+	(aSentence isString and: [aSentence beginsWith: aPrefix]) ifTrue: aBlockToExecute.
 	
 	! !
 
@@ -475,12 +497,11 @@ find: aPrefix in: aStringStack
 	^self inputValidatedFind: aPrefix in: aStringStack.! !
 
 
-!SentenceFinderByPrefix methodsFor: 'validations' stamp: 'PJ 10/7/2020 20:05:42'!
+!SentenceFinderByPrefix methodsFor: 'validations' stamp: 'PJ 10/8/2020 13:31:10'!
 isValidPrefix: aPrefix
 
 	
-	(aPrefix isString) ifTrue: [^(aPrefix isEmpty not) and: (aPrefix includesSubString: ' ') not].
-	^false
+	^aPrefix isString and: [aPrefix isEmpty not and: [(aPrefix includesSubString: ' ') not]].
 	
 	! !
 
