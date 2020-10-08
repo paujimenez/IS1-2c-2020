@@ -139,15 +139,15 @@ test10CanNotTopWhenThereAreNoObjectsInTheStack
 
 !classDefinition: #SentenceFinderByPrefixTest category: 'Stack-Exercise'!
 TestCase subclass: #SentenceFinderByPrefixTest
-	instanceVariableNames: 'stackWithZeroStrings stackWithOneString stackWithThreeStrings stackWithSentences'
+	instanceVariableNames: 'emptyStack stackWithOneString stackWithThreeStrings stackWithSentences'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/7/2020 21:49:25'!
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/8/2020 16:48:27'!
 setUp
 	
-	stackWithZeroStrings := OOStack new.
+	emptyStack := OOStack new.
 	
 	stackWithOneString := OOStack new.
 	stackWithOneString push: 'Paula'.
@@ -284,7 +284,7 @@ test09FinderByPrefixReturnsAnErrorWhenTheInputIsNotAStack
 		withExceptionDo: [ :anError |
 			self assert: anError messageText = SentenceFinderByPrefix notStackErrorDescription]! !
 
-!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/7/2020 21:45:04'!
+!SentenceFinderByPrefixTest methodsFor: 'as yet unclassified' stamp: 'PGTA 10/8/2020 16:48:19'!
 test10FinderByPrefixReturnsEmptyCollectionIfStackIsEmpty
 	
 	|finder prefix searchResults|
@@ -292,7 +292,7 @@ test10FinderByPrefixReturnsEmptyCollectionIfStackIsEmpty
 	finder := SentenceFinderByPrefix new.
 	prefix := 'Pa'.
 	
-	searchResults := finder find: prefix in: stackWithZeroStrings.
+	searchResults := finder find: prefix in: emptyStack.
 	
 	self assert: searchResults isEmpty.! !
 
@@ -463,15 +463,22 @@ Object subclass: #SentenceFinderByPrefix
 	poolDictionaries: ''
 	category: 'Stack-Exercise'!
 
-!SentenceFinderByPrefix methodsFor: 'privateFinderOperations' stamp: 'PJ 10/8/2020 13:34:00'!
-inputValidatedFind: aPrefix in: aStringStack
+!SentenceFinderByPrefix methodsFor: 'privateFinderOperations' stamp: 'PJ 10/8/2020 13:36:53'!
+validateAndCheck: aSentence against: aPrefix thenDo: aBlockToExecute
 
-	|findResults sentence |
+	(aSentence isString and: [aSentence beginsWith: aPrefix]) ifTrue: aBlockToExecute.
+	
+	! !
+
+!SentenceFinderByPrefix methodsFor: 'privateFinderOperations' stamp: 'PGTA 10/8/2020 16:05:02'!
+validatedInputFind: aPrefix in: aStringStack
+
+	|findResults sentence|
 	
 	aStringStack isEmpty ifTrue: [^OrderedCollection new].
 	
 	sentence := aStringStack pop.
-	findResults := self inputValidatedFind: aPrefix in: aStringStack.
+	findResults := self validatedInputFind: aPrefix in: aStringStack.
 	
 	self validateAndCheck: sentence against: aPrefix thenDo: [findResults add: sentence].
 	aStringStack push: sentence.
@@ -480,21 +487,14 @@ inputValidatedFind: aPrefix in: aStringStack
 	
 	! !
 
-!SentenceFinderByPrefix methodsFor: 'privateFinderOperations' stamp: 'PJ 10/8/2020 13:36:53'!
-validateAndCheck: aSentence against: aPrefix thenDo: aBlockToExecute
 
-	(aSentence isString and: [aSentence beginsWith: aPrefix]) ifTrue: aBlockToExecute.
-	
-	! !
-
-
-!SentenceFinderByPrefix methodsFor: 'finderOperations' stamp: 'PJ 10/7/2020 21:26:17'!
+!SentenceFinderByPrefix methodsFor: 'finderOperations' stamp: 'PGTA 10/8/2020 15:59:19'!
 find: aPrefix in: aStringStack
 
 	
 	self validate: aPrefix and: aStringStack.
 	
-	^self inputValidatedFind: aPrefix in: aStringStack.! !
+	^self validatedInputFind: aPrefix in: aStringStack.! !
 
 
 !SentenceFinderByPrefix methodsFor: 'validations' stamp: 'PJ 10/8/2020 13:31:10'!
