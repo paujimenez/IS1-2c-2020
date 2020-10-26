@@ -5,7 +5,7 @@ TestCase subclass: #MarsRoverTests
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!MarsRoverTests methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:17:32'!
+!MarsRoverTests methodsFor: 'testing' stamp: 'PJ 10/24/2020 20:17:32'!
 test01RoverMovesCorrectly
 	| rover initialPoint forwardPoint|
 	initialPoint := (0@0).
@@ -16,7 +16,7 @@ test01RoverMovesCorrectly
 	
 	self assert: (rover position) equals: forwardPoint.! !
 
-!MarsRoverTests methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:18:03'!
+!MarsRoverTests methodsFor: 'testing' stamp: 'PJ 10/24/2020 20:18:03'!
 test02RoverRotatesCorrectly
 	| rover initialPoint |
 	initialPoint := (0@0).
@@ -27,7 +27,7 @@ test02RoverRotatesCorrectly
 	self assert: (rover position) equals: initialPoint.
 	self assert: (rover orientation) equals: 'O'.! !
 
-!MarsRoverTests methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:28:23'!
+!MarsRoverTests methodsFor: 'testing' stamp: 'PJ 10/24/2020 20:28:23'!
 test03RoverCanExecuteMorethanOneCommand
 	| rover initialPoint finalPoint|
 	initialPoint := (0@0).
@@ -40,7 +40,7 @@ test03RoverCanExecuteMorethanOneCommand
 	self assert: (rover position) equals: finalPoint.
 	self assert: (rover orientation) equals: 'E'.! !
 
-!MarsRoverTests methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:31:43'!
+!MarsRoverTests methodsFor: 'testing' stamp: 'PJ 10/24/2020 20:31:43'!
 test04RoverCanExecuteAStringOfCommands
 	| rover initialPoint finalPoint |
 	initialPoint := (0@0).
@@ -52,17 +52,36 @@ test04RoverCanExecuteAStringOfCommands
 	self assert: (rover position) equals: finalPoint.
 	self assert: (rover orientation) equals: 'E'.! !
 
-!MarsRoverTests methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:31:50'!
-test05RoverStopsExecutingWhenACommandIsInvalid
+!MarsRoverTests methodsFor: 'testing' stamp: 'PJ 10/26/2020 13:38:36'!
+test05RoverAssertsAndStopsExecutingWhenACommandIsInvalid
 	| rover initialPoint finalPoint |
 	initialPoint := (0@0).
 	finalPoint := (1@1).
 	
 	rover := MarsRover startPoint: initialPoint initialOrientation: 'N'.
-	rover executeCommandSet: 'frfzfflff'.
+	
+	self should: [rover executeCommandSet: 'frfzfflff']
+		raise: Error - MessageNotUnderstood
+		description: (rover class invalidCommandExceptionDescription: $z).
 	
 	self assert: (rover position) equals: finalPoint.
 	self assert: (rover orientation) equals: 'E'.! !
+
+!MarsRoverTests methodsFor: 'testing' stamp: 'PJ 10/26/2020 13:39:06'!
+test06RoverAssertsWhenInitializedWithoutAStartingPoint
+
+	self should: [
+			MarsRover startPoint: #(1 0) initialOrientation: 'N']
+		raise: Error - MessageNotUnderstood
+		withMessageText: MarsRover invalidStartingPointExceptionDescription.! !
+
+!MarsRoverTests methodsFor: 'testing' stamp: 'PJ 10/26/2020 13:13:03'!
+test07RoverAssertsWhenInitializedWithAnInvalidOrientation
+
+	self should: [
+			MarsRover startPoint: (1@0) initialOrientation: 'H']
+		raise: Error - MessageNotUnderstood
+		withMessageText: Orientation invalidOrientationErrorDescription.! !
 
 
 !classDefinition: #MarsRover category: 'MarsRoverTDD'!
@@ -94,7 +113,7 @@ executeCommandSet: aCommandSet
 		(self processCommand: aChar) ifFalse: [^self]]
 ! !
 
-!MarsRover methodsFor: 'commands' stamp: 'PJ 10/24/2020 20:00:49'!
+!MarsRover methodsFor: 'commands' stamp: 'PJ 10/26/2020 13:38:36'!
 processCommand: aCommand
 	aCommand = $f
 		ifTrue: [ position := position + orientation forwardDelta. ^true].
@@ -105,7 +124,7 @@ processCommand: aCommand
 		ifTrue: [orientation := orientation leftRotation. ^true].
 	aCommand = $r
 		ifTrue: [orientation := orientation rightRotation. ^true]
-		ifFalse: [^false].
+		ifFalse: [self error: (self class invalidCommandExceptionDescription: aCommand). ^false].
 ! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
@@ -114,8 +133,19 @@ processCommand: aCommand
 MarsRover class
 	instanceVariableNames: ''!
 
-!MarsRover class methodsFor: 'instance creation' stamp: 'PGTA 10/23/2020 19:25:35'!
+!MarsRover class methodsFor: 'exeption descriptions' stamp: 'PJ 10/26/2020 13:38:36'!
+invalidCommandExceptionDescription: anInvalidCommand
+	^'Rover received an invalid command: ', anInvalidCommand asString! !
+
+!MarsRover class methodsFor: 'exeption descriptions' stamp: 'PJ 10/26/2020 13:39:06'!
+invalidStartingPointExceptionDescription
+	^'Invalid starting point'! !
+
+
+!MarsRover class methodsFor: 'instance creation' stamp: 'PJ 10/26/2020 13:39:06'!
 startPoint: aPoint initialOrientation: anOrientation
+	
+	(aPoint isKindOf: Point) ifFalse: [^self error: self invalidStartingPointExceptionDescription].
 	
 	^self new initializeStartPoint: aPoint initialOrientation: anOrientation! !
 
@@ -154,13 +184,22 @@ rightRotation
 Orientation class
 	instanceVariableNames: ''!
 
-!Orientation class methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:57:46'!
+!Orientation class methodsFor: 'instance creation' stamp: 'PJ 10/26/2020 13:22:17'!
+initializeFor: anOrientationString
+	
+	[^(self subclasses detect: [:anOrientation | anOrientation canHandle: anOrientationString]) new]
+		on: Error
+		do: [^self error: self invalidOrientationErrorDescription]! !
+
+
+!Orientation class methodsFor: 'object selection' stamp: 'PJ 10/24/2020 20:57:46'!
 canHandle: anOrientationString
 	self subclassResponsibility ! !
 
-!Orientation class methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 21:02:08'!
-initializeFor: anOrientationString
-	^(self subclasses detect: [:anOrientation | anOrientation canHandle: anOrientationString]) new! !
+
+!Orientation class methodsFor: 'error descriptions' stamp: 'PJ 10/26/2020 13:04:00'!
+invalidOrientationErrorDescription
+	^'Invalid orientation string'! !
 
 
 !classDefinition: #East category: 'MarsRoverTDD'!
@@ -170,23 +209,24 @@ Orientation subclass: #East
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!East methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 18:59:11'!
-backwardDelta
-	^-1@0! !
-
-!East methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 18:59:22'!
-forwardDelta
-	^1@0! !
-
-!East methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:05:15'!
-leftRotation
-	^North new! !
-
-!East methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:19:04'!
+!East methodsFor: 'representation' stamp: 'PJ 10/24/2020 19:19:04'!
 orientationString
 	^'E'! !
 
-!East methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:05:27'!
+
+!East methodsFor: 'actions' stamp: 'PJ 10/24/2020 18:59:11'!
+backwardDelta
+	^-1@0! !
+
+!East methodsFor: 'actions' stamp: 'PJ 10/24/2020 18:59:22'!
+forwardDelta
+	^1@0! !
+
+!East methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:05:15'!
+leftRotation
+	^North new! !
+
+!East methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:05:27'!
 rightRotation
 	^South new! !
 
@@ -196,7 +236,7 @@ rightRotation
 East class
 	instanceVariableNames: ''!
 
-!East class methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:58:19'!
+!East class methodsFor: 'object selection' stamp: 'PJ 10/24/2020 20:58:19'!
 canHandle: anOrientationString
 	^anOrientationString = 'E'! !
 
@@ -208,23 +248,24 @@ Orientation subclass: #North
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!North methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 18:47:08'!
-backwardDelta
-	^0@-1! !
-
-!North methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 18:46:43'!
-forwardDelta
-	^0@1! !
-
-!North methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 18:57:51'!
-leftRotation
-	^West new! !
-
-!North methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:19:15'!
+!North methodsFor: 'representation' stamp: 'PJ 10/24/2020 19:19:15'!
 orientationString
 	^'N'! !
 
-!North methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 18:58:24'!
+
+!North methodsFor: 'actions' stamp: 'PJ 10/24/2020 18:47:08'!
+backwardDelta
+	^0@-1! !
+
+!North methodsFor: 'actions' stamp: 'PJ 10/24/2020 18:46:43'!
+forwardDelta
+	^0@1! !
+
+!North methodsFor: 'actions' stamp: 'PJ 10/24/2020 18:57:51'!
+leftRotation
+	^West new! !
+
+!North methodsFor: 'actions' stamp: 'PJ 10/24/2020 18:58:24'!
 rightRotation
 	^East new! !
 
@@ -234,7 +275,7 @@ rightRotation
 North class
 	instanceVariableNames: ''!
 
-!North class methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:58:27'!
+!North class methodsFor: 'object selection' stamp: 'PJ 10/24/2020 20:58:27'!
 canHandle: anOrientationString
 	^anOrientationString = 'N'! !
 
@@ -246,23 +287,24 @@ Orientation subclass: #South
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!South methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:05:46'!
-backwardDelta
-	^0@1! !
-
-!South methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:05:58'!
-forwardDelta
-	^0@-1! !
-
-!South methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:06:18'!
-leftRotation
-	^East new! !
-
-!South methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:19:45'!
+!South methodsFor: 'representation' stamp: 'PJ 10/24/2020 19:19:45'!
 orientationString
 	^'S'! !
 
-!South methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:06:41'!
+
+!South methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:05:46'!
+backwardDelta
+	^0@1! !
+
+!South methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:05:58'!
+forwardDelta
+	^0@-1! !
+
+!South methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:06:18'!
+leftRotation
+	^East new! !
+
+!South methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:06:41'!
 rightRotation
 	^West new! !
 
@@ -272,7 +314,7 @@ rightRotation
 South class
 	instanceVariableNames: ''!
 
-!South class methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:58:37'!
+!South class methodsFor: 'object selection' stamp: 'PJ 10/24/2020 20:58:37'!
 canHandle: anOrientationString
 	^anOrientationString = 'S'! !
 
@@ -284,23 +326,24 @@ Orientation subclass: #West
 	poolDictionaries: ''
 	category: 'MarsRoverTDD'!
 
-!West methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:07:20'!
-backwardDelta
-	^1@0! !
-
-!West methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:07:33'!
-forwardDelta
-	^-1@0! !
-
-!West methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:07:41'!
-leftRotation
-	^South new! !
-
-!West methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:19:57'!
+!West methodsFor: 'representation' stamp: 'PJ 10/24/2020 19:19:57'!
 orientationString
 	^'O'! !
 
-!West methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 19:07:51'!
+
+!West methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:07:20'!
+backwardDelta
+	^1@0! !
+
+!West methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:07:33'!
+forwardDelta
+	^-1@0! !
+
+!West methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:07:41'!
+leftRotation
+	^South new! !
+
+!West methodsFor: 'actions' stamp: 'PJ 10/24/2020 19:07:51'!
 rightRotation
 	^North new! !
 
@@ -310,6 +353,6 @@ rightRotation
 West class
 	instanceVariableNames: ''!
 
-!West class methodsFor: 'as yet unclassified' stamp: 'PJ 10/24/2020 20:58:48'!
+!West class methodsFor: 'object selection' stamp: 'PJ 10/24/2020 20:58:48'!
 canHandle: anOrientationString
 	^anOrientationString = 'O'! !
