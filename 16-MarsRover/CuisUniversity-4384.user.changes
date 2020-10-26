@@ -29471,3 +29471,525 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(26 October 2020 13:39:30) CuisUniversity-4384.image priorSource: 17224037!
+
+----STARTUP---- (26 October 2020 15:05:53) as /home/pablo/Documents/Ingenieria1/cuis_TDD/linux64/CuisUniversity-4384.image!
+
+!MarsRover methodsFor: 'state' stamp: 'PGTA 10/26/2020 15:49:45'!
+stepForward
+	^position.! !
+!MarsRover methodsFor: 'commands' stamp: 'PGTA 10/26/2020 15:51:04'!
+stepBackwards
+
+	^ position := position +			orientation backwardDelta! !
+!MarsRover methodsFor: 'commands' stamp: 'PGTA 10/26/2020 15:51:04' prior: 50867900!
+processCommand: aCommand
+	aCommand = $f
+		ifTrue: [ position := position + orientation forwardDelta. ^true].
+	aCommand = $b
+		ifTrue: [ self stepBackwards. ^true].
+		
+	aCommand = $l
+		ifTrue: [orientation := orientation leftRotation. ^true].
+	aCommand = $r
+		ifTrue: [orientation := orientation rightRotation. ^true]
+		ifFalse: [self error: (self class invalidCommandExceptionDescription: aCommand). ^false].
+! !
+!MarsRover methodsFor: 'movements' stamp: 'PGTA 10/26/2020 15:51:46' prior: 50868191!
+stepForward
+	position := position + orientation forwardDelta! !
+!MarsRover methodsFor: 'commands' stamp: 'PGTA 10/26/2020 15:52:06' prior: 50868199!
+processCommand: aCommand
+	aCommand = $f
+		ifTrue: [ self stepForward. ^true].
+	aCommand = $b
+		ifTrue: [ self stepBackwards. ^true].
+		
+	aCommand = $l
+		ifTrue: [orientation := orientation leftRotation. ^true].
+	aCommand = $r
+		ifTrue: [orientation := orientation rightRotation. ^true]
+		ifFalse: [self error: (self class invalidCommandExceptionDescription: aCommand). ^false].
+! !
+!MarsRover methodsFor: 'movements' stamp: 'PGTA 10/26/2020 15:52:28' prior: 50868215!
+stepForward
+
+	position := position + orientation forwardDelta! !
+!MarsRover methodsFor: 'movements' stamp: 'PGTA 10/26/2020 15:52:45'!
+stepBackward
+
+	^ position := position +			orientation backwardDelta! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 15:52:45' prior: 50868220!
+processCommand: aCommand
+	aCommand = $f
+		ifTrue: [ self stepForward. ^true].
+	aCommand = $b
+		ifTrue: [ self stepBackward. ^true].
+		
+	aCommand = $l
+		ifTrue: [orientation := orientation leftRotation. ^true].
+	aCommand = $r
+		ifTrue: [orientation := orientation rightRotation. ^true]
+		ifFalse: [self error: (self class invalidCommandExceptionDescription: aCommand). ^false].
+! !
+
+!methodRemoval: MarsRover #stepBackwards stamp: 'PGTA 10/26/2020 15:52:45'!
+stepBackwards
+
+	^ position := position +			orientation backwardDelta!
+!MarsRover methodsFor: 'commands' stamp: 'PGTA 10/26/2020 15:53:10'!
+rotateLeft
+
+	^ orientation := orientation leftRotation! !
+!MarsRover methodsFor: 'commands' stamp: 'PGTA 10/26/2020 15:53:10' prior: 50868246!
+processCommand: aCommand
+	aCommand = $f
+		ifTrue: [ self stepForward. ^true].
+	aCommand = $b
+		ifTrue: [ self stepBackward. ^true].
+		
+	aCommand = $l
+		ifTrue: [self rotateLeft. ^true].
+	aCommand = $r
+		ifTrue: [orientation := orientation rightRotation. ^true]
+		ifFalse: [self error: (self class invalidCommandExceptionDescription: aCommand). ^false].
+! !
+!MarsRover methodsFor: 'commands' stamp: 'PGTA 10/26/2020 15:53:24'!
+rotateRight
+
+	^ orientation := orientation rightRotation! !
+!MarsRover methodsFor: 'commands' stamp: 'PGTA 10/26/2020 15:53:24' prior: 50868270!
+processCommand: aCommand
+	aCommand = $f
+		ifTrue: [ self stepForward. ^true].
+	aCommand = $b
+		ifTrue: [ self stepBackward. ^true].
+		
+	aCommand = $l
+		ifTrue: [self rotateLeft. ^true].
+	aCommand = $r
+		ifTrue: [self rotateRight. ^true]
+		ifFalse: [self error: (self class invalidCommandExceptionDescription: aCommand). ^false].
+! !
+!MarsRover methodsFor: 'commands' stamp: 'PGTA 10/26/2020 15:53:36' prior: 50868289!
+processCommand: aCommand
+	aCommand = $f
+		ifTrue: [ self stepForward. ^true].
+	aCommand = $b
+		ifTrue: [ self stepBackward. ^true].
+		
+	aCommand = $l
+		ifTrue: [self rotateLeft. ^true].
+	aCommand = $r
+		ifTrue: [self rotateRight. ^true]
+		
+		ifFalse: [self error: (self class invalidCommandExceptionDescription: aCommand). ^false].
+! !
+
+!testRun: #MarsRoverTests #test01RoverMovesCorrectly stamp: 'PGTA 10/26/2020 15:53:57'!
+PASSED!
+
+!testRun: #MarsRoverTests #test02RoverRotatesCorrectly stamp: 'PGTA 10/26/2020 15:53:57'!
+PASSED!
+
+!testRun: #MarsRoverTests #test03RoverCanExecuteMorethanOneCommand stamp: 'PGTA 10/26/2020 15:53:57'!
+PASSED!
+
+!testRun: #MarsRoverTests #test04RoverCanExecuteAStringOfCommands stamp: 'PGTA 10/26/2020 15:53:57'!
+PASSED!
+
+!testRun: #MarsRoverTests #test05RoverAssertsAndStopsExecutingWhenACommandIsInvalid stamp: 'PGTA 10/26/2020 15:53:57'!
+PASSED!
+
+!testRun: #MarsRoverTests #test06RoverAssertsWhenInitializedWithoutAStartingPoint stamp: 'PGTA 10/26/2020 15:53:57'!
+PASSED!
+
+!testRun: #MarsRoverTests #test07RoverAssertsWhenInitializedWithAnInvalidOrientation stamp: 'PGTA 10/26/2020 15:53:57'!
+PASSED!
+
+!classRenamed: #Orientation as: #RoverOrientation stamp: 'PGTA 10/26/2020 15:55:37'!
+Smalltalk renameClassNamed: #Orientation as: #RoverOrientation!
+!MarsRoverTests methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 15:55:37' prior: 50867858!
+test07RoverAssertsWhenInitializedWithAnInvalidOrientation
+
+	self should: [
+			MarsRover startPoint: (1@0) initialOrientation: 'H']
+		raise: Error - MessageNotUnderstood
+		withMessageText: RoverOrientation invalidOrientationErrorDescription.! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 15:55:37' prior: 50867880!
+initializeStartPoint: aPoint initialOrientation: anOrientation 
+
+	position := aPoint.
+	orientation := RoverOrientation initializeFor: anOrientation ! !
+
+!testRun: #MarsRoverTests #test01RoverMovesCorrectly stamp: 'PGTA 10/26/2020 15:55:56'!
+PASSED!
+
+!testRun: #MarsRoverTests #test02RoverRotatesCorrectly stamp: 'PGTA 10/26/2020 15:55:56'!
+PASSED!
+
+!testRun: #MarsRoverTests #test03RoverCanExecuteMorethanOneCommand stamp: 'PGTA 10/26/2020 15:55:56'!
+PASSED!
+
+!testRun: #MarsRoverTests #test04RoverCanExecuteAStringOfCommands stamp: 'PGTA 10/26/2020 15:55:56'!
+PASSED!
+
+!testRun: #MarsRoverTests #test05RoverAssertsAndStopsExecutingWhenACommandIsInvalid stamp: 'PGTA 10/26/2020 15:55:56'!
+PASSED!
+
+!testRun: #MarsRoverTests #test06RoverAssertsWhenInitializedWithoutAStartingPoint stamp: 'PGTA 10/26/2020 15:55:56'!
+PASSED!
+
+!testRun: #MarsRoverTests #test07RoverAssertsWhenInitializedWithAnInvalidOrientation stamp: 'PGTA 10/26/2020 15:55:56'!
+PASSED!
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:12:54'!
+backwardDisplacement
+	self subclassResponsibility ! !
+
+!methodRemoval: RoverOrientation #backwardDelta stamp: 'PGTA 10/26/2020 16:12:54'!
+backwardDelta
+	self subclassResponsibility !
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:13:11'!
+backwardDelta
+	self subclassResponsibility ! !
+
+!methodRemoval: RoverOrientation #backwardDisplacement stamp: 'PGTA 10/26/2020 16:13:11'!
+backwardDisplacement
+	self subclassResponsibility !
+
+!testRun: #MarsRoverTests #test01RoverMovesCorrectly stamp: 'PGTA 10/26/2020 16:13:21'!
+PASSED!
+
+!testRun: #MarsRoverTests #test02RoverRotatesCorrectly stamp: 'PGTA 10/26/2020 16:13:21'!
+PASSED!
+
+!testRun: #MarsRoverTests #test03RoverCanExecuteMorethanOneCommand stamp: 'PGTA 10/26/2020 16:13:21'!
+PASSED!
+
+!testRun: #MarsRoverTests #test04RoverCanExecuteAStringOfCommands stamp: 'PGTA 10/26/2020 16:13:21'!
+PASSED!
+
+!testRun: #MarsRoverTests #test05RoverAssertsAndStopsExecutingWhenACommandIsInvalid stamp: 'PGTA 10/26/2020 16:13:21'!
+PASSED!
+
+!testRun: #MarsRoverTests #test06RoverAssertsWhenInitializedWithoutAStartingPoint stamp: 'PGTA 10/26/2020 16:13:21'!
+PASSED!
+
+!testRun: #MarsRoverTests #test07RoverAssertsWhenInitializedWithAnInvalidOrientation stamp: 'PGTA 10/26/2020 16:13:21'!
+PASSED!
+!West methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:13:41'!
+backwardD
+	^1@0! !
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:13:41'!
+backwardD
+	self subclassResponsibility ! !
+!South methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:13:41' overrides: 50868436!
+backwardD
+	^0@1! !
+!East methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:13:41' overrides: 50868436!
+backwardD
+	^-1@0! !
+!North methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:13:41' overrides: 50868436!
+backwardD
+	^0@-1! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 16:13:41' prior: 50868240!
+stepBackward
+
+	^ position := position +			orientation backwardD! !
+
+!methodRemoval: West #backwardDelta stamp: 'PGTA 10/26/2020 16:13:41'!
+backwardDelta
+	^1@0!
+
+!methodRemoval: RoverOrientation #backwardDelta stamp: 'PGTA 10/26/2020 16:13:41'!
+backwardDelta
+	self subclassResponsibility !
+
+!methodRemoval: South #backwardDelta stamp: 'PGTA 10/26/2020 16:13:41'!
+backwardDelta
+	^0@1!
+
+!methodRemoval: East #backwardDelta stamp: 'PGTA 10/26/2020 16:13:41'!
+backwardDelta
+	^-1@0!
+
+!methodRemoval: North #backwardDelta stamp: 'PGTA 10/26/2020 16:13:41'!
+backwardDelta
+	^0@-1!
+!East methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:12'!
+backwardDisplacement
+	^-1@0! !
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:12'!
+backwardDisplacement
+	self subclassResponsibility ! !
+!North methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:12' overrides: 50868476!
+backwardDisplacement
+	^0@-1! !
+!South methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:12' overrides: 50868476!
+backwardDisplacement
+	^0@1! !
+!West methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:12' overrides: 50868476!
+backwardDisplacement
+	^1@0! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 16:14:12' prior: 50868452!
+stepBackward
+
+	^ position := position +			orientation backwardDisplacement! !
+
+!methodRemoval: East #backwardD stamp: 'PGTA 10/26/2020 16:14:12'!
+backwardD
+	^-1@0!
+
+!methodRemoval: RoverOrientation #backwardD stamp: 'PGTA 10/26/2020 16:14:12'!
+backwardD
+	self subclassResponsibility !
+
+!methodRemoval: North #backwardD stamp: 'PGTA 10/26/2020 16:14:12'!
+backwardD
+	^0@-1!
+
+!methodRemoval: South #backwardD stamp: 'PGTA 10/26/2020 16:14:12'!
+backwardD
+	^0@1!
+
+!methodRemoval: West #backwardD stamp: 'PGTA 10/26/2020 16:14:12'!
+backwardD
+	^1@0!
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:30'!
+forwardDisplacement
+	self subclassResponsibility ! !
+!West methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:30' overrides: 50868513!
+forwardDisplacement
+	^-1@0! !
+!East methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:30' overrides: 50868513!
+forwardDisplacement
+	^1@0! !
+!South methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:30' overrides: 50868513!
+forwardDisplacement
+	^0@-1! !
+!North methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:14:30' overrides: 50868513!
+forwardDisplacement
+	^0@1! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 16:14:30' prior: 50868235!
+stepForward
+
+	position := position + orientation forwardDisplacement! !
+
+!methodRemoval: RoverOrientation #forwardDelta stamp: 'PGTA 10/26/2020 16:14:30'!
+forwardDelta
+	self subclassResponsibility !
+
+!methodRemoval: West #forwardDelta stamp: 'PGTA 10/26/2020 16:14:30'!
+forwardDelta
+	^-1@0!
+
+!methodRemoval: East #forwardDelta stamp: 'PGTA 10/26/2020 16:14:30'!
+forwardDelta
+	^1@0!
+
+!methodRemoval: South #forwardDelta stamp: 'PGTA 10/26/2020 16:14:31'!
+forwardDelta
+	^0@-1!
+
+!methodRemoval: North #forwardDelta stamp: 'PGTA 10/26/2020 16:14:31'!
+forwardDelta
+	^0@1!
+
+!testRun: #MarsRoverTests #test01RoverMovesCorrectly stamp: 'PGTA 10/26/2020 16:14:34'!
+PASSED!
+
+!testRun: #MarsRoverTests #test02RoverRotatesCorrectly stamp: 'PGTA 10/26/2020 16:14:34'!
+PASSED!
+
+!testRun: #MarsRoverTests #test03RoverCanExecuteMorethanOneCommand stamp: 'PGTA 10/26/2020 16:14:34'!
+PASSED!
+
+!testRun: #MarsRoverTests #test04RoverCanExecuteAStringOfCommands stamp: 'PGTA 10/26/2020 16:14:34'!
+PASSED!
+
+!testRun: #MarsRoverTests #test05RoverAssertsAndStopsExecutingWhenACommandIsInvalid stamp: 'PGTA 10/26/2020 16:14:34'!
+PASSED!
+
+!testRun: #MarsRoverTests #test06RoverAssertsWhenInitializedWithoutAStartingPoint stamp: 'PGTA 10/26/2020 16:14:34'!
+PASSED!
+
+!testRun: #MarsRoverTests #test07RoverAssertsWhenInitializedWithAnInvalidOrientation stamp: 'PGTA 10/26/2020 16:14:34'!
+PASSED!
+!South methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:35'!
+backwardPointDisplacement
+	^0@1! !
+!North methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:35'!
+backwardPointDisplacement
+	^0@-1! !
+!West methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:35'!
+backwardPointDisplacement
+	^1@0! !
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:35'!
+backwardPointDisplacement
+	self subclassResponsibility ! !
+!East methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:36' overrides: 50868591!
+backwardPointDisplacement
+	^-1@0! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 16:21:36' prior: 50868493!
+stepBackward
+
+	^ position := position +			orientation backwardPointDisplacement! !
+
+!methodRemoval: South #backwardDisplacement stamp: 'PGTA 10/26/2020 16:21:36'!
+backwardDisplacement
+	^0@1!
+
+!methodRemoval: North #backwardDisplacement stamp: 'PGTA 10/26/2020 16:21:36'!
+backwardDisplacement
+	^0@-1!
+
+!methodRemoval: West #backwardDisplacement stamp: 'PGTA 10/26/2020 16:21:36'!
+backwardDisplacement
+	^1@0!
+
+!methodRemoval: RoverOrientation #backwardDisplacement stamp: 'PGTA 10/26/2020 16:21:36'!
+backwardDisplacement
+	self subclassResponsibility !
+
+!methodRemoval: East #backwardDisplacement stamp: 'PGTA 10/26/2020 16:21:36'!
+backwardDisplacement
+	^-1@0!
+!East methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:49'!
+forwardPointDisplacement
+	^1@0! !
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:49'!
+forwardPointDisplacement
+	self subclassResponsibility ! !
+!South methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:49' overrides: 50868628!
+forwardPointDisplacement
+	^0@-1! !
+!North methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:49' overrides: 50868628!
+forwardPointDisplacement
+	^0@1! !
+!West methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:21:49' overrides: 50868628!
+forwardPointDisplacement
+	^-1@0! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 16:21:49' prior: 50868534!
+stepForward
+
+	position := position + orientation forwardPointDisplacement! !
+
+!methodRemoval: East #forwardDisplacement stamp: 'PGTA 10/26/2020 16:21:49'!
+forwardDisplacement
+	^1@0!
+
+!methodRemoval: RoverOrientation #forwardDisplacement stamp: 'PGTA 10/26/2020 16:21:49'!
+forwardDisplacement
+	self subclassResponsibility !
+
+!methodRemoval: South #forwardDisplacement stamp: 'PGTA 10/26/2020 16:21:49'!
+forwardDisplacement
+	^0@-1!
+
+!methodRemoval: North #forwardDisplacement stamp: 'PGTA 10/26/2020 16:21:49'!
+forwardDisplacement
+	^0@1!
+
+!methodRemoval: West #forwardDisplacement stamp: 'PGTA 10/26/2020 16:21:49'!
+forwardDisplacement
+	^-1@0!
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:22:48'!
+ninetyDegreeClockwiseRotation
+	self subclassResponsibility ! !
+!North methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:22:48' overrides: 50868669!
+ninetyDegreeClockwiseRotation
+	^West new! !
+!East methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:22:48' overrides: 50868669!
+ninetyDegreeClockwiseRotation
+	^North new! !
+!South methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:22:48' overrides: 50868669!
+ninetyDegreeClockwiseRotation
+	^East new! !
+!West methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:22:48' overrides: 50868669!
+ninetyDegreeClockwiseRotation
+	^South new! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 16:22:48' prior: 50868265!
+rotateLeft
+
+	^ orientation := orientation ninetyDegreeClockwiseRotation! !
+
+!methodRemoval: RoverOrientation #leftRotation stamp: 'PGTA 10/26/2020 16:22:48'!
+leftRotation
+	self subclassResponsibility !
+
+!methodRemoval: North #leftRotation stamp: 'PGTA 10/26/2020 16:22:48'!
+leftRotation
+	^West new!
+
+!methodRemoval: East #leftRotation stamp: 'PGTA 10/26/2020 16:22:48'!
+leftRotation
+	^North new!
+
+!methodRemoval: South #leftRotation stamp: 'PGTA 10/26/2020 16:22:48'!
+leftRotation
+	^East new!
+
+!methodRemoval: West #leftRotation stamp: 'PGTA 10/26/2020 16:22:48'!
+leftRotation
+	^South new!
+!East methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:23:10'!
+ninetyDegreeCounterclockwiseRotation
+	^South new! !
+!South methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:23:10'!
+ninetyDegreeCounterclockwiseRotation
+	^West new! !
+!North methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:23:10'!
+ninetyDegreeCounterclockwiseRotation
+	^East new! !
+!West methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:23:10'!
+ninetyDegreeCounterclockwiseRotation
+	^North new! !
+!RoverOrientation methodsFor: 'actions' stamp: 'PGTA 10/26/2020 16:23:10'!
+ninetyDegreeCounterclockwiseRotation
+	self subclassResponsibility ! !
+!MarsRover methodsFor: 'as yet unclassified' stamp: 'PGTA 10/26/2020 16:23:10' prior: 50868284!
+rotateRight
+
+	^ orientation := orientation ninetyDegreeCounterclockwiseRotation! !
+
+!methodRemoval: East #rightRotation stamp: 'PGTA 10/26/2020 16:23:10'!
+rightRotation
+	^South new!
+
+!methodRemoval: South #rightRotation stamp: 'PGTA 10/26/2020 16:23:10'!
+rightRotation
+	^West new!
+
+!methodRemoval: North #rightRotation stamp: 'PGTA 10/26/2020 16:23:10'!
+rightRotation
+	^East new!
+
+!methodRemoval: West #rightRotation stamp: 'PGTA 10/26/2020 16:23:10'!
+rightRotation
+	^North new!
+
+!methodRemoval: RoverOrientation #rightRotation stamp: 'PGTA 10/26/2020 16:23:10'!
+rightRotation
+	self subclassResponsibility !
+
+!testRun: #MarsRoverTests #test01RoverMovesCorrectly stamp: 'PGTA 10/26/2020 16:23:23'!
+PASSED!
+
+!testRun: #MarsRoverTests #test02RoverRotatesCorrectly stamp: 'PGTA 10/26/2020 16:23:23'!
+PASSED!
+
+!testRun: #MarsRoverTests #test03RoverCanExecuteMorethanOneCommand stamp: 'PGTA 10/26/2020 16:23:23'!
+PASSED!
+
+!testRun: #MarsRoverTests #test04RoverCanExecuteAStringOfCommands stamp: 'PGTA 10/26/2020 16:23:23'!
+PASSED!
+
+!testRun: #MarsRoverTests #test05RoverAssertsAndStopsExecutingWhenACommandIsInvalid stamp: 'PGTA 10/26/2020 16:23:23'!
+PASSED!
+
+!testRun: #MarsRoverTests #test06RoverAssertsWhenInitializedWithoutAStartingPoint stamp: 'PGTA 10/26/2020 16:23:23'!
+PASSED!
+
+!testRun: #MarsRoverTests #test07RoverAssertsWhenInitializedWithAnInvalidOrientation stamp: 'PGTA 10/26/2020 16:23:23'!
+PASSED!
+
+----SNAPSHOT----(26 October 2020 16:27:04) CuisUniversity-4384.image priorSource: 17169088!
