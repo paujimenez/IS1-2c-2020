@@ -28907,3 +28907,1776 @@ PASSED!
 ----SNAPSHOT----(31 October 2020 18:40:55) CuisUniversity-4384.image priorSource: 17199172!
 
 ----SNAPSHOT----(31 October 2020 19:00:04) CuisUniversity-4384.image priorSource: 17216254!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 19:53:24'!
+test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni playTurnAction: 'arribaCentro'.	
+	
+	self should: [terni playTurnAction: 'arribaCentro'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotPutAPieceInAnOccupiedSiteErrorDescription.
+	
+	self assert: terni isPlayingO.
+	
+	terni playTurnAction: 'centro'.	
+	
+	self assert: (terni hasAnOPieceIn: 'centro').	! !
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 19:53:28'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 19:58:35' prior: 50869603!
+playTurnAction: aPositionIdentifier 
+	
+	"((self hasAnOPieceIn: aPosition) or: [self hasAnXPieceIn: aPosition]) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedSiteErrorDescription]."
+	|boardPosition|
+	boardPosition := self getBoardPositionFor: aPositionIdentifier.
+	(self isPositionTaken: boardPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedSiteErrorDescription].
+	 
+	isXTurn ifTrue: [boardPosition storeAnX] ifFalse: [boardPosition storeAnO].
+	isXTurn := isXTurn not.
+	piecesInPlay := piecesInPlay + 1.! !
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 19:58:57'!
+ERROR!
+!TerniLapilli methodsFor: 'private position management' stamp: 'PJ 10/31/2020 19:59:24'!
+isPositionTaken: anArribaCentro 
+	self shouldBeImplemented.! !
+!TerniLapilli methodsFor: 'private position management' stamp: 'PJ 10/31/2020 20:00:23' prior: 50869713!
+isPositionTaken: aBoardPosition 
+	^aBoardPosition isEmpty not! !
+
+boardPosition!
+
+self isPositionTaken: boardPosition!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 20:01:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 20:01:54'!
+PASSED!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 20:02:37' prior: 50869688!
+playTurnAction: aPositionIdentifier 
+	
+	"((self hasAnOPieceIn: aPosition) or: [self hasAnXPieceIn: aPosition]) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedSiteErrorDescription]."
+	|boardPosition|
+	boardPosition := self getBoardPositionFor: aPositionIdentifier.
+	(self isPositionTaken: boardPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedSiteErrorDescription].
+	 
+	isXTurn ifTrue: [boardPosition storeAnX] ifFalse: [boardPosition storeAnO].
+	self alternateTurn.
+	piecesInPlay := piecesInPlay + 1.! !
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 20:03:09'!
+alternateTurn
+	isXTurn := isXTurn not.! !
+
+----SNAPSHOT----(31 October 2020 20:04:28) CuisUniversity-4384.image priorSource: 17216347!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 20:06:09' prior: 50869817!
+playTurnAction: aPositionIdentifier 
+	
+	|boardPosition|
+	boardPosition := self getBoardPositionFor: aPositionIdentifier.
+	(self isPositionTaken: boardPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedSiteErrorDescription].
+	 
+	isXTurn ifTrue: [boardPosition storeAnX] ifFalse: [boardPosition storeAnO].
+	self alternateTurn.
+	piecesInPlay := piecesInPlay + 1.! !
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 20:07:04'!
+canNotPutAPieceInAnOccupiedPositionErrorDescription
+	^'cannot Put A Piece In An Occupied Site'.! !
+!TerniLapilli methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 20:07:04' prior: 50869845!
+playTurnAction: aPositionIdentifier 
+	
+	|boardPosition|
+	boardPosition := self getBoardPositionFor: aPositionIdentifier.
+	(self isPositionTaken: boardPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	 
+	isXTurn ifTrue: [boardPosition storeAnX] ifFalse: [boardPosition storeAnO].
+	self alternateTurn.
+	piecesInPlay := piecesInPlay + 1.! !
+!TerniLapilliTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 20:07:04' prior: 50869665!
+test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni playTurnAction: 'arribaCentro'.	
+	
+	self should: [terni playTurnAction: 'arribaCentro'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotPutAPieceInAnOccupiedPositionErrorDescription.
+	
+	self assert: terni isPlayingO.
+	
+	terni playTurnAction: 'centro'.	
+	
+	self assert: (terni hasAnOPieceIn: 'centro').	! !
+
+!methodRemoval: TerniLapilli class #canNotPutAPieceInAnOccupiedSiteErrorDescription stamp: 'PJ 10/31/2020 20:07:04'!
+canNotPutAPieceInAnOccupiedSiteErrorDescription
+	^'cannot Put A Piece In An Occupied Site'.!
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 20:07:17' prior: 50869860!
+canNotPutAPieceInAnOccupiedPositionErrorDescription
+	^'cannot Put A Piece In An Occupied Position'.! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 20:22:46'!
+test12TerniLapilliAssertsWithAnInvalidPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	
+	self should: [terni playTurnAction: 'arribaDerechaCentro'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli invalidPositionErrorDescription.
+	
+	self assert: terni isPlayingX.! !
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 20:22:52'!
+ERROR!
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 20:23:14'!
+invalidPositionErrorDescription
+	self shouldBeImplemented.! !
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 20:24:17' prior: 50869930!
+invalidPositionErrorDescription
+	^'Invalid Position'! !
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 20:24:21'!
+FAILURE!
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 20:26:58' prior: 50869572!
+getBoardPositionFor: aPositionIdentifier 
+	
+	^board  detect: [:aBoardPosition | aBoardPosition canHandle: aPositionIdentifier]
+		ifNone: [^self error: self class invalidPositionErrorDescription].! !
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 20:27:09'!
+PASSED!
+
+----SNAPSHOT----(31 October 2020 20:27:14) CuisUniversity-4384.image priorSource: 17222089!
+
+2 inform: 'hola'!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 20:52:28'!
+test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni playTurnAction: 'arribaIzquierda'.	
+	terni playTurnAction: 'arribaCentro'.	
+	terni playTurnAction: 'arribaDerecha'.	
+	terni playTurnAction: 'izquierda'.	
+	terni playTurnAction: 'centro'.	
+	terni playTurnAction: 'derecha'.	
+	
+	self should: [terni playTurnAction: 'izquierda'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingX.	
+	terni movePieceFrom: 'arribaIzquierda' to: 'abajoCentro'.
+	
+	self should: [terni playTurnAction: 'centro'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingX.		! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 20:52:55'!
+ERROR!
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 20:53:12'!
+noMorePiecesAvailableErrorDescription
+	self shouldBeImplemented.! !
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 20:53:50' prior: 50870037!
+noMorePiecesAvailableErrorDescription
+	^'No More Pieces Available'! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 20:53:52'!
+FAILURE!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 20:55:11' prior: 50870005!
+test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni playTurnAction: 'arribaIzquierda'.	
+	terni playTurnAction: 'arribaCentro'.	
+	terni playTurnAction: 'arribaDerecha'.	
+	terni playTurnAction: 'izquierda'.	
+	terni playTurnAction: 'centro'.	
+	terni playTurnAction: 'derecha'.	
+	
+	self should: [terni playTurnAction: 'abajoIzquierda'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingX.	
+	terni movePieceFrom: 'arribaIzquierda' to: 'abajoCentro'.
+	
+	self should: [terni playTurnAction: 'abajoDerecha'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingX.		! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 20:55:17'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:01:17' prior: 50869867!
+playTurnAction: aPositionIdentifier 
+	
+	|boardPosition|
+	self playerHasAvailablePiecesToPlay ifFalse: [^self error: self class noMorePiecesAvailableErrorDescription].
+	
+	boardPosition := self getBoardPositionFor: aPositionIdentifier.
+	(self isPositionTaken: boardPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	 
+	isXTurn ifTrue: [boardPosition storeAnX] ifFalse: [boardPosition storeAnO].
+	self alternateTurn.
+	piecesInPlay := piecesInPlay + 1.! !
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 21:01:37'!
+playerHasAvailablePiecesToPlay
+	self shouldBeImplemented.! !
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 21:07:01' prior: 50870105!
+playerHasAvailablePiecesToPlay
+	^piecesInPlay < 6! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:07:11'!
+ERROR!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 21:09:15' prior: 50870053!
+test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni playTurnAction: 'arribaIzquierda'.	
+	terni playTurnAction: 'arribaCentro'.	
+	terni playTurnAction: 'arribaDerecha'.	
+	terni playTurnAction: 'izquierda'.	
+	terni playTurnAction: 'centro'.	
+	terni playTurnAction: 'derecha'.	
+	
+	self should: [terni playTurnAction: 'abajoIzquierda'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingX.	
+	terni movePieceFrom: 'arribaIzquierda' to: 'abajoCentro'.
+	
+	self should: [terni playTurnAction: 'abajoDerecha'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingO.		! !
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:09:41'!
+movePieceFrom: aString to: aString2 
+	self shouldBeImplemented.! !
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:16:18' prior: 50870147!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	
+	boardTakenPosition freePosition.
+	isXTurn ifTrue: [boardEmptyPosition storeAnX ] ifFalse: [boardEmptyPosition storeAnO]. ! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:16:26'!
+ERROR!
+!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:16:38'!
+freePosition
+	self shouldBeImplemented.! !
+!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:17:18' prior: 50870170!
+freePosition
+	valor := ''! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 21:17:20'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:17:20'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:17:20'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:18:16' prior: 50870152!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	
+	boardTakenPosition freePosition.
+	isXTurn ifTrue: [boardEmptyPosition storeAnX ] ifFalse: [boardEmptyPosition storeAnO].
+	
+	self alternateTurn.! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:18:28'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:18:36'!
+PASSED!
+
+----SNAPSHOT----(31 October 2020 21:18:45) CuisUniversity-4384.image priorSource: 17227231!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:22:17'!
+placePieceIn: aPositionIdentifier 
+	
+	|boardPosition|
+	self playerHasAvailablePiecesToPlay ifFalse: [^self error: self class noMorePiecesAvailableErrorDescription].
+	
+	boardPosition := self getBoardPositionFor: aPositionIdentifier.
+	(self isPositionTaken: boardPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	 
+	isXTurn ifTrue: [boardPosition storeAnX] ifFalse: [boardPosition storeAnO].
+	self alternateTurn.
+	piecesInPlay := piecesInPlay + 1.! !
+!TerniLapilliTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:22:17' prior: 50868841!
+test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaCentro'.	
+	self assert: false equals: (terni hasAnOPieceIn: 'centro').
+	self assert: false equals: (terni hasAnXPieceIn: 'centro').	! !
+!TerniLapilliTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:22:17' prior: 50868457!
+test06XCanPutAPieceInXTurn
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'centro'.
+	
+	self assert: 1 equals: terni piecesInPlay.
+	self assert: (terni hasAnXPieceIn: 'centro').! !
+!TerniLapilliTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:22:17' prior: 50869883!
+test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaCentro'.	
+	
+	self should: [terni placePieceIn: 'arribaCentro'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotPutAPieceInAnOccupiedPositionErrorDescription.
+	
+	self assert: terni isPlayingO.
+	
+	terni placePieceIn: 'centro'.	
+	
+	self assert: (terni hasAnOPieceIn: 'centro').	! !
+!TerniLapilliTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:22:17' prior: 50870119!
+test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni placePieceIn: 'abajoIzquierda'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingX.	
+	terni movePieceFrom: 'arribaIzquierda' to: 'abajoCentro'.
+	
+	self should: [terni placePieceIn: 'abajoDerecha'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingO.		! !
+!TerniLapilliTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:22:17' prior: 50868467!
+test05AfterPlayerXTurnIsPlayerOTurn
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'centro'.
+	
+	self assert: terni isPlayingX not.
+	self assert: terni isPlayingO! !
+!TerniLapilliTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:22:17' prior: 50869016!
+test07OCanPutAPieceInOTurn
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'centro'.
+	terni placePieceIn: 'arribaCentro'.
+	
+	self assert: 2 equals: terni piecesInPlay.
+	self assert: (terni hasAnOPieceIn: 'arribaCentro').! !
+!TerniLapilliTest methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:22:17' prior: 50869914!
+test12TerniLapilliAssertsWithAnInvalidPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	
+	self should: [terni placePieceIn: 'arribaDerechaCentro'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli invalidPositionErrorDescription.
+	
+	self assert: terni isPlayingX.! !
+
+!methodRemoval: TerniLapilli #playTurnAction: stamp: 'PJ 10/31/2020 21:22:17'!
+playTurnAction: aPositionIdentifier 
+	
+	|boardPosition|
+	self playerHasAvailablePiecesToPlay ifFalse: [^self error: self class noMorePiecesAvailableErrorDescription].
+	
+	boardPosition := self getBoardPositionFor: aPositionIdentifier.
+	(self isPositionTaken: boardPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	 
+	isXTurn ifTrue: [boardPosition storeAnX] ifFalse: [boardPosition storeAnO].
+	self alternateTurn.
+	piecesInPlay := piecesInPlay + 1.!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 21:22:56'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 21:22:56'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 21:22:56'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:22:57'!
+PASSED!
+
+----SNAPSHOT----(31 October 2020 21:23:04) CuisUniversity-4384.image priorSource: 17237009!
+
+4 inform: 'you won!!'!
+
+4 inform: 'you won!!'.
+4 inform: 'you won!!'!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:32:49' prior: 50870310!
+placePieceIn: aPositionIdentifier 
+	
+	|boardPosition|
+	self playerHasAvailablePiecesToPlay ifFalse: [^self error: self class noMorePiecesAvailableErrorDescription].
+	
+	boardPosition := self getBoardPositionFor: aPositionIdentifier.
+	(self isPositionTaken: boardPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	 
+	self placePieceInBoard: boardPosition.
+	self alternateTurn.
+	piecesInPlay := piecesInPlay + 1.! !
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:33:37'!
+placePieceInBoard: aBoardPosition.
+	isXTurn ifTrue: [aBoardPosition storeAnX] ifFalse: [aBoardPosition storeAnO]! !
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:34:24' prior: 50870236!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	
+	boardTakenPosition freePosition.
+	self placePieceInBoard: boardEmptyPosition.
+	
+	self alternateTurn.! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 21:45:02'!
+test14CannotMoveAPieceIntoATakenPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'arribaIzquierda' to: 'izquierda'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotPutAPieceInAnOccupiedPositionErrorDescription.! !
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 21:45:04'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:48:12' prior: 50870530!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	boardTakenPosition freePosition.
+	self placePieceInBoard: boardEmptyPosition.
+	
+	self alternateTurn.! !
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 21:48:18'!
+PASSED!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 21:50:55'!
+test14CannotMoveAPieceFromAnEmptyPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'abajoIzquierda' to: 'abajoDerecha'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotMoveAPieceFromAnEmptyPositionErrorDescription.! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 21:51:09'!
+test15CannotMoveAPieceIntoATakenPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'arribaIzquierda' to: 'izquierda'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotPutAPieceInAnOccupiedPositionErrorDescription.! !
+
+!methodRemoval: TerniLapilliTest #test14CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 21:51:09'!
+test14CannotMoveAPieceIntoATakenPosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'arribaIzquierda' to: 'izquierda'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotPutAPieceInAnOccupiedPositionErrorDescription.!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 21:51:15'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 21:51:15'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 21:51:15'!
+ERROR!
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 21:51:29'!
+canNotMoveAPieceFromAnEmptyPositionErrorDescription
+	self shouldBeImplemented.! !
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 21:52:07' prior: 50870756!
+canNotMoveAPieceFromAnEmptyPositionErrorDescription
+	^'cannot Move A Piece From An Empty Position'! !
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 21:52:12'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:54:09' prior: 50870565!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	(self isPositionEmpty: boardTakenPosition ) ifTrue: [^self error: self class canNotMoveAPieceFromAnEmptyPositionErrorDescription].
+	
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	boardTakenPosition freePosition.
+	self placePieceInBoard: boardEmptyPosition.
+	
+	self alternateTurn.! !
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 21:54:17'!
+ERROR!
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 21:54:29'!
+isPositionEmpty: anAbajoIzquierda 
+	self shouldBeImplemented.! !
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 21:55:01' prior: 50870797!
+isPositionEmpty: aBoardPosition
+	^aBoardPosition isEmpty! !
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 21:55:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 21:55:18'!
+PASSED!
+
+----SNAPSHOT----(31 October 2020 21:55:23) CuisUniversity-4384.image priorSource: 17243174!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 21:57:31'!
+test16CannotMoveAPieceBeforeAllPiecesAreInGame
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	
+	self should: [terni movePieceFrom: 'arribaIzquierda' to: 'izquierda'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotPutAPieceInAnOccupiedPositionErrorDescription.! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 22:01:04' prior: 50870873!
+test16CannotMoveAPieceBeforeAllPiecesAreInGame
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	
+	self should: [terni movePieceFrom: 'arribaIzquierda' to: 'izquierda'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription.! !
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:01:08'!
+ERROR!
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 22:01:19'!
+canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription
+	self shouldBeImplemented.! !
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 22:01:59' prior: 50870911!
+canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription
+	^'cannot Move A Piece Before All Pieces Are In Game'! !
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:02:08'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:02:43'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 22:04:38' prior: 50870772!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	self areAllPiecesInGame ifFalse: [^self error: self class canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription].
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	(self isPositionEmpty: boardTakenPosition ) ifTrue: [^self error: self class canNotMoveAPieceFromAnEmptyPositionErrorDescription].
+	
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	boardTakenPosition freePosition.
+	self placePieceInBoard: boardEmptyPosition.
+	
+	self alternateTurn.! !
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:04:45'!
+ERROR!
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 22:05:02'!
+areAllPiecesInGame
+	self shouldBeImplemented.! !
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 22:05:33' prior: 50870961!
+areAllPiecesInGame
+	^piecesInPlay = 6! !
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 22:07:51' prior: 50870966!
+areAllPiecesInGame
+	^self playerHasAvailablePiecesToPlay not! !
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:07:55'!
+PASSED!
+
+----SNAPSHOT----(31 October 2020 22:10:56) CuisUniversity-4384.image priorSource: 17255016!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:11:01'!
+PASSED!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 22:18:33'!
+test17XCannotMoveAnOPiece
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'arribaCentro' to: 'abajoCentro'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotMoveAPieceFromAnotherPlayerErrorDescription.! !
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:18:36'!
+ERROR!
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 22:18:51'!
+canNotMoveAPieceFromAnotherPlayerErrorDescription
+	self shouldBeImplemented.! !
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 22:20:03' prior: 50871125!
+canNotMoveAPieceFromAnotherPlayerErrorDescription
+	^'cannot Move A Piece From Another Player'! !
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:20:06'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 22:24:03' prior: 50870932!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	self areAllPiecesInGame ifFalse: [^self error: self class canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription].
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	(self isPositionEmpty: boardTakenPosition ) ifTrue: [^self error: self class canNotMoveAPieceFromAnEmptyPositionErrorDescription].
+	
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	(self isPositionTakenByAnotherPlayer: boardTakenPosition) ifTrue: [^self error: self class canNotMoveAPieceFromAnotherPlayerErrorDescription].
+	
+	boardTakenPosition freePosition.
+	self placePieceInBoard: boardEmptyPosition.
+	
+	self alternateTurn.! !
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:24:08'!
+ERROR!
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 22:24:23'!
+isPositionTakenByAnotherPlayer: anArribaCentro 
+	self shouldBeImplemented.! !
+!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 22:29:14' prior: 50871173!
+isPositionTakenByAnotherPlayer: aBoardPosition 
+	^(self isPlayingX and: [aBoardPosition hasAnO]) or: [self isPlayingO and: [aBoardPosition hasAnX]].! !
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:29:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 22:29:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 22:29:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 22:29:18'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:29:19'!
+PASSED!
+
+----SNAPSHOT----(31 October 2020 22:29:37) CuisUniversity-4384.image priorSource: 17260407!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 22:30:46'!
+test18CannotMoveAPieceJumpingPositions
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'arribaCentro' to: 'abajoCentro'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotMoveAPieceFromAnotherPlayerErrorDescription.! !
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 22:31:26' prior: 50871255!
+test18CannotMoveAPieceJumpingPositions
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'arribaCentro' to: 'abajoCentro'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotMoveAPieceJumpingPositionsErrorDescription.! !
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:32:31'!
+ERROR!
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 22:33:08'!
+canNotMoveAPieceJumpingPositionsErrorDescription
+	self shouldBeImplemented.! !
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 22:33:44' prior: 50871296!
+canNotMoveAPieceJumpingPositionsErrorDescription
+	^'cannot Move A Piece Jumping Positions'! !
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:34:23'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 22:39:08' prior: 50871140!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	self areAllPiecesInGame ifFalse: [^self error: self class canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription].
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	(self isPositionEmpty: boardTakenPosition ) ifTrue: [^self error: self class canNotMoveAPieceFromAnEmptyPositionErrorDescription].
+	
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	(self isPositionTakenByAnotherPlayer: boardTakenPosition) ifTrue: [^self error: self class canNotMoveAPieceFromAnotherPlayerErrorDescription].
+	
+	(boardTakenPosition isNeightbourOf: boardTakenPosition) ifTrue: [
+	boardTakenPosition freePosition.
+	self placePieceInBoard: boardEmptyPosition.
+	
+	self alternateTurn.
+	].! !
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 22:40:21' prior: 50871312!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	self areAllPiecesInGame ifFalse: [^self error: self class canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription].
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	(self isPositionEmpty: boardTakenPosition ) ifTrue: [^self error: self class canNotMoveAPieceFromAnEmptyPositionErrorDescription].
+	
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	(self isPositionTakenByAnotherPlayer: boardTakenPosition) ifTrue: [^self error: self class canNotMoveAPieceFromAnotherPlayerErrorDescription].
+	
+	(boardTakenPosition isNeighbourOf: boardTakenPosition) ifTrue: [
+	boardTakenPosition freePosition.
+	self placePieceInBoard: boardEmptyPosition.
+	
+	self alternateTurn.
+	].! !
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:40:51'!
+FAILURE!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 22:41:53' prior: 50871274!
+test18CannotMoveAPieceJumpingPositions
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'arribaIzquierda' to: 'abajoCentro'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotMoveAPieceJumpingPositionsErrorDescription.! !
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:41:54'!
+ERROR!
+!ArribaIzquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:42:12'!
+isNeighbourOf: anArribaIzquierda 
+	self shouldBeImplemented.! !
+!ArribaIzquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:45:07' prior: 50871402!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaCentro) or: (aPosition isKindOf: Izquierda) or: (aPosition isKindOf: Centro).! !
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:45:13'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 22:46:49' prior: 50871344!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	self areAllPiecesInGame ifFalse: [^self error: self class canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription].
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	(self isPositionEmpty: boardTakenPosition ) ifTrue: [^self error: self class canNotMoveAPieceFromAnEmptyPositionErrorDescription].
+	
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	(self isPositionTakenByAnotherPlayer: boardTakenPosition) ifTrue: [^self error: self class canNotMoveAPieceFromAnotherPlayerErrorDescription].
+	
+	(boardTakenPosition isNeighbourOf: boardTakenPosition) ifTrue: [
+		boardTakenPosition freePosition.
+		self placePieceInBoard: boardEmptyPosition.
+	
+		self alternateTurn.
+	]
+	ifFalse: [^self error: self class canNotMoveAPieceJumpingPositionsErrorDescription].! !
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:46:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:46:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:46:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:47:03'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:47:03'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:47:03'!
+ERROR!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 22:47:58' prior: 50870369!
+test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni placePieceIn: 'abajoIzquierda'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingX.	
+	terni movePieceFrom: 'centro' to: 'abajoCentro'.
+	
+	self should: [terni placePieceIn: 'abajoDerecha'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli noMorePiecesAvailableErrorDescription.
+	
+	self assert: terni isPlayingO.		! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:48:06'!
+ERROR!
+!Centro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:48:22'!
+isNeighbourOf: aCentro 
+	self shouldBeImplemented.! !
+!Centro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:49:24' prior: 50871631!
+isNeighbourOf: aPosition 
+	^true.! !
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:49:26'!
+PASSED!
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PJ 10/31/2020 22:51:21'!
+test19CannotMoveAPieceIntoTheSamePosition
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self should: [terni movePieceFrom: 'arribaIzquierda' to: 'arribaIzquierda'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli canNotMoveAPieceIntoTheSamePositionErrorDescription.! !
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 22:51:30'!
+ERROR!
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 22:51:38'!
+canNotMoveAPieceIntoTheSamePositionErrorDescription
+	self shouldBeImplemented.! !
+!TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 22:52:20' prior: 50871667!
+canNotMoveAPieceIntoTheSamePositionErrorDescription
+	^'cannot Move A Piece Into The Same Position' ! !
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 22:53:07'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 22:56:14' prior: 50871419!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	self areAllPiecesInGame ifFalse: [^self error: self class canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription].
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	(self isPositionEmpty: boardTakenPosition ) ifTrue: [^self error: self class canNotMoveAPieceFromAnEmptyPositionErrorDescription].
+	
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	(self isPositionTakenByAnotherPlayer: boardTakenPosition) ifTrue: [^self error: self class canNotMoveAPieceFromAnotherPlayerErrorDescription].
+	(aTakenPosition = anEmptyPosition ) ifTrue: [^self error: self class canNotMoveAPieceIntoTheSamePositionErrorDescription].
+	
+	(boardTakenPosition isNeighbourOf: boardTakenPosition) ifTrue: [
+		boardTakenPosition freePosition.
+		self placePieceInBoard: boardEmptyPosition.
+	
+		self alternateTurn.
+	]
+	ifFalse: [^self error: self class canNotMoveAPieceJumpingPositionsErrorDescription].! !
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 22:56:17'!
+FAILURE!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 22:57:03' prior: 50871683!
+movePieceFrom: aTakenPosition to: anEmptyPosition 
+	|boardTakenPosition boardEmptyPosition|
+	self areAllPiecesInGame ifFalse: [^self error: self class canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription].
+	(aTakenPosition = anEmptyPosition ) ifTrue: [^self error: self class canNotMoveAPieceIntoTheSamePositionErrorDescription].
+	
+	boardTakenPosition := self getBoardPositionFor: aTakenPosition.
+	(self isPositionEmpty: boardTakenPosition ) ifTrue: [^self error: self class canNotMoveAPieceFromAnEmptyPositionErrorDescription].
+	
+	boardEmptyPosition := self getBoardPositionFor: anEmptyPosition.
+	(self isPositionTaken: boardEmptyPosition) ifTrue: [^self error: self class canNotPutAPieceInAnOccupiedPositionErrorDescription].
+	
+	(self isPositionTakenByAnotherPlayer: boardTakenPosition) ifTrue: [^self error: self class canNotMoveAPieceFromAnotherPlayerErrorDescription].
+	
+	(boardTakenPosition isNeighbourOf: boardTakenPosition) ifTrue: [
+		boardTakenPosition freePosition.
+		self placePieceInBoard: boardEmptyPosition.
+	
+		self alternateTurn.
+	]
+	ifFalse: [^self error: self class canNotMoveAPieceJumpingPositionsErrorDescription].! !
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 22:57:14'!
+PASSED!
+
+----SNAPSHOT----(31 October 2020 22:57:22) CuisUniversity-4384.image priorSource: 17267227!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 22:57:26'!
+PASSED!
+!AbajoCentro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:59:23'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: AbajoIzquierda ) or: (aPosition isKindOf: AbajoDerecha ) or: (aPosition isKindOf: Centro).! !
+!AbajoDerecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:59:59'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: AbajoCentro ) or: (aPosition isKindOf: Derecha ) or: (aPosition isKindOf: Centro).! !
+!AbajoIzquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:00:33'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: AbajoCentro) or: (aPosition isKindOf: Izquierda) or: (aPosition isKindOf: Centro).! !
+!ArribaCentro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:01:11'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaIzquierda ) or: (aPosition isKindOf: ArribaDerecha) or: (aPosition isKindOf: Centro).! !
+!ArribaDerecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:01:50'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaCentro) or: (aPosition isKindOf: Derecha) or: (aPosition isKindOf: Centro).! !
+!Derecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:02:44'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaDerecha ) or: (aPosition isKindOf: AbajoDerecha) or: (aPosition isKindOf: Centro).! !
+!Izquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:03:15'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaIzquierda) or: (aPosition isKindOf: AbajoIzquierda) or: (aPosition isKindOf: Centro).! !
+!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:03:54'!
+isNeighbourOf: aPosition 
+	self subclassResponsibility ! !
+
+----SNAPSHOT----(31 October 2020 23:06:43) CuisUniversity-4384.image priorSource: 17285961!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PJ 10/31/2020 23:06:49'!
+PASSED!
+
+----SNAPSHOT----(31 October 2020 23:13:51) CuisUniversity-4384.image priorSource: 17290138!
