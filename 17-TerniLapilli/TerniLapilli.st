@@ -245,6 +245,111 @@ test19CannotMoveAPieceIntoTheSamePosition
 		raise: Error - MessageNotUnderstood
 		withMessageText: TerniLapilli canNotMoveAPieceIntoTheSamePositionErrorDescription.! !
 
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PGTA 11/2/2020 00:08:42'!
+test20XCanWinUsingUpperRowBeforeMovingPhaseTurns
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'derecha'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	
+	self assert: terni hasPlayerXWon.! !
+
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PGTA 11/1/2020 22:11:12'!
+test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'abajoCentro'.	
+	
+	self assert: terni hasPlayerXWon.! !
+
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PGTA 11/2/2020 00:09:18'!
+test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'izquierda'.	
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'derecha'.	
+	
+	self assert: terni hasPlayerXWon.! !
+
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PGTA 11/2/2020 00:09:28'!
+test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns
+	
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'abajoIzquierda'.	
+	terni placePieceIn: 'abajoDerecha'.	
+	
+	self assert: false equals: terni hasPlayerXWon.
+	self assert: terni hasPlayerOWon.! !
+
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PGTA 11/2/2020 01:03:18'!
+test24XCannotMoveAfterOWins
+	
+"	O X X
+	-  O  -
+	X O  -   "
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'arribaIzquierda'.	
+	terni placePieceIn: 'abajoIzquierda'.	
+	terni placePieceIn: 'abajoCentro'.	
+	
+	self assert: false equals: terni hasPlayerXWon.
+	self assert: false equals: terni hasPlayerOWon.
+	
+	terni movePieceFrom: 'abajoIzquierda' to: 'izquierda'.
+	terni movePieceFrom: 'abajoCentro' to: 'abajoDerecha'.
+	
+	self assert: false equals: terni hasPlayerXWon.
+	self assert: terni hasPlayerOWon.
+	
+	self should: [terni movePieceFrom: 'izquierda' to: 'abajoIzquierda'.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli cannotPerformActionAfterGameOverErrorDescription.
+	! !
+
+!TerniLapilliTest methodsFor: 'testing' stamp: 'PGTA 11/2/2020 01:19:14'!
+test25OCannotPlacePieceAfterXWin
+	
+"	X X X
+	-  O  -
+	-  O  -   "
+	|terni|
+	terni := TerniLapilli new.
+	terni placePieceIn: 'arribaCentro'.	
+	terni placePieceIn: 'centro'.	
+	terni placePieceIn: 'arribaDerecha'.	
+	terni placePieceIn: 'abajoCentro'.	
+	terni placePieceIn: 'arribaIzquierda'.	
+	
+	self assert: terni hasPlayerXWon.
+	self assert: false equals: terni hasPlayerOWon.
+	
+	self should: [terni placePieceIn: 'abajoIzquierda'.	]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TerniLapilli cannotPerformActionAfterGameOverErrorDescription.
+	! !
+
 
 !classDefinition: #Posiciones category: 'TerniLapilli'!
 Object subclass: #Posiciones
@@ -450,9 +555,13 @@ Object subclass: #TerniLapilli
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 22:57:03'!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PGTA 11/2/2020 01:32:20'!
 movePieceFrom: aTakenPosition to: anEmptyPosition 
+
 	|boardTakenPosition boardEmptyPosition|
+	
+	self isOver ifTrue:[^self error: self class cannotPerformActionAfterGameOverErrorDescription].
+	
 	self areAllPiecesInGame ifFalse: [^self error: self class canNotMoveAPieceBeforeAllPiecesAreInGameErrorDescription].
 	(aTakenPosition = anEmptyPosition ) ifTrue: [^self error: self class canNotMoveAPieceIntoTheSamePositionErrorDescription].
 	
@@ -464,7 +573,7 @@ movePieceFrom: aTakenPosition to: anEmptyPosition
 	
 	(self isPositionTakenByAnotherPlayer: boardTakenPosition) ifTrue: [^self error: self class canNotMoveAPieceFromAnotherPlayerErrorDescription].
 	
-	(boardTakenPosition isNeighbourOf: boardTakenPosition) ifTrue: [
+	(boardTakenPosition isNeighbourOf: boardEmptyPosition) ifTrue: [
 		boardTakenPosition freePosition.
 		self placePieceInBoard: boardEmptyPosition.
 	
@@ -472,10 +581,13 @@ movePieceFrom: aTakenPosition to: anEmptyPosition
 	]
 	ifFalse: [^self error: self class canNotMoveAPieceJumpingPositionsErrorDescription].! !
 
-!TerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:32:49'!
+!TerniLapilli methodsFor: 'game actions' stamp: 'PGTA 11/2/2020 01:32:46'!
 placePieceIn: aPositionIdentifier 
 	
 	|boardPosition|
+	
+	self isOver ifTrue:[^self error: self class cannotPerformActionAfterGameOverErrorDescription].
+	
 	self playerHasAvailablePiecesToPlay ifFalse: [^self error: self class noMorePiecesAvailableErrorDescription].
 	
 	boardPosition := self getBoardPositionFor: aPositionIdentifier.
@@ -533,13 +645,35 @@ hasAnXPieceIn: aPositionIdentifier
 	boardPosition := self getBoardPositionFor: aPositionIdentifier.
 	^boardPosition hasAnX! !
 
-!TerniLapilli methodsFor: 'game testing' stamp: 'PJ 10/29/2020 18:21:01'!
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 01:39:06'!
 hasPlayerOWon
-	^false! !
+	 "rows"
+	^(	((self hasAnOPieceIn: 'arribaIzquierda') and: (self hasAnOPieceIn: 'arribaCentro') and: (self hasAnOPieceIn: 'arribaDerecha'))
+	or: 	((self hasAnOPieceIn: 'izquierda') and: (self hasAnOPieceIn: 'centro') and: (self hasAnOPieceIn: 'derecha'))
+	or: 	((self hasAnOPieceIn: 'abajoIzquierda') and: (self hasAnOPieceIn: 'abajoCentro') and: (self hasAnOPieceIn: 'abajoDerecha'))
+	)"columns"
+	or:( 	((self hasAnOPieceIn: 'arribaIzquierda') and: (self hasAnOPieceIn: 'izquierda') and: (self hasAnOPieceIn: 'abajoIzquierda'))
+	or: 	((self hasAnOPieceIn: 'arribaCentro') and: (self hasAnOPieceIn: 'centro') and: (self hasAnOPieceIn: 'abajoCentro'))
+	or: 	((self hasAnOPieceIn: 'arribaDerecha') and: (self hasAnOPieceIn: 'derecha') and: (self hasAnOPieceIn: 'abajoDerecha'))
+	)"diagonals"
+	or:( 	((self hasAnOPieceIn: 'arribaIzquierda') and: (self hasAnOPieceIn: 'centro') and: (self hasAnOPieceIn: 'abajoDerecha'))
+	or: 	((self hasAnOPieceIn: 'arribaDerecha') and: (self hasAnOPieceIn: 'centro') and: (self hasAnOPieceIn: 'abajoIzquierda'))
+	)! !
 
-!TerniLapilli methodsFor: 'game testing' stamp: 'PJ 10/29/2020 18:20:34'!
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 01:39:44'!
 hasPlayerXWon
-	^false! !
+	 "rows"
+	^(	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'arribaCentro') and: (self hasAnXPieceIn: 'arribaDerecha'))
+	or: 	((self hasAnXPieceIn: 'izquierda') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'derecha'))
+	or: 	((self hasAnXPieceIn: 'abajoIzquierda') and: (self hasAnXPieceIn: 'abajoCentro') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	)"columns"
+	or:( 	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'izquierda') and: (self hasAnXPieceIn: 'abajoIzquierda'))
+	or: 	((self hasAnXPieceIn: 'arribaCentro') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoCentro'))
+	or: 	((self hasAnXPieceIn: 'arribaDerecha') and: (self hasAnXPieceIn: 'derecha') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	)"diagonals"
+	or:( 	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	or: 	((self hasAnXPieceIn: 'arribaDerecha') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoIzquierda'))
+	)! !
 
 !TerniLapilli methodsFor: 'game testing' stamp: 'PJ 10/31/2020 18:24:56'!
 initialize
@@ -556,9 +690,9 @@ initialize
 	board add: AbajoCentro new.
 	board add: AbajoDerecha new.! !
 
-!TerniLapilli methodsFor: 'game testing' stamp: 'PJ 10/29/2020 18:19:44'!
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 01:32:30'!
 isOver
-	^false! !
+	^(self hasPlayerXWon or: self hasPlayerOWon)! !
 
 !TerniLapilli methodsFor: 'game testing' stamp: 'PJ 10/29/2020 18:55:10'!
 isPlayingO
@@ -610,3 +744,8 @@ invalidPositionErrorDescription
 !TerniLapilli class methodsFor: 'exception descriptions' stamp: 'PJ 10/31/2020 20:53:50'!
 noMorePiecesAvailableErrorDescription
 	^'No More Pieces Available'! !
+
+
+!TerniLapilli class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/2/2020 01:02:48'!
+cannotPerformActionAfterGameOverErrorDescription
+	^'cannot Perform Action After Game Over'! !
