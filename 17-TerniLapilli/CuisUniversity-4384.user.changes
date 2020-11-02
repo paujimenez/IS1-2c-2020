@@ -32804,3 +32804,794 @@ PASSED!
 ----SNAPSHOT----(2 November 2020 01:41:55) CuisUniversity-4384.image priorSource: 17230646!
 
 ----QUIT----(2 November 2020 01:41:58) CuisUniversity-4384.image priorSource: 17266456!
+
+----STARTUP---- (2 November 2020 14:37:43) as /home/pablo/Documents/Ingenieria1/cuis_terniLapilli/CuisUniversity-4384.image!
+
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 14:37:52'!
+PASSED!
+
+a := [:check | check isNeighbourOf: (Izquierda new)]!
+
+a value: (AbajoIzquierda new)!
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 14:51:23'!
+playerHasAWinningLine: aPlayerPositionCheck
+	 "rows"
+	^(	((aPlayerPositionCheck value: 'arribaIzquierda') and: (aPlayerPositionCheck value: 'arribaCentro') and: (aPlayerPositionCheck value: 'arribaDerecha'))
+	or: 	((aPlayerPositionCheck value: 'izquierda') and: (aPlayerPositionCheck value: 'centro') and: (aPlayerPositionCheck value: 'derecha'))
+	or: 	((aPlayerPositionCheck value: 'abajoIzquierda') and: (aPlayerPositionCheck value: 'abajoCentro') and: (aPlayerPositionCheck value: 'abajoDerecha'))
+	)"columns"
+	or:( 	((aPlayerPositionCheck value: 'arribaIzquierda') and: (aPlayerPositionCheck value: 'izquierda') and: (aPlayerPositionCheck value: 'abajoIzquierda'))
+	or: 	((aPlayerPositionCheck value: 'arribaCentro') and: (aPlayerPositionCheck value: 'centro') and: (aPlayerPositionCheck value: 'abajoCentro'))
+	or: 	((aPlayerPositionCheck value: 'arribaDerecha') and: (aPlayerPositionCheck value: 'derecha') and: (aPlayerPositionCheck value: 'abajoDerecha'))
+	)"diagonals"
+	or:( 	((aPlayerPositionCheck value: 'arribaIzquierda') and: (aPlayerPositionCheck value: 'centro') and: (aPlayerPositionCheck value: 'abajoDerecha'))
+	or: 	((aPlayerPositionCheck value: 'arribaDerecha') and: (aPlayerPositionCheck value: 'centro') and: (aPlayerPositionCheck value: 'abajoIzquierda'))
+	)! !
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 14:52:51' prior: 50871094!
+hasPlayerXWon
+	self playerHasAWinningLine: [:position | self hasAnXPieceIn: position].
+
+"
+	 
+	^(	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'arribaCentro') and: (self hasAnXPieceIn: 'arribaDerecha'))
+	or: 	((self hasAnXPieceIn: 'izquierda') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'derecha'))
+	or: 	((self hasAnXPieceIn: 'abajoIzquierda') and: (self hasAnXPieceIn: 'abajoCentro') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	)
+	or:( 	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'izquierda') and: (self hasAnXPieceIn: 'abajoIzquierda'))
+	or: 	((self hasAnXPieceIn: 'arribaCentro') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoCentro'))
+	or: 	((self hasAnXPieceIn: 'arribaDerecha') and: (self hasAnXPieceIn: 'derecha') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	)
+	or:( 	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	or: 	((self hasAnXPieceIn: 'arribaDerecha') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoIzquierda'))
+	)"! !
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 14:54:03' prior: 50871378!
+hasPlayerXWon
+	^self playerHasAWinningLine: [:position | self hasAnXPieceIn: position].
+
+"
+	 
+	^(	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'arribaCentro') and: (self hasAnXPieceIn: 'arribaDerecha'))
+	or: 	((self hasAnXPieceIn: 'izquierda') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'derecha'))
+	or: 	((self hasAnXPieceIn: 'abajoIzquierda') and: (self hasAnXPieceIn: 'abajoCentro') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	)
+	or:( 	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'izquierda') and: (self hasAnXPieceIn: 'abajoIzquierda'))
+	or: 	((self hasAnXPieceIn: 'arribaCentro') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoCentro'))
+	or: 	((self hasAnXPieceIn: 'arribaDerecha') and: (self hasAnXPieceIn: 'derecha') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	)
+	or:( 	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoDerecha'))
+	or: 	((self hasAnXPieceIn: 'arribaDerecha') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoIzquierda'))
+	)"! !
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 14:54:07'!
+PASSED!
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 14:54:29' prior: 50871416!
+hasPlayerXWon
+	^self playerHasAWinningLine: [:position | self hasAnXPieceIn: position].! !
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 14:54:44' prior: 50871020!
+hasPlayerOWon
+	^self playerHasAWinningLine: [:position | self hasAnOPieceIn: position].! !
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 14:54:49'!
+PASSED!
+
+!classRenamed: #Posiciones as: #PosicionesTerniLapilli stamp: 'PGTA 11/2/2020 15:09:56'!
+Smalltalk renameClassNamed: #Posiciones as: #PosicionesTerniLapilli!
+
+!methodRemoval: PosicionesTerniLapilli #storeAnO stamp: 'PGTA 11/2/2020 15:13:37'!
+storeAnO
+	^valor := 'O'!
+
+!methodRemoval: PosicionesTerniLapilli #storeAnX stamp: 'PGTA 11/2/2020 15:13:42'!
+storeAnX
+	^valor := 'X'!
+!TerniLapilli methodsFor: 'private management' stamp: 'PGTA 11/2/2020 15:14:03' prior: 50868405!
+placePieceInBoard: aBoardPosition.
+	isXTurn ifTrue: [aBoardPosition hasAnX] ifFalse: [aBoardPosition hasAnO]! !
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 15:14:13'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 15:14:13'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 15:14:13'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 15:14:13'!
+FAILURE!
+!TerniLapilli methodsFor: 'private management' stamp: 'PGTA 11/2/2020 15:15:44' prior: 50871669!
+placePieceInBoard: aBoardPosition.
+	isXTurn ifTrue: [aBoardPosition storeAnX] ifFalse: [aBoardPosition storeAnO]! !
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 15:15:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 15:15:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 15:15:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 15:15:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 15:15:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 15:15:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 15:15:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 15:15:53'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 15:15:53'!
+ERROR!
+!PosicionesTerniLapilli methodsFor: 'as yet unclassified' stamp: 'PGTA 11/2/2020 15:16:59'!
+storeAnX
+	valor := 'X'! !
+!PosicionesTerniLapilli methodsFor: 'as yet unclassified' stamp: 'PGTA 11/2/2020 15:17:04'!
+storeAnO
+	valor := 'O'! !
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 15:17:12'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 15:24:31'!
+PASSED!
+
+----SNAPSHOT----(2 November 2020 16:11:17) CuisUniversity-4384.image priorSource: 17266549!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 16:11:21'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 16:11:25'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test01NewTerniLapilliIsNotOver stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test02InNewTerniLapilliPlayerXHasntWon stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test03InNewTerniLapilliPlayerOHasntWon stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test04InNewTerniLapilliPlayerXStartsPlayingAndTheBoardIsEmpty stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test05AfterPlayerXTurnIsPlayerOTurn stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test06XCanPutAPieceInXTurn stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test07OCanPutAPieceInOTurn stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test08AnEmptyBoardDoesNotHaveAnXPieceInTheCenter stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test09AnEmptyBoardDoesNotHaveAnOPieceInTheCenter stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test10ABoardWithAPieceInArribaCentroDoesNotHaveAnXOrAnOPieceInCentro stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test11TwoPiecesCanNotBePlacedInTheSamePositionAfterThatOCanPlayInADifferentPosition stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test12TerniLapilliAssertsWithAnInvalidPosition stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test13NonOfThePlayersCanPutMoreThanTheMaxAmountOfPiecesPerPlayer stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test14CannotMoveAPieceFromAnEmptyPosition stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test15CannotMoveAPieceIntoATakenPosition stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test16CannotMoveAPieceBeforeAllPiecesAreInGame stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test17XCannotMoveAnOPiece stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test18CannotMoveAPieceJumpingPositions stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test19CannotMoveAPieceIntoTheSamePosition stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test20XCanWinUsingUpperRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test21XCanWinUsingMiddleColumnBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test22XCanWinUsingMiddleRowBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test23OCanWinUsingDiagonalsBeforeMovingPhaseTurns stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test24XCannotMoveAfterOWins stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!
+
+!testRun: #TerniLapilliTest #test25OCannotPlacePieceAfterXWin stamp: 'PGTA 11/2/2020 16:16:50'!
+PASSED!

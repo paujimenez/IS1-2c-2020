@@ -351,201 +351,214 @@ test25OCannotPlacePieceAfterXWin
 	! !
 
 
-!classDefinition: #Posiciones category: 'TerniLapilli'!
-Object subclass: #Posiciones
+!classDefinition: #PosicionesTerniLapilli category: 'TerniLapilli'!
+Object subclass: #PosicionesTerniLapilli
 	instanceVariableNames: 'valor'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:10:39'!
-canHandle: aPositionIdentifier
-	self subclassResponsibility ! !
-
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 21:17:18'!
-freePosition
-	valor := ''! !
-
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 17:40:30'!
-hasAnO
-	^valor = 'O'! !
-
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 17:40:23'!
-hasAnX
-	^valor = 'X'! !
-
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:29:17'!
+!PosicionesTerniLapilli methodsFor: 'initialization' stamp: 'PJ 10/31/2020 18:29:17'!
 initialize
 	valor := ''! !
 
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 17:39:56'!
-isEmpty
-	^valor = ''! !
 
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:03:54'!
+!PosicionesTerniLapilli methodsFor: 'coordination' stamp: 'PJ 10/31/2020 23:03:54'!
 isNeighbourOf: aPosition 
 	self subclassResponsibility ! !
 
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 17:41:01'!
-storeAnO
-	^valor := 'O'! !
 
-!Posiciones methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 17:41:19'!
+!PosicionesTerniLapilli methodsFor: 'accessing' stamp: 'PJ 10/31/2020 17:40:30'!
+hasAnO
+	^valor = 'O'! !
+
+!PosicionesTerniLapilli methodsFor: 'accessing' stamp: 'PJ 10/31/2020 17:40:23'!
+hasAnX
+	^valor = 'X'! !
+
+!PosicionesTerniLapilli methodsFor: 'accessing' stamp: 'PJ 10/31/2020 17:39:56'!
+isEmpty
+	^valor = ''! !
+
+
+!PosicionesTerniLapilli methodsFor: 'game actions' stamp: 'PJ 10/31/2020 21:17:18'!
+freePosition
+	valor := ''! !
+
+!PosicionesTerniLapilli methodsFor: 'game actions' stamp: 'PGTA 11/2/2020 15:17:04'!
+storeAnO
+	valor := 'O'! !
+
+!PosicionesTerniLapilli methodsFor: 'game actions' stamp: 'PGTA 11/2/2020 15:16:59'!
 storeAnX
-	^valor := 'X'! !
+	valor := 'X'! !
+
+
+!PosicionesTerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:10:39'!
+canHandle: aPositionIdentifier
+	self subclassResponsibility ! !
 
 
 !classDefinition: #AbajoCentro category: 'TerniLapilli'!
-Posiciones subclass: #AbajoCentro
+PosicionesTerniLapilli subclass: #AbajoCentro
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!AbajoCentro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:11:25'!
+!AbajoCentro methodsFor: 'coordination' stamp: 'PJ 10/31/2020 22:59:23'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: AbajoIzquierda ) or: (aPosition isKindOf: AbajoDerecha ) or: (aPosition isKindOf: Centro).! !
+
+
+!AbajoCentro methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:11:25'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'abajoCentro'! !
 
-!AbajoCentro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:59:23'!
-isNeighbourOf: aPosition 
-	^(aPosition isKindOf: AbajoIzquierda ) or: (aPosition isKindOf: AbajoDerecha ) or: (aPosition isKindOf: Centro).! !
-
 
 !classDefinition: #AbajoDerecha category: 'TerniLapilli'!
-Posiciones subclass: #AbajoDerecha
+PosicionesTerniLapilli subclass: #AbajoDerecha
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!AbajoDerecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:11:44'!
+!AbajoDerecha methodsFor: 'coordination' stamp: 'PJ 10/31/2020 22:59:59'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: AbajoCentro ) or: (aPosition isKindOf: Derecha ) or: (aPosition isKindOf: Centro).! !
+
+
+!AbajoDerecha methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:11:44'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'abajoDerecha'! !
 
-!AbajoDerecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:59:59'!
-isNeighbourOf: aPosition 
-	^(aPosition isKindOf: AbajoCentro ) or: (aPosition isKindOf: Derecha ) or: (aPosition isKindOf: Centro).! !
-
 
 !classDefinition: #AbajoIzquierda category: 'TerniLapilli'!
-Posiciones subclass: #AbajoIzquierda
+PosicionesTerniLapilli subclass: #AbajoIzquierda
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!AbajoIzquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:12:00'!
+!AbajoIzquierda methodsFor: 'coordination' stamp: 'PJ 10/31/2020 23:00:33'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: AbajoCentro) or: (aPosition isKindOf: Izquierda) or: (aPosition isKindOf: Centro).! !
+
+
+!AbajoIzquierda methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:12:00'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'abajoIzquierda'! !
 
-!AbajoIzquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:00:33'!
-isNeighbourOf: aPosition 
-	^(aPosition isKindOf: AbajoCentro) or: (aPosition isKindOf: Izquierda) or: (aPosition isKindOf: Centro).! !
-
 
 !classDefinition: #ArribaCentro category: 'TerniLapilli'!
-Posiciones subclass: #ArribaCentro
+PosicionesTerniLapilli subclass: #ArribaCentro
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!ArribaCentro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:12:24'!
+!ArribaCentro methodsFor: 'coordination' stamp: 'PJ 10/31/2020 23:01:11'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaIzquierda ) or: (aPosition isKindOf: ArribaDerecha) or: (aPosition isKindOf: Centro).! !
+
+
+!ArribaCentro methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:12:24'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'arribaCentro'! !
 
-!ArribaCentro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:01:11'!
-isNeighbourOf: aPosition 
-	^(aPosition isKindOf: ArribaIzquierda ) or: (aPosition isKindOf: ArribaDerecha) or: (aPosition isKindOf: Centro).! !
-
 
 !classDefinition: #ArribaDerecha category: 'TerniLapilli'!
-Posiciones subclass: #ArribaDerecha
+PosicionesTerniLapilli subclass: #ArribaDerecha
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!ArribaDerecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:12:36'!
+!ArribaDerecha methodsFor: 'coordination' stamp: 'PJ 10/31/2020 23:01:50'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaCentro) or: (aPosition isKindOf: Derecha) or: (aPosition isKindOf: Centro).! !
+
+
+!ArribaDerecha methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:12:36'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'arribaDerecha'! !
 
-!ArribaDerecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:01:50'!
-isNeighbourOf: aPosition 
-	^(aPosition isKindOf: ArribaCentro) or: (aPosition isKindOf: Derecha) or: (aPosition isKindOf: Centro).! !
-
 
 !classDefinition: #ArribaIzquierda category: 'TerniLapilli'!
-Posiciones subclass: #ArribaIzquierda
+PosicionesTerniLapilli subclass: #ArribaIzquierda
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!ArribaIzquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:12:47'!
+!ArribaIzquierda methodsFor: 'coordination' stamp: 'PJ 10/31/2020 22:45:07'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaCentro) or: (aPosition isKindOf: Izquierda) or: (aPosition isKindOf: Centro).! !
+
+
+!ArribaIzquierda methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:12:47'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'arribaIzquierda'! !
 
-!ArribaIzquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:45:07'!
-isNeighbourOf: aPosition 
-	^(aPosition isKindOf: ArribaCentro) or: (aPosition isKindOf: Izquierda) or: (aPosition isKindOf: Centro).! !
-
 
 !classDefinition: #Centro category: 'TerniLapilli'!
-Posiciones subclass: #Centro
+PosicionesTerniLapilli subclass: #Centro
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!Centro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:13:24'!
+!Centro methodsFor: 'coordination' stamp: 'PJ 10/31/2020 22:49:24'!
+isNeighbourOf: aPosition 
+	^true.! !
+
+
+!Centro methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:13:24'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'centro'! !
 
-!Centro methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 22:49:24'!
-isNeighbourOf: aPosition 
-	^true.! !
-
 
 !classDefinition: #Derecha category: 'TerniLapilli'!
-Posiciones subclass: #Derecha
+PosicionesTerniLapilli subclass: #Derecha
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!Derecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:13:15'!
+!Derecha methodsFor: 'coordination' stamp: 'PJ 10/31/2020 23:02:44'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaDerecha ) or: (aPosition isKindOf: AbajoDerecha) or: (aPosition isKindOf: Centro).! !
+
+
+!Derecha methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:13:15'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'derecha'! !
 
-!Derecha methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:02:44'!
-isNeighbourOf: aPosition 
-	^(aPosition isKindOf: ArribaDerecha ) or: (aPosition isKindOf: AbajoDerecha) or: (aPosition isKindOf: Centro).! !
-
 
 !classDefinition: #Izquierda category: 'TerniLapilli'!
-Posiciones subclass: #Izquierda
+PosicionesTerniLapilli subclass: #Izquierda
 	instanceVariableNames: ''
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TerniLapilli'!
 
-!Izquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 18:13:37'!
+!Izquierda methodsFor: 'coordination' stamp: 'PJ 10/31/2020 23:03:15'!
+isNeighbourOf: aPosition 
+	^(aPosition isKindOf: ArribaIzquierda) or: (aPosition isKindOf: AbajoIzquierda) or: (aPosition isKindOf: Centro).! !
+
+
+!Izquierda methodsFor: 'private management' stamp: 'PJ 10/31/2020 18:13:37'!
 canHandle: aPositionIdentifier
 	
 	^aPositionIdentifier = 'izquierda'! !
-
-!Izquierda methodsFor: 'as yet unclassified' stamp: 'PJ 10/31/2020 23:03:15'!
-isNeighbourOf: aPosition 
-	^(aPosition isKindOf: ArribaIzquierda) or: (aPosition isKindOf: AbajoIzquierda) or: (aPosition isKindOf: Centro).! !
 
 
 !classDefinition: #TerniLapilli category: 'TerniLapilli'!
@@ -624,7 +637,7 @@ isPositionTaken: aBoardPosition
 isPositionTakenByAnotherPlayer: aBoardPosition 
 	^(self isPlayingX and: [aBoardPosition hasAnO]) or: [self isPlayingO and: [aBoardPosition hasAnX]].! !
 
-!TerniLapilli methodsFor: 'private management' stamp: 'PJ 10/31/2020 21:33:37'!
+!TerniLapilli methodsFor: 'private management' stamp: 'PGTA 11/2/2020 15:15:44'!
 placePieceInBoard: aBoardPosition.
 	isXTurn ifTrue: [aBoardPosition storeAnX] ifFalse: [aBoardPosition storeAnO]! !
 
@@ -645,35 +658,13 @@ hasAnXPieceIn: aPositionIdentifier
 	boardPosition := self getBoardPositionFor: aPositionIdentifier.
 	^boardPosition hasAnX! !
 
-!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 01:39:06'!
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 14:54:44'!
 hasPlayerOWon
-	 "rows"
-	^(	((self hasAnOPieceIn: 'arribaIzquierda') and: (self hasAnOPieceIn: 'arribaCentro') and: (self hasAnOPieceIn: 'arribaDerecha'))
-	or: 	((self hasAnOPieceIn: 'izquierda') and: (self hasAnOPieceIn: 'centro') and: (self hasAnOPieceIn: 'derecha'))
-	or: 	((self hasAnOPieceIn: 'abajoIzquierda') and: (self hasAnOPieceIn: 'abajoCentro') and: (self hasAnOPieceIn: 'abajoDerecha'))
-	)"columns"
-	or:( 	((self hasAnOPieceIn: 'arribaIzquierda') and: (self hasAnOPieceIn: 'izquierda') and: (self hasAnOPieceIn: 'abajoIzquierda'))
-	or: 	((self hasAnOPieceIn: 'arribaCentro') and: (self hasAnOPieceIn: 'centro') and: (self hasAnOPieceIn: 'abajoCentro'))
-	or: 	((self hasAnOPieceIn: 'arribaDerecha') and: (self hasAnOPieceIn: 'derecha') and: (self hasAnOPieceIn: 'abajoDerecha'))
-	)"diagonals"
-	or:( 	((self hasAnOPieceIn: 'arribaIzquierda') and: (self hasAnOPieceIn: 'centro') and: (self hasAnOPieceIn: 'abajoDerecha'))
-	or: 	((self hasAnOPieceIn: 'arribaDerecha') and: (self hasAnOPieceIn: 'centro') and: (self hasAnOPieceIn: 'abajoIzquierda'))
-	)! !
+	^self playerHasAWinningLine: [:position | self hasAnOPieceIn: position].! !
 
-!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 01:39:44'!
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 14:54:29'!
 hasPlayerXWon
-	 "rows"
-	^(	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'arribaCentro') and: (self hasAnXPieceIn: 'arribaDerecha'))
-	or: 	((self hasAnXPieceIn: 'izquierda') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'derecha'))
-	or: 	((self hasAnXPieceIn: 'abajoIzquierda') and: (self hasAnXPieceIn: 'abajoCentro') and: (self hasAnXPieceIn: 'abajoDerecha'))
-	)"columns"
-	or:( 	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'izquierda') and: (self hasAnXPieceIn: 'abajoIzquierda'))
-	or: 	((self hasAnXPieceIn: 'arribaCentro') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoCentro'))
-	or: 	((self hasAnXPieceIn: 'arribaDerecha') and: (self hasAnXPieceIn: 'derecha') and: (self hasAnXPieceIn: 'abajoDerecha'))
-	)"diagonals"
-	or:( 	((self hasAnXPieceIn: 'arribaIzquierda') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoDerecha'))
-	or: 	((self hasAnXPieceIn: 'arribaDerecha') and: (self hasAnXPieceIn: 'centro') and: (self hasAnXPieceIn: 'abajoIzquierda'))
-	)! !
+	^self playerHasAWinningLine: [:position | self hasAnXPieceIn: position].! !
 
 !TerniLapilli methodsFor: 'game testing' stamp: 'PJ 10/31/2020 18:24:56'!
 initialize
@@ -706,6 +697,20 @@ isPlayingX
 piecesInPlay
 	^piecesInPlay! !
 
+!TerniLapilli methodsFor: 'game testing' stamp: 'PGTA 11/2/2020 14:51:23'!
+playerHasAWinningLine: aPlayerPositionCheck
+	 "rows"
+	^(	((aPlayerPositionCheck value: 'arribaIzquierda') and: (aPlayerPositionCheck value: 'arribaCentro') and: (aPlayerPositionCheck value: 'arribaDerecha'))
+	or: 	((aPlayerPositionCheck value: 'izquierda') and: (aPlayerPositionCheck value: 'centro') and: (aPlayerPositionCheck value: 'derecha'))
+	or: 	((aPlayerPositionCheck value: 'abajoIzquierda') and: (aPlayerPositionCheck value: 'abajoCentro') and: (aPlayerPositionCheck value: 'abajoDerecha'))
+	)"columns"
+	or:( 	((aPlayerPositionCheck value: 'arribaIzquierda') and: (aPlayerPositionCheck value: 'izquierda') and: (aPlayerPositionCheck value: 'abajoIzquierda'))
+	or: 	((aPlayerPositionCheck value: 'arribaCentro') and: (aPlayerPositionCheck value: 'centro') and: (aPlayerPositionCheck value: 'abajoCentro'))
+	or: 	((aPlayerPositionCheck value: 'arribaDerecha') and: (aPlayerPositionCheck value: 'derecha') and: (aPlayerPositionCheck value: 'abajoDerecha'))
+	)"diagonals"
+	or:( 	((aPlayerPositionCheck value: 'arribaIzquierda') and: (aPlayerPositionCheck value: 'centro') and: (aPlayerPositionCheck value: 'abajoDerecha'))
+	or: 	((aPlayerPositionCheck value: 'arribaDerecha') and: (aPlayerPositionCheck value: 'centro') and: (aPlayerPositionCheck value: 'abajoIzquierda'))
+	)! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
