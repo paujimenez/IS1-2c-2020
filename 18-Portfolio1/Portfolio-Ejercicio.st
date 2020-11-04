@@ -5,14 +5,14 @@ TestCase subclass: #PortfolioTest
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/2/2020 20:36:31'!
+!PortfolioTest methodsFor: 'portfolio-balance' stamp: 'PJ 11/2/2020 20:36:31'!
 test01NewPortfolioHasBalanceZero
 	|portfolio|
 	portfolio := Portfolio new.
 	
 	self assert: 0 equals: portfolio balance.! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/2/2020 20:48:54'!
+!PortfolioTest methodsFor: 'portfolio-balance' stamp: 'PJ 11/2/2020 20:48:54'!
 test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount
 	|portfolio account|
 	portfolio := Portfolio new.
@@ -24,7 +24,7 @@ test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount
 	
 	self assert: account balance equals: portfolio balance.! !
 
-!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/2/2020 21:01:11'!
+!PortfolioTest methodsFor: 'portfolio-balance' stamp: 'PJ 11/2/2020 21:01:11'!
 test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts
 	|portfolio account account2 account3| 
 	portfolio := Portfolio new.
@@ -46,6 +46,97 @@ test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts
 	portfolio add: account3.
 	
 	self assert: 150 equals: portfolio balance.! !
+
+!PortfolioTest methodsFor: 'portfolio-balance' stamp: 'PJ 11/3/2020 20:43:04'!
+test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio
+	|portfolioPadre portfolioHijo account|
+	
+	portfolioPadre := Portfolio new.
+	
+	portfolioHijo := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	Withdraw register: 15 on: account.
+	
+	portfolioHijo add: account.
+	
+	portfolioPadre add: portfolioHijo.
+	
+	self assert: portfolioHijo balance equals: portfolioPadre balance.! !
+
+
+!PortfolioTest methodsFor: 'portfolio-transactions' stamp: 'PJ 11/3/2020 23:45:53'!
+test07NewPortfolioHasNoTransaction
+	|portfolio|
+	
+	portfolio := Portfolio new.
+	
+	self assert: (portfolio transactions isEmpty).! !
+
+!PortfolioTest methodsFor: 'portfolio-transactions' stamp: 'PJ 11/3/2020 23:55:49'!
+test08PortfolioWithTransactionsReturnsAllTransactions
+	|portfolio portfolio2 account account2 deposit withdraw deposit2 transactions|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit  register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	portfolio2 := Portfolio new.
+	portfolio add: portfolio2.
+		
+	account2 := ReceptiveAccount new.
+	deposit2 := Deposit  register: 100 on: account2.
+	portfolio2 add: account2.
+	
+	transactions := portfolio transactions.
+	
+	self assert: 3 equals: transactions size.
+	self assert: true equals: (transactions includes: deposit).
+	self assert: true equals: (transactions includes: withdraw).
+	self assert: true equals: (transactions includes: deposit2).! !
+
+
+!PortfolioTest methodsFor: 'portfolio-hasRegistered' stamp: 'PJ 11/3/2020 22:41:51'!
+test05NewPortfolioHasNoRegisteredTransaction
+	|portfolio deposit withdraw|
+	
+	portfolio := Portfolio new.
+	
+	deposit := Deposit  for: 100.
+	withdraw := Withdraw for: 50.
+	
+	self assert: false equals: (portfolio hasRegistered: deposit).
+	self assert: false equals: (portfolio hasRegistered: withdraw).! !
+
+!PortfolioTest methodsFor: 'portfolio-hasRegistered' stamp: 'PJ 11/3/2020 23:28:32'!
+test06PortfolioWithWithTransactionsHasRegisteredTransactions
+	|portfolio portfolio2 account account2 deposit withdraw deposit2 withdrawNew|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit  register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	portfolio2 := Portfolio new.
+	portfolio add: portfolio2.
+		
+	account2 := ReceptiveAccount new.
+	deposit2 := Deposit  register: 100 on: account2.
+	portfolio2 add: account2.
+	
+	withdrawNew := Withdraw for: 50.
+	
+	self assert: true equals: (portfolio hasRegistered: deposit).
+	self assert: true equals: (portfolio hasRegistered: withdraw).
+	self assert: true equals: (portfolio hasRegistered: deposit2).
+	
+	self assert: false equals: (portfolio hasRegistered: withdrawNew).! !
 
 
 !classDefinition: #ReceptiveAccountTest category: 'Portfolio-Ejercicio'!
@@ -238,22 +329,33 @@ for: aValue
 
 !classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
 Object subclass: #Portfolio
-	instanceVariableNames: 'accounts'
+	instanceVariableNames: 'assets'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/2/2020 21:21:23'!
-add: aReceptiveAccount 
-	accounts add: aReceptiveAccount.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/3/2020 20:48:02'!
+add: anAsset 
+	assets add: anAsset.! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/2/2020 21:20:22'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/3/2020 20:47:30'!
 balance
-	^accounts sum: [:anAccount | anAccount balance] ifEmpty: [0].! !
+	^assets sum: [:anAsset | anAsset balance] ifEmpty: [0].! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/2/2020 21:10:27'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/3/2020 23:10:47'!
+hasRegistered: aTransaction
+	^assets anySatisfy: [:anAsset | anAsset hasRegistered: aTransaction].! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/3/2020 20:47:45'!
 initialize
-	accounts := OrderedCollection new.! !
+	assets := OrderedCollection new.! !
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/4/2020 00:34:48'!
+transactions
+	|transactions|
+	transactions := OrderedCollection new.
+	assets do: [:anAsset | transactions addAll: (anAsset transactions)].
+	^transactions! !
 
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio'!
@@ -289,7 +391,7 @@ balance
 	^sum! !
 
 
-!ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/17/2019 03:28:43'!
+!ReceptiveAccount methodsFor: 'testing' stamp: 'PJ 11/3/2020 20:49:25'!
 hasRegistered: aTransaction
 
 	^ transactions includes: aTransaction 
