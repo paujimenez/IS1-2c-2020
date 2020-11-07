@@ -28323,3 +28323,371 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(4 November 2020 00:36:43) CuisUniversity-4384.image priorSource: 17195998!
+
+----QUIT----(4 November 2020 00:43:10) CuisUniversity-4384.image priorSource: 17203241!
+
+----STARTUP---- (6 November 2020 19:46:54) as C:\Users\paujimenez\Documents\Ingenieria1\cuisWindows64\windows64-portfolio\CuisUniversity-4384.image!
+
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 19:58:06' prior: 50869210!
+transactions
+	|transactions|
+	transactions := OrderedCollection new.
+	assets do: [:anAsset | transactions addAll: (anAsset transactions)].
+	^transactions! !
+!PortfolioTest methodsFor: 'portfolio-transactions' stamp: 'PJ 11/6/2020 20:39:50'!
+test09CanNotAddAnAccountThatIsAlreadyInThePortfolio
+	|portfolio account|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	self should: (portfolio add: account)
+		raise: Error
+		withMessageText: self class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:40:17'!
+ERROR!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:40:33'!
+ERROR!
+!PortfolioTest methodsFor: 'portfolio-transactions' stamp: 'PJ 11/6/2020 20:40:55' prior: 50869271!
+test09CanNotAddAnAccountThatIsAlreadyInThePortfolio
+	|portfolio account|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	self should: (portfolio add: account)
+		raise: Error
+		withMessageText: portfolio class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:40:57'!
+ERROR!
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 20:41:50'!
+accountAlreadyInPortfolioTreeErrorDescription
+	self shouldBeImplemented.! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 20:42:40' prior: 50869313!
+accountAlreadyInPortfolioTreeErrorDescription
+	^'Account Already In Portfolio Tree Error Description'! !
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:42:43'!
+FAILURE!
+
+portfolio!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 20:52:53' prior: 50868650!
+add: anAsset
+	(assets includes: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.! !
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:52:56'!
+ERROR!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:53:15'!
+ERROR!
+
+portfolio!
+
+portfolio!
+!PortfolioTest methodsFor: 'portfolio-transactions' stamp: 'PJ 11/6/2020 20:55:36' prior: 50869294!
+test09CanNotAddAnAccountThatIsAlreadyInThePortfolio
+	|portfolio account|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	self should: (portfolio add: account)
+		raise: Error
+		withMessageText: (portfolio class accountAlreadyInPortfolioTreeErrorDescription).! !
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:55:37'!
+ERROR!
+
+self class accountAlreadyInPortfolioTreeErrorDescription!
+!PortfolioTest methodsFor: 'portfolio-transactions' stamp: 'PJ 11/6/2020 20:58:56' prior: 50869346!
+test09CanNotAddAnAccountThatIsAlreadyInThePortfolio
+	|portfolio account|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	self should: [portfolio add: account]
+		raise: Error
+		withMessageText: portfolio class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithWithTransactionsHasRegisteredTransactions stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 20:59:00'!
+PASSED!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PJ 11/6/2020 21:08:39'!
+test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio
+	|portfolio account portfolio2|
+	
+	portfolio := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio add: account.
+	portfolio2 add: account.
+	
+	self should: [portfolio add: portfolio2]
+		raise: Error
+		withMessageText: portfolio class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:08:49'!
+FAILURE!
+
+anAsset!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 21:21:34' prior: 50869330!
+add: anAsset
+	(assets anySatisfy: [:each | (each = anAsset) or: [(each isKindOf: self class) ifTrue: [each containsAsset: anAsset ]]])
+		ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.! !
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:21:57'!
+FAILURE!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:22:37'!
+FAILURE!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 21:26:16' prior: 50869443!
+add: anAsset
+	(assets anySatisfy: [:each | (each = anAsset) or: [(each isKindOf: self class) ifTrue: [each containsAsset: anAsset ] ifFalse: [false]]])
+		ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.! !
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:26:19'!
+FAILURE!
+
+aDescription!
+
+anAsset!
+
+aBlock!
+
+each isKindOf: self class!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 21:36:11' prior: 50869462!
+add: anAsset
+	(assets anySatisfy: [:each | (each = anAsset) or: [(anAsset isKindOf: self class) ifTrue: [anAsset containsAsset: each ] ifFalse: [false]]])
+		ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.! !
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:36:19'!
+FAILURE!
+!Portfolio methodsFor: 'nil' stamp: 'PJ 11/6/2020 21:38:30'!
+containsAsset: anAsset
+	^true! !
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithWithTransactionsHasRegisteredTransactions stamp: 'PJ 11/6/2020 21:38:38'!
+ERROR!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PJ 11/6/2020 21:38:38'!
+ERROR!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:38:38'!
+PASSED!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 21:39:34' prior: 50869495!
+containsAsset: anAsset
+	^assets includes: anAsset.! !
+
+----SNAPSHOT----(6 November 2020 21:39:42) CuisUniversity-4384.image priorSource: 17203334!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithWithTransactionsHasRegisteredTransactions stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:39:47'!
+PASSED!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PJ 11/6/2020 21:42:08'!
+test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio
+	|portfolio account portfolio2|
+	
+	portfolio := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio add: portfolio2.
+	portfolio2 add: account.
+	
+	self should: [portfolio add: account]
+		raise: Error
+		withMessageText: portfolio class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PJ 11/6/2020 21:42:13'!
+FAILURE!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 21:44:34' prior: 50869480!
+add: anAsset
+	(assets anySatisfy: [:each | (each = anAsset) 
+		or: [(anAsset isKindOf: self class) ifTrue: [anAsset containsAsset: each ] ifFalse: [false]]
+		or: [(each isKindOf: self class) ifTrue: [each containsAsset: anAsset ] ifFalse: [false]]])
+		ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.! !
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithWithTransactionsHasRegisteredTransactions stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PJ 11/6/2020 21:44:37'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithWithTransactionsHasRegisteredTransactions stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PJ 11/6/2020 22:09:59'!
+PASSED!
+
+----SNAPSHOT----(6 November 2020 22:10:03) CuisUniversity-4384.image priorSource: 17212661!
