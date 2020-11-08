@@ -66,7 +66,7 @@ test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio
 	self assert: portfolioHijo balance equals: portfolioPadre balance.! !
 
 
-!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PJ 11/6/2020 20:58:56'!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 17:24:44'!
 test09CanNotAddAnAccountThatIsAlreadyInThePortfolio
 	|portfolio account|
 	
@@ -79,9 +79,9 @@ test09CanNotAddAnAccountThatIsAlreadyInThePortfolio
 	
 	self should: [portfolio add: account]
 		raise: Error
-		withMessageText: portfolio class accountAlreadyInPortfolioTreeErrorDescription.! !
+		withMessageText: portfolio class assetAlreadyInPortfolioTreeErrorDescription.! !
 
-!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PJ 11/6/2020 21:08:39'!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 17:24:44'!
 test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio
 	|portfolio account portfolio2|
 	
@@ -97,9 +97,9 @@ test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio
 	
 	self should: [portfolio add: portfolio2]
 		raise: Error
-		withMessageText: portfolio class accountAlreadyInPortfolioTreeErrorDescription.! !
+		withMessageText: portfolio class assetAlreadyInPortfolioTreeErrorDescription.! !
 
-!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PJ 11/6/2020 21:42:08'!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 17:24:44'!
 test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio
 	|portfolio account portfolio2|
 	
@@ -115,7 +115,70 @@ test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio
 	
 	self should: [portfolio add: account]
 		raise: Error
-		withMessageText: portfolio class accountAlreadyInPortfolioTreeErrorDescription.! !
+		withMessageText: portfolio class assetAlreadyInPortfolioTreeErrorDescription.! !
+
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 17:24:45'!
+test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree
+	|portfolioRoot account portfolio1 portfolio2|
+	
+	portfolioRoot := Portfolio new.
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolioRoot add: portfolio1.
+	portfolio1 add: portfolio2.
+	portfolio2 add: account.
+	
+	self should: [portfolioRoot add: account]
+		raise: Error
+		withMessageText: portfolioRoot class assetAlreadyInPortfolioTreeErrorDescription.! !
+
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 17:24:44'!
+test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot
+	|portfolioRoot account portfolio1 portfolio2|
+	
+	portfolioRoot := Portfolio new.
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolioRoot add: account.
+	portfolioRoot add: portfolio1.
+	portfolio1 add: portfolio2.
+	
+	self should: [portfolio2 add: account]
+		raise: Error
+		withMessageText: portfolioRoot class assetAlreadyInPortfolioTreeErrorDescription.! !
+
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 17:24:44'!
+test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset
+	|portfolio1 portfolio2 portfolio3 portfolio4 account|
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	portfolio4 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio1 add: account.
+	portfolio4 add: account.
+	
+	portfolio1 add: portfolio2.
+	portfolio3 add: portfolio2.
+	
+	self should: [portfolio2 add: portfolio4]
+		raise: Error
+		withMessageText: portfolio2 class assetAlreadyInPortfolioTreeErrorDescription.! !
 
 
 !PortfolioTest methodsFor: 'portfolio-transactions' stamp: 'PJ 11/3/2020 23:45:53'!
@@ -164,8 +227,8 @@ test05NewPortfolioHasNoRegisteredTransaction
 	self assert: false equals: (portfolio hasRegistered: deposit).
 	self assert: false equals: (portfolio hasRegistered: withdraw).! !
 
-!PortfolioTest methodsFor: 'portfolio-hasRegistered' stamp: 'PJ 11/3/2020 23:28:32'!
-test06PortfolioWithWithTransactionsHasRegisteredTransactions
+!PortfolioTest methodsFor: 'portfolio-hasRegistered' stamp: 'PGTA 11/7/2020 15:34:24'!
+test06PortfolioWithTransactionsHasRegisteredTransactions
 	|portfolio portfolio2 account account2 deposit withdraw deposit2 withdrawNew|
 	
 	portfolio := Portfolio new.
@@ -381,36 +444,53 @@ for: aValue
 
 !classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
 Object subclass: #Portfolio
-	instanceVariableNames: 'assets'
+	instanceVariableNames: 'assets roots'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Ejercicio'!
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 21:44:34'!
-add: anAsset
-	(assets anySatisfy: [:each | (each = anAsset) 
-		or: [(anAsset isKindOf: self class) ifTrue: [anAsset containsAsset: each ] ifFalse: [false]]
-		or: [(each isKindOf: self class) ifTrue: [each containsAsset: anAsset ] ifFalse: [false]]])
-		ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
-	assets add: anAsset.! !
+!Portfolio methodsFor: 'initialization' stamp: 'PGTA 11/7/2020 17:15:49'!
+initialize
+	assets := OrderedCollection new.
+	roots := OrderedCollection with: self.! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/3/2020 20:47:30'!
+
+!Portfolio methodsFor: 'portfolio-operators' stamp: 'PGTA 11/7/2020 17:24:44'!
+add: anAsset
+	
+	(self rootContainsAsset: anAsset) ifTrue: [^self error: self class assetAlreadyInPortfolioTreeErrorDescription].
+	
+	assets add: anAsset.
+	
+	(anAsset isKindOf: self class) ifTrue: [anAsset addRoot: roots.]! !
+
+!Portfolio methodsFor: 'portfolio-operators' stamp: 'PGTA 11/7/2020 17:15:49'!
+addRoot: aPortfolioCollection 
+	roots addAll: aPortfolioCollection.! !
+
+
+!Portfolio methodsFor: 'private' stamp: 'PJ 11/3/2020 20:47:30'!
 balance
 	^assets sum: [:anAsset | anAsset balance] ifEmpty: [0].! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 21:39:34'!
+!Portfolio methodsFor: 'private' stamp: 'PGTA 11/7/2020 17:11:57'!
 containsAsset: anAsset
-	^assets includes: anAsset.! !
+	^assets anySatisfy: [:portfolioAsset | 
+		(portfolioAsset = anAsset) 
+		or: [(anAsset isKindOf: self class) and: [anAsset containsAsset: portfolioAsset ]]
+		or: [(portfolioAsset isKindOf: self class) and: [portfolioAsset containsAsset: anAsset ]]
+		]
+	! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/3/2020 23:10:47'!
+!Portfolio methodsFor: 'private' stamp: 'PJ 11/3/2020 23:10:47'!
 hasRegistered: aTransaction
 	^assets anySatisfy: [:anAsset | anAsset hasRegistered: aTransaction].! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/3/2020 20:47:45'!
-initialize
-	assets := OrderedCollection new.! !
+!Portfolio methodsFor: 'private' stamp: 'PGTA 11/7/2020 17:15:49'!
+rootContainsAsset: anAsset
+	^roots anySatisfy: [:each | each containsAsset: anAsset].! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 19:58:06'!
+!Portfolio methodsFor: 'private' stamp: 'PJ 11/6/2020 19:58:06'!
 transactions
 	|transactions|
 	transactions := OrderedCollection new.
@@ -423,9 +503,9 @@ transactions
 Portfolio class
 	instanceVariableNames: ''!
 
-!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PJ 11/6/2020 20:42:40'!
-accountAlreadyInPortfolioTreeErrorDescription
-	^'Account Already In Portfolio Tree Error Description'! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:44'!
+assetAlreadyInPortfolioTreeErrorDescription
+	^'Asset Already In Portfolio Tree'! !
 
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio'!

@@ -28691,3 +28691,1339 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(6 November 2020 22:10:03) CuisUniversity-4384.image priorSource: 17212661!
+
+----STARTUP---- (7 November 2020 15:31:34) as /home/pablo/Documents/Ingenieria1/cuis_portfolio/CuisUniversity-4384.image!
+
+!PortfolioTest methodsFor: 'portfolio-hasRegistered' stamp: 'PGTA 11/7/2020 15:34:24'!
+test06PortfolioWithTransactionsHasRegisteredTransactions
+	|portfolio portfolio2 account account2 deposit withdraw deposit2 withdrawNew|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit  register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	portfolio2 := Portfolio new.
+	portfolio add: portfolio2.
+		
+	account2 := ReceptiveAccount new.
+	deposit2 := Deposit  register: 100 on: account2.
+	portfolio2 add: account2.
+	
+	withdrawNew := Withdraw for: 50.
+	
+	self assert: true equals: (portfolio hasRegistered: deposit).
+	self assert: true equals: (portfolio hasRegistered: withdraw).
+	self assert: true equals: (portfolio hasRegistered: deposit2).
+	
+	self assert: false equals: (portfolio hasRegistered: withdrawNew).! !
+
+!methodRemoval: PortfolioTest #test06PortfolioWithWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 15:34:24'!
+test06PortfolioWithWithTransactionsHasRegisteredTransactions
+	|portfolio portfolio2 account account2 deposit withdraw deposit2 withdrawNew|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	deposit := Deposit  register: 100 on: account.
+	withdraw := Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	portfolio2 := Portfolio new.
+	portfolio add: portfolio2.
+		
+	account2 := ReceptiveAccount new.
+	deposit2 := Deposit  register: 100 on: account2.
+	portfolio2 add: account2.
+	
+	withdrawNew := Withdraw for: 50.
+	
+	self assert: true equals: (portfolio hasRegistered: deposit).
+	self assert: true equals: (portfolio hasRegistered: withdraw).
+	self assert: true equals: (portfolio hasRegistered: deposit2).
+	
+	self assert: false equals: (portfolio hasRegistered: withdrawNew).!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 15:34:39'!
+PASSED!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 15:45:29'!
+test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree
+	|portfolioRoot account portfolio1 portfolio2|
+	
+	portfolioRoot := Portfolio new.
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolioRoot add: portfolio1.
+	portfolio1 add: portfolio2.
+	portfolio2 add: account.
+	
+	self should: [portfolioRoot add: account]
+		raise: Error
+		withMessageText: portfolioRoot class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 15:45:34'!
+FAILURE!
+
+portfolioRoot!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 15:48:43'!
+FAILURE!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 15:54:49' prior: 50868191!
+containsAsset: anAsset
+	^(assets anySatisfy: [:each | (each = anAsset) 
+		or: [(anAsset isKindOf: self class) ifTrue: [anAsset containsAsset: each ] ifFalse: [false]]
+		or: [(each isKindOf: self class) ifTrue: [each containsAsset: anAsset ] ifFalse: [false]]])
+	! !
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 15:56:14'!
+PASSED!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 15:57:07' prior: 50868172!
+add: anAsset
+	
+	(self containsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.! !
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 15:57:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 15:57:15'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 15:57:16'!
+PASSED!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 15:59:27'!
+test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot
+	|portfolioRoot account portfolio1 portfolio2|
+	
+	portfolioRoot := Portfolio new.
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolioRoot add: account.
+	portfolioRoot add: portfolio1.
+	portfolio1 add: portfolio2.
+	
+	self should: [portfolio2 add: account]
+		raise: Error
+		withMessageText: portfolioRoot class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 15:59:30'!
+FAILURE!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:03:50' prior: 50868478!
+add: anAsset
+	
+	(self containsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	(self rootContainsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.! !
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:04:00'!
+FAILURE!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:04:15'!
+ERROR!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:04:28'!
+ERROR!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:04:31'!
+ERROR!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:04:36'!
+ERROR!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:04:46'!
+ERROR!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:04:59'!
+rootContainsAsset: aReceptiveAccount 
+	self shouldBeImplemented.! !
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'PGTA 11/7/2020 16:06:49'!
+Object subclass: #Portfolio
+	instanceVariableNames: 'assets root'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:06:44' prior: 50868608!
+rootContainsAsset: anAsset
+	root containsAsset: anAsset.! !
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:06:59'!
+ERROR!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:11:23' prior: 50868203 overrides: 16896425!
+initialize
+	assets := OrderedCollection new.
+	root := self.! !
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 16:11:33'!
+ERROR!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 16:12:35'!
+ERROR!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:13:07' prior: 50868621!
+rootContainsAsset: anAsset
+	^root containsAsset: anAsset.! !
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 16:13:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:13:10'!
+FAILURE!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:13:10'!
+FAILURE!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:17:55' prior: 50868567!
+add: anAsset
+	
+	(self containsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	(self rootContainsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.
+	
+	(anAsset isKindOf: self class) ifTrue: [anAsset addRoot: self.]! !
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:18:51'!
+ERROR!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:19:05'!
+ERROR!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:19:20'!
+addRoot: aPortfolio 
+	self shouldBeImplemented.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:19:42' prior: 50868735!
+addRoot: aPortfolio 
+	root := aPortfolio.! !
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:19:45'!
+FAILURE!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:19:56'!
+FAILURE!
+
+portfolio1!
+
+Portfolio!
+
+self root!
+
+root!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:22:48' prior: 50868712!
+add: anAsset
+	
+	(self containsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	(self rootContainsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.
+	
+	(anAsset isKindOf: self class) ifTrue: [anAsset addRoot: root.]! !
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:22:52'!
+PASSED!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 16:26:00'!
+test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot
+	|portfolioRoot account portfolio1 portfolio2|
+	
+	portfolioRoot := Portfolio new.
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolioRoot add: account.
+	portfolioRoot add: portfolio1.
+	portfolio1 add: portfolio2.
+	
+	self should: [portfolio2 add: account]
+		raise: Error
+		withMessageText: portfolioRoot class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!methodRemoval: PortfolioTest #test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:26:00'!
+test13CanNotAddAnAccountAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot
+	|portfolioRoot account portfolio1 portfolio2|
+	
+	portfolioRoot := Portfolio new.
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolioRoot add: account.
+	portfolioRoot add: portfolio1.
+	portfolio1 add: portfolio2.
+	
+	self should: [portfolio2 add: account]
+		raise: Error
+		withMessageText: portfolioRoot class accountAlreadyInPortfolioTreeErrorDescription.!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 16:45:08'!
+test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset
+	|portfolio1 portfolio2 portfolio3 portfolio4 account|
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	portfolio4 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio2 add: account.
+	
+	portfolio1 add: portfolio2.
+	portfolio3 add: portfolio2.
+	portfolio4 add: portfolio1.
+	
+	self should: [portfolio2 add: portfolio4]
+		raise: Error
+		withMessageText: portfolio2 class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 16:45:11'!
+PASSED!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 16:49:38' prior: 50868870!
+test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset
+	|portfolio1 portfolio2 portfolio3 portfolio4 account|
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	portfolio4 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio1 add: account.
+	portfolio4 add: account.
+	
+	portfolio1 add: portfolio2.
+	portfolio3 add: portfolio2.
+	portfolio4 add: portfolio1.
+	
+	self should: [portfolio2 add: portfolio4]
+		raise: Error
+		withMessageText: portfolio2 class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 16:49:40'!
+ERROR!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 16:49:56'!
+ERROR!
+!PortfolioTest methodsFor: 'portfolio-consistency' stamp: 'PGTA 11/7/2020 16:50:23' prior: 50868953!
+test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset
+	|portfolio1 portfolio2 portfolio3 portfolio4 account|
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	portfolio4 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio1 add: account.
+	portfolio4 add: account.
+	
+	portfolio1 add: portfolio2.
+	portfolio3 add: portfolio2.
+	
+	self should: [portfolio2 add: portfolio4]
+		raise: Error
+		withMessageText: portfolio2 class accountAlreadyInPortfolioTreeErrorDescription.! !
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 16:50:25'!
+FAILURE!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:54:06' prior: 50868740!
+addRoot: aPortfolio 
+	root addAll: aPortfolio.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:54:44' prior: 50869010!
+addRoot: aPortfolioCollection 
+	root addAll: aPortfolioCollection.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:55:12' prior: 50868632 overrides: 16896425!
+initialize
+	assets := OrderedCollection new.
+	root := OrderedCollection new.! !
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 16:55:21'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 16:55:21'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 16:55:21'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 16:55:21'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 16:55:21'!
+ERROR!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:56:29' prior: 50869021 overrides: 16896425!
+initialize
+	assets := OrderedCollection new.
+	root := OrderedCollection with: self.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:58:20' prior: 50868645!
+rootContainsAsset: anAsset
+	^root anySatisfy: [:each | each containsAsset: anAsset].! !
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 16:58:27'!
+PASSED!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:59:06' prior: 50869087 overrides: 16896425!
+initialize
+	assets := OrderedCollection new.
+	root := OrderedCollection new.! !
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 16:59:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 16:59:10'!
+FAILURE!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 16:59:10'!
+FAILURE!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 16:59:28' prior: 50869160 overrides: 16896425!
+initialize
+	assets := OrderedCollection new.
+	root := OrderedCollection with: self.! !
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 17:01:23'!
+PASSED!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:06:00' prior: 50868756!
+add: anAsset
+	
+	"(self containsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription]."
+	(self rootContainsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	assets add: anAsset.
+	
+	(anAsset isKindOf: self class) ifTrue: [anAsset addRoot: root.]! !
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 17:06:08'!
+PASSED!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:06:24' prior: 50869294!
+add: anAsset
+	
+	(self rootContainsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	
+	assets add: anAsset.
+	
+	(anAsset isKindOf: self class) ifTrue: [anAsset addRoot: root.]! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:08:35' prior: 50868414!
+containsAsset: anAsset
+	^(assets anySatisfy: [:portfolioAsset | 
+		(portfolioAsset = anAsset) 
+		or: [(anAsset isKindOf: self class) ifTrue: [anAsset containsAsset: portfolioAsset ] ifFalse: [false]]
+		or: [(portfolioAsset isKindOf: self class) ifTrue: [portfolioAsset containsAsset: anAsset ] ifFalse: [false]]])
+	! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:11:57' prior: 50869379!
+containsAsset: anAsset
+	^assets anySatisfy: [:portfolioAsset | 
+		(portfolioAsset = anAsset) 
+		or: [(anAsset isKindOf: self class) and: [anAsset containsAsset: portfolioAsset ]]
+		or: [(portfolioAsset isKindOf: self class) and: [portfolioAsset containsAsset: anAsset ]]
+		]
+	! !
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 17:12:03'!
+PASSED!
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'PGTA 11/7/2020 17:15:49'!
+Object subclass: #Portfolio
+	instanceVariableNames: 'assets roots'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:15:49' prior: 50869015!
+addRoot: aPortfolioCollection 
+	roots addAll: aPortfolioCollection.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:15:49' prior: 50869227 overrides: 16896425!
+initialize
+	assets := OrderedCollection new.
+	roots := OrderedCollection with: self.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:15:49' prior: 50869369!
+add: anAsset
+	
+	(self rootContainsAsset: anAsset) ifTrue: [^self error: self class accountAlreadyInPortfolioTreeErrorDescription].
+	
+	assets add: anAsset.
+	
+	(anAsset isKindOf: self class) ifTrue: [anAsset addRoot: roots.]! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:15:49' prior: 50869093!
+rootContainsAsset: anAsset
+	^roots anySatisfy: [:each | each containsAsset: anAsset].! !
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 17:16:08'!
+PASSED!
+
+----SNAPSHOT----(7 November 2020 17:16:16) CuisUniversity-4384.image priorSource: 17171859!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:21:14'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 17:21:17'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/7/2020 17:21:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/7/2020 17:21:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/7/2020 17:21:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/7/2020 17:21:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/7/2020 17:21:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/7/2020 17:21:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/7/2020 17:21:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/7/2020 17:21:28'!
+PASSED!
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:06' prior: 50868223!
+accountAlreadyInPortfolioTreeErrorDescription
+	^'Account Already In Portfolio Tree'! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:14' prior: 50869660!
+accountAlreadyInPortfolioTreeErrorDescription
+	^'Asset Already In Portfolio Tree'! !
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:44'!
+assetAlreadyInPortfolioTreeErrorDescription
+	^'Asset Already In Portfolio Tree'! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:44' prior: 50867873!
+test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio
+	|portfolio account portfolio2|
+	
+	portfolio := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio add: portfolio2.
+	portfolio2 add: account.
+	
+	self should: [portfolio add: account]
+		raise: Error
+		withMessageText: portfolio class assetAlreadyInPortfolioTreeErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:44' prior: 50868984!
+test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset
+	|portfolio1 portfolio2 portfolio3 portfolio4 account|
+	
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	portfolio3 := Portfolio new.
+	portfolio4 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio1 add: account.
+	portfolio4 add: account.
+	
+	portfolio1 add: portfolio2.
+	portfolio3 add: portfolio2.
+	
+	self should: [portfolio2 add: portfolio4]
+		raise: Error
+		withMessageText: portfolio2 class assetAlreadyInPortfolioTreeErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:44' prior: 50868826!
+test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot
+	|portfolioRoot account portfolio1 portfolio2|
+	
+	portfolioRoot := Portfolio new.
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolioRoot add: account.
+	portfolioRoot add: portfolio1.
+	portfolio1 add: portfolio2.
+	
+	self should: [portfolio2 add: account]
+		raise: Error
+		withMessageText: portfolioRoot class assetAlreadyInPortfolioTreeErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:44' prior: 50867855!
+test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio
+	|portfolio account portfolio2|
+	
+	portfolio := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolio add: account.
+	portfolio2 add: account.
+	
+	self should: [portfolio add: portfolio2]
+		raise: Error
+		withMessageText: portfolio class assetAlreadyInPortfolioTreeErrorDescription.! !
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:44' prior: 50869484!
+add: anAsset
+	
+	(self rootContainsAsset: anAsset) ifTrue: [^self error: self class assetAlreadyInPortfolioTreeErrorDescription].
+	
+	assets add: anAsset.
+	
+	(anAsset isKindOf: self class) ifTrue: [anAsset addRoot: roots.]! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:44' prior: 50867840!
+test09CanNotAddAnAccountThatIsAlreadyInThePortfolio
+	|portfolio account|
+	
+	portfolio := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	portfolio add: account.
+	
+	self should: [portfolio add: account]
+		raise: Error
+		withMessageText: portfolio class assetAlreadyInPortfolioTreeErrorDescription.! !
+!PortfolioTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/7/2020 17:24:45' prior: 50868383!
+test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree
+	|portfolioRoot account portfolio1 portfolio2|
+	
+	portfolioRoot := Portfolio new.
+	portfolio1 := Portfolio new.
+	portfolio2 := Portfolio new.
+	
+	account := ReceptiveAccount new.
+	Deposit  register: 100 on: account.
+	Withdraw register: 50 on: account.
+	
+	portfolioRoot add: portfolio1.
+	portfolio1 add: portfolio2.
+	portfolio2 add: account.
+	
+	self should: [portfolioRoot add: account]
+		raise: Error
+		withMessageText: portfolioRoot class assetAlreadyInPortfolioTreeErrorDescription.! !
+
+!methodRemoval: Portfolio class #accountAlreadyInPortfolioTreeErrorDescription stamp: 'PGTA 11/7/2020 17:24:45'!
+accountAlreadyInPortfolioTreeErrorDescription
+	^'Asset Already In Portfolio Tree'!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 17:24:55'!
+PASSED!
+
+----SNAPSHOT----(7 November 2020 17:59:40) CuisUniversity-4384.image priorSource: 17213128!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/7/2020 17:59:42'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PGTA 11/8/2020 16:12:52'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/8/2020 16:12:59'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/8/2020 16:13:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/8/2020 16:13:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/8/2020 16:13:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/8/2020 16:13:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/8/2020 16:13:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/8/2020 16:13:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/8/2020 16:13:02'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/8/2020 16:13:02'!
+PASSED!
