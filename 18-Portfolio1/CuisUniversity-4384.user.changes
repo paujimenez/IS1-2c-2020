@@ -30027,3 +30027,178 @@ PASSED!
 
 !testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/8/2020 16:13:02'!
 PASSED!
+
+----STARTUP---- (8 November 2020 20:42:27) as C:\Users\paujimenez\Documents\Ingenieria1\cuisWindows64\windows64-portfolio\CuisUniversity-4384.image!
+
+
+----End fileIn of C:\Users\paujimenez\Documents\Ingenieria1\IS1-2c-2020\18-Portfolio1\Portfolio-Ejercicio.st----!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PJ 11/8/2020 21:17:18'!
+PASSED!
+
+Object subclass: #BankAssets
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #BankAssets category: 'Portfolio-Ejercicio' stamp: 'PJ 11/8/2020 21:53:23'!
+Object subclass: #BankAssets
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+BankAssets subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio' stamp: 'PJ 11/8/2020 21:54:12'!
+BankAssets subclass: #ReceptiveAccount
+	instanceVariableNames: 'transactions'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+BankAssets subclass: #Portfolio
+	instanceVariableNames: 'assets roots'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!classDefinition: #Portfolio category: 'Portfolio-Ejercicio' stamp: 'PJ 11/8/2020 21:54:18'!
+BankAssets subclass: #Portfolio
+	instanceVariableNames: 'assets roots'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+!BankAssets methodsFor: 'nil' stamp: 'PJ 11/8/2020 21:55:44'!
+balance
+	^self subclassResponsibility ! !
+!BankAssets methodsFor: 'as yet unclassified' stamp: 'PJ 11/8/2020 21:55:57' overrides: 16896425!
+initialize
+	^self subclassResponsibility ! !
+!BankAssets methodsFor: 'as yet unclassified' stamp: 'PJ 11/8/2020 21:56:16'!
+transactions
+	^self subclassResponsibility ! !
+!BankAssets methodsFor: 'as yet unclassified' stamp: 'PJ 11/8/2020 21:56:38'!
+hasRegistered: aTransaction
+	^self subclassResponsibility ! !
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PJ 11/8/2020 22:00:32'!
+PASSED!
+
+!testRun: #PortfolioTest #test01NewPortfolioHasBalanceZero stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountEqualsBalanceOfTheAccount stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioWithManyAccountsEqualsTheSumOfBalancesOfTheAccounts stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test04BalanceOfPortfolioWithOnePortfolioEqualsTheBalanceOfTheChildPortfolio stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test05NewPortfolioHasNoRegisteredTransaction stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioWithTransactionsHasRegisteredTransactions stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test07NewPortfolioHasNoTransaction stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioWithTransactionsReturnsAllTransactions stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test09CanNotAddAnAccountThatIsAlreadyInThePortfolio stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test10CanNotAddAPortfolioWithAnAlreadyIncludedAccountInThePortfolio stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test11CanNotAddAnAccountWithAnAlreadyIncludedAccountInTheIncludedPortfolio stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test12CanNotAddAnAccountWithTheSameIncludedAccountInATwoLevelPortfolioTree stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test13CanNotAddAnAccountInATwoLevelPortfolioTreeWithTheSameAccountIncludedInRoot stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test14AllRootsAreTakenIntoAccountBeforeAddingAnAsset stamp: 'PJ 11/8/2020 22:00:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PJ 11/8/2020 22:00:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PJ 11/8/2020 22:00:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PJ 11/8/2020 22:00:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PJ 11/8/2020 22:00:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PJ 11/8/2020 22:00:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PJ 11/8/2020 22:00:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PJ 11/8/2020 22:00:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PJ 11/8/2020 22:00:40'!
+PASSED!
+!Portfolio methodsFor: 'private' stamp: 'PJ 11/8/2020 22:13:10' prior: 50870302!
+rootContainsAsset: anAsset
+	^roots anySatisfy: [:portfolioAsset | portfolioAsset containsAsset: anAsset].! !
+
+----QUIT----(8 November 2020 23:14:38) CuisUniversity-4384.image priorSource: 17220140!

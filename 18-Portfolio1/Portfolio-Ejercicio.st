@@ -442,8 +442,35 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
+!classDefinition: #BankAssets category: 'Portfolio-Ejercicio'!
+Object subclass: #BankAssets
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Ejercicio'!
+
+!BankAssets methodsFor: 'initialization' stamp: 'PJ 11/8/2020 21:55:57'!
+initialize
+	^self subclassResponsibility ! !
+
+
+!BankAssets methodsFor: 'balance' stamp: 'PJ 11/8/2020 21:55:44'!
+balance
+	^self subclassResponsibility ! !
+
+
+!BankAssets methodsFor: 'testing' stamp: 'PJ 11/8/2020 21:56:38'!
+hasRegistered: aTransaction
+	^self subclassResponsibility ! !
+
+
+!BankAssets methodsFor: 'transactions' stamp: 'PJ 11/8/2020 21:56:16'!
+transactions
+	^self subclassResponsibility ! !
+
+
 !classDefinition: #Portfolio category: 'Portfolio-Ejercicio'!
-Object subclass: #Portfolio
+BankAssets subclass: #Portfolio
 	instanceVariableNames: 'assets roots'
 	classVariableNames: ''
 	poolDictionaries: ''
@@ -464,14 +491,10 @@ add: anAsset
 	
 	(anAsset isKindOf: self class) ifTrue: [anAsset addRoot: roots.]! !
 
-!Portfolio methodsFor: 'portfolio-operators' stamp: 'PGTA 11/7/2020 17:15:49'!
+
+!Portfolio methodsFor: 'private' stamp: 'PGTA 11/7/2020 17:15:49'!
 addRoot: aPortfolioCollection 
 	roots addAll: aPortfolioCollection.! !
-
-
-!Portfolio methodsFor: 'private' stamp: 'PJ 11/3/2020 20:47:30'!
-balance
-	^assets sum: [:anAsset | anAsset balance] ifEmpty: [0].! !
 
 !Portfolio methodsFor: 'private' stamp: 'PGTA 11/7/2020 17:11:57'!
 containsAsset: anAsset
@@ -482,20 +505,27 @@ containsAsset: anAsset
 		]
 	! !
 
-!Portfolio methodsFor: 'private' stamp: 'PJ 11/3/2020 23:10:47'!
-hasRegistered: aTransaction
-	^assets anySatisfy: [:anAsset | anAsset hasRegistered: aTransaction].! !
-
-!Portfolio methodsFor: 'private' stamp: 'PGTA 11/7/2020 17:15:49'!
+!Portfolio methodsFor: 'private' stamp: 'PJ 11/8/2020 22:13:10'!
 rootContainsAsset: anAsset
-	^roots anySatisfy: [:each | each containsAsset: anAsset].! !
+	^roots anySatisfy: [:portfolioAsset | portfolioAsset containsAsset: anAsset].! !
 
-!Portfolio methodsFor: 'private' stamp: 'PJ 11/6/2020 19:58:06'!
+
+!Portfolio methodsFor: 'transactions' stamp: 'PJ 11/6/2020 19:58:06'!
 transactions
 	|transactions|
 	transactions := OrderedCollection new.
 	assets do: [:anAsset | transactions addAll: (anAsset transactions)].
 	^transactions! !
+
+
+!Portfolio methodsFor: 'testing' stamp: 'PJ 11/3/2020 23:10:47'!
+hasRegistered: aTransaction
+	^assets anySatisfy: [:anAsset | anAsset hasRegistered: aTransaction].! !
+
+
+!Portfolio methodsFor: 'balance' stamp: 'PJ 11/3/2020 20:47:30'!
+balance
+	^assets sum: [:anAsset | anAsset balance] ifEmpty: [0].! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -509,7 +539,7 @@ assetAlreadyInPortfolioTreeErrorDescription
 
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio-Ejercicio'!
-Object subclass: #ReceptiveAccount
+BankAssets subclass: #ReceptiveAccount
 	instanceVariableNames: 'transactions'
 	classVariableNames: ''
 	poolDictionaries: ''
