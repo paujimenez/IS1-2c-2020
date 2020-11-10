@@ -1,4 +1,4 @@
-!classDefinition: #PortfolioTest category: #'Portfolio-Solucion'!
+!classDefinition: #PortfolioTest category: 'Portfolio-Solucion'!
 TestCase subclass: #PortfolioTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -214,7 +214,7 @@ test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd
 			self assert: portfolioToModify accountsIsEmpty ]! !
 
 
-!classDefinition: #ReceptiveAccountTest category: #'Portfolio-Solucion'!
+!classDefinition: #ReceptiveAccountTest category: 'Portfolio-Solucion'!
 TestCase subclass: #ReceptiveAccountTest
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -304,8 +304,59 @@ test07AccountKnowsItsTransactions
 	self assert: (account transactions includes: deposit).
 ! !
 
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'PGTA 11/9/2020 21:32:03'!
+test08TransferSenderAccountAcknowledgesTransferTransactions 
+
+	| senderAccount receiverAccount transfer|
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+		
+	self assert: 90 equals: senderAccount balance.
+	self assert: (senderAccount hasRegistered: (transfer withdraw)).
+! !
+
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'PGTA 11/9/2020 21:32:22'!
+test09TransferReceiverAccountAcknowledgesTransferTransactions 
+
+	| senderAccount receiverAccount transfer |
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+		
+	self assert: 10 equals: receiverAccount balance.
+	self assert: (receiverAccount hasRegistered: (transfer deposit) ).
+! !
+
+!ReceptiveAccountTest methodsFor: 'tests' stamp: 'PGTA 11/9/2020 21:40:48'!
+test10TransferDepositCanNavigateToTransferAndTransferWithdraw
+
+	| senderAccount receiverAccount transfer deposit withdraw |
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+	
+	deposit := transfer deposit.
+	withdraw  := transfer withdraw.
+	
+	self assert: transfer equals: deposit transfer.
+	self assert: withdraw equals: deposit transfer withdraw.
+! !
+
 
-!classDefinition: #Account category: #'Portfolio-Solucion'!
+!classDefinition: #Account category: 'Portfolio-Solucion'!
 Object subclass: #Account
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -346,7 +397,7 @@ addedTo: aPortfolio
 	self subclassResponsibility ! !
 
 
-!classDefinition: #Portfolio category: #'Portfolio-Solucion'!
+!classDefinition: #Portfolio category: 'Portfolio-Solucion'!
 Account subclass: #Portfolio
 	instanceVariableNames: 'accounts parents'
 	classVariableNames: ''
@@ -459,7 +510,7 @@ signalCanNotAddAccount
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Portfolio class' category: #'Portfolio-Solucion'!
+!classDefinition: 'Portfolio class' category: 'Portfolio-Solucion'!
 Portfolio class
 	instanceVariableNames: ''!
 
@@ -484,7 +535,7 @@ with: anAccount with: anotherAccount
 		yourself! !
 
 
-!classDefinition: #ReceptiveAccount category: #'Portfolio-Solucion'!
+!classDefinition: #ReceptiveAccount category: 'Portfolio-Solucion'!
 Account subclass: #ReceptiveAccount
 	instanceVariableNames: 'transactions'
 	classVariableNames: ''
@@ -515,12 +566,13 @@ transactions
 	^ transactions copy! !
 
 
-!ReceptiveAccount methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:24:46'!
+!ReceptiveAccount methodsFor: 'balance' stamp: 'PGTA 11/9/2020 21:30:32'!
 balance
 
 	^transactions 
 		inject: 0
-		into: [ :currentBalance :transaction | transaction affectBalance: currentBalance ]! !
+		into: [ :currentBalance :transaction | transaction affectBalance: currentBalance ]
+		! !
 
 
 !ReceptiveAccount methodsFor: 'testing' stamp: 'NR 10/21/2019 18:55:56'!
@@ -541,7 +593,7 @@ addedTo: aPortfolio
 	! !
 
 
-!classDefinition: #AccountTransaction category: #'Portfolio-Solucion'!
+!classDefinition: #AccountTransaction category: 'Portfolio-Solucion'!
 Object subclass: #AccountTransaction
 	instanceVariableNames: ''
 	classVariableNames: ''
@@ -561,7 +613,7 @@ affectBalance: aBalance
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'AccountTransaction class' category: #'Portfolio-Solucion'!
+!classDefinition: 'AccountTransaction class' category: 'Portfolio-Solucion'!
 AccountTransaction class
 	instanceVariableNames: ''!
 
@@ -576,7 +628,7 @@ register: aValue on: account
 	^ transaction! !
 
 
-!classDefinition: #Deposit category: #'Portfolio-Solucion'!
+!classDefinition: #Deposit category: 'Portfolio-Solucion'!
 AccountTransaction subclass: #Deposit
 	instanceVariableNames: 'value'
 	classVariableNames: ''
@@ -602,7 +654,7 @@ affectBalance: aBalance
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Deposit class' category: #'Portfolio-Solucion'!
+!classDefinition: 'Deposit class' category: 'Portfolio-Solucion'!
 Deposit class
 	instanceVariableNames: ''!
 
@@ -612,7 +664,63 @@ for: aValue
 	^ self new initializeFor: aValue ! !
 
 
-!classDefinition: #Withdraw category: #'Portfolio-Solucion'!
+!classDefinition: #TransferTransaction category: 'Portfolio-Solucion'!
+AccountTransaction subclass: #TransferTransaction
+	instanceVariableNames: 'transfer'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:50:49'!
+initializeOn: aReceiverAccount for: aTransfer
+
+	transfer := aTransfer.
+	aReceiverAccount register: self.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'TransferTransaction class' category: 'Portfolio-Solucion'!
+TransferTransaction class
+	instanceVariableNames: ''!
+
+!TransferTransaction class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:51:15'!
+registerOn: aReceiverAccount for: aTransfer
+	
+	^self new initializeOn: aReceiverAccount for: aTransfer.
+	! !
+
+
+!classDefinition: #TransferDeposit category: 'Portfolio-Solucion'!
+TransferTransaction subclass: #TransferDeposit
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:35:36'!
+affectBalance: aBalance
+
+	^aBalance + transfer value.! !
+
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 21:41:06'!
+transfer
+	^transfer! !
+
+
+!classDefinition: #TransferWithdraw category: 'Portfolio-Solucion'!
+TransferTransaction subclass: #TransferWithdraw
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:52:13'!
+affectBalance: aBalance
+
+	^aBalance - transfer value.! !
+
+
+!classDefinition: #Withdraw category: 'Portfolio-Solucion'!
 AccountTransaction subclass: #Withdraw
 	instanceVariableNames: 'value'
 	classVariableNames: ''
@@ -638,7 +746,7 @@ affectBalance: aBalance
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
-!classDefinition: 'Withdraw class' category: #'Portfolio-Solucion'!
+!classDefinition: 'Withdraw class' category: 'Portfolio-Solucion'!
 Withdraw class
 	instanceVariableNames: ''!
 
@@ -646,3 +754,44 @@ Withdraw class
 for: aValue
 
 	^ self new initializeFor: aValue ! !
+
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion'!
+Object subclass: #Transfer
+	instanceVariableNames: 'deposit withdraw value'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 21:31:24'!
+deposit
+	
+	^deposit.! !
+
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:51:42'!
+initializeFrom: aSenderAccount to: aReceiverAccount amount: anAmount
+	
+	value := anAmount.
+	deposit := TransferDeposit registerOn: aReceiverAccount for: self.
+	withdraw := TransferWithdraw registerOn: aSenderAccount for: self.! !
+
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:54:56'!
+value
+	^value.! !
+
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 21:31:42'!
+withdraw
+	
+	^withdraw.! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'Transfer class' category: 'Portfolio-Solucion'!
+Transfer class
+	instanceVariableNames: ''!
+
+!Transfer class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 21:21:45'!
+from: aSenderAccount to: aReceiverAccount amount: anAmount
+	^self new initializeFrom: aSenderAccount to: aReceiverAccount amount: anAmount.
+	
+	! !
