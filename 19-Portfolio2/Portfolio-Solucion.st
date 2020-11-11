@@ -221,7 +221,7 @@ TestCase subclass: #ReceptiveAccountTest
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:19:48'!
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'HAW 5/23/2019 15:19:48'!
 test01ReceptiveAccountHaveZeroAsBalanceWhenCreated 
 
 	| account |
@@ -231,7 +231,7 @@ test01ReceptiveAccountHaveZeroAsBalanceWhenCreated
 	self assert: 0 equals: account balance .
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:19:54'!
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'HAW 5/23/2019 15:19:54'!
 test02DepositIncreasesBalanceOnTransactionValue 
 
 	| account |
@@ -242,7 +242,7 @@ test02DepositIncreasesBalanceOnTransactionValue
 	self assert: 100 equals: account balance .
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:02'!
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'HAW 5/23/2019 15:20:02'!
 test03WithdrawDecreasesBalanceOnTransactionValue 
 
 	| account |
@@ -254,7 +254,7 @@ test03WithdrawDecreasesBalanceOnTransactionValue
 	self assert: 50 equals: account balance .
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:32'!
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'HAW 5/23/2019 15:20:32'!
 test04WithdrawValueMustBePositive 
 
 	| account withdrawValue |
@@ -265,7 +265,7 @@ test04WithdrawValueMustBePositive
 	self assert: withdrawValue equals: (Withdraw register: withdrawValue on: account) value
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'HAW 5/23/2019 15:20:46'!
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'HAW 5/23/2019 15:20:46'!
 test05ReceptiveAccountKnowsRegisteredTransactions 
 
 	| account deposit withdraw |
@@ -278,7 +278,7 @@ test05ReceptiveAccountKnowsRegisteredTransactions
 	self assert: (account hasRegistered: withdraw).
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'NR 11/9/2020 06:00:12'!
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'NR 11/9/2020 06:00:12'!
 test06ReceptiveAccountDoNotKnowNotRegisteredTransactions
 
 	| deposit withdraw account |
@@ -291,7 +291,7 @@ test06ReceptiveAccountDoNotKnowNotRegisteredTransactions
 	self deny: (account hasRegistered:withdraw).
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'NR 11/9/2020 06:02:30'!
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'NR 11/9/2020 06:02:30'!
 test07AccountKnowsItsTransactions 
 
 	| account deposit |
@@ -304,7 +304,8 @@ test07AccountKnowsItsTransactions
 	self assert: (account transactions includes: deposit).
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'PGTA 11/9/2020 21:32:03'!
+
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 21:16:50'!
 test08TransferSenderAccountAcknowledgesTransferTransactions 
 
 	| senderAccount receiverAccount transfer|
@@ -320,7 +321,7 @@ test08TransferSenderAccountAcknowledgesTransferTransactions
 	self assert: (senderAccount hasRegistered: (transfer withdraw)).
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'PGTA 11/9/2020 21:32:22'!
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 21:17:27'!
 test09TransferReceiverAccountAcknowledgesTransferTransactions 
 
 	| senderAccount receiverAccount transfer |
@@ -336,8 +337,8 @@ test09TransferReceiverAccountAcknowledgesTransferTransactions
 	self assert: (receiverAccount hasRegistered: (transfer deposit) ).
 ! !
 
-!ReceptiveAccountTest methodsFor: 'tests' stamp: 'PGTA 11/9/2020 21:40:48'!
-test10TransferDepositCanNavigateToTransferAndTransferWithdraw
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 21:16:10'!
+test10TransferDepositAndWithdrawCanNavigateToTransfer
 
 	| senderAccount receiverAccount transfer deposit withdraw |
 	
@@ -352,8 +353,114 @@ test10TransferDepositCanNavigateToTransferAndTransferWithdraw
 	withdraw  := transfer withdraw.
 	
 	self assert: transfer equals: deposit transfer.
-	self assert: withdraw equals: deposit transfer withdraw.
+	self assert: transfer equals: withdraw transfer.
 ! !
+
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 22:22:28'!
+test11TransferDepositAndWithdrawKnowTheTransferAmount
+
+	| senderAccount receiverAccount transfer deposit withdraw |
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+	
+	deposit := transfer deposit.
+	withdraw  := transfer withdraw.
+	
+	self assert: 10 equals: deposit value.
+	self assert: 10 equals: withdraw value.
+! !
+
+
+!classDefinition: #ReportTest category: 'Portfolio-Solucion'!
+TestCase subclass: #ReportTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 21:47:09'!
+test01AccountSummaryFromANewAccountReturnsBalance0
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	report := AccountSummary for: account.
+	
+	self assert: 1 equals: report size.
+	self assert: 'Balance = 0' equals: report first.! !
+
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 21:57:55'!
+test02AccountSummaryReturnsAReportFromAnAccountWithADeposit
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	
+	report := AccountSummary for: account.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Depósito por 100' equals: (report at: 1).
+	self assert: 'Balance = 100' equals: (report at: 2).! !
+
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 22:08:03'!
+test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Withdraw register: 50 on: account.
+	
+	report := AccountSummary for: account.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Extracción por 50' equals: (report at: 1).
+	self assert: 'Balance = -50' equals: (report at: 2).! !
+
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 22:15:11'!
+test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := AccountSummary for: senderAccount.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Salida por transferencia de 20' equals: (report at: 1).
+	self assert: 'Balance = -20' equals: (report at: 2).! !
+
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 22:27:31'!
+test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := AccountSummary for: receiverAccount.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Entrada por transferencia de 20' equals: (report at: 1).
+	self assert: 'Balance = 20' equals: (report at: 2).! !
+
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 23:08:36'!
+test06TransferNetFromANewAccountReturnsZero
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
 
 
 !classDefinition: #Account category: 'Portfolio-Solucion'!
@@ -395,6 +502,11 @@ transactions
 addedTo: aPortfolio
 
 	self subclassResponsibility ! !
+
+
+!Account methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:44:31'!
+balanceDescription
+	self subclassResponsibility .! !
 
 
 !classDefinition: #Portfolio category: 'Portfolio-Solucion'!
@@ -592,6 +704,11 @@ addedTo: aPortfolio
 	
 	! !
 
+
+!ReceptiveAccount methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:44:58'!
+balanceDescription
+	^'Balance = ', self balance asString! !
+
 
 !classDefinition: #AccountTransaction category: 'Portfolio-Solucion'!
 Object subclass: #AccountTransaction
@@ -610,6 +727,11 @@ value
 affectBalance: aBalance
 
 	self subclassResponsibility ! !
+
+
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:38:23'!
+description
+	self subclassResponsibility! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -652,6 +774,11 @@ affectBalance: aBalance
 
 	^aBalance + value ! !
 
+
+!Deposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:39:34'!
+description
+	^'Depósito por ', value asString ! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Deposit class' category: 'Portfolio-Solucion'!
@@ -671,11 +798,19 @@ AccountTransaction subclass: #TransferTransaction
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:50:49'!
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:20:23'!
 initializeOn: aReceiverAccount for: aTransfer
 
 	transfer := aTransfer.
 	aReceiverAccount register: self.! !
+
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:19:11'!
+transfer
+	^transfer! !
+
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:23:50'!
+value
+	^transfer value.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -697,14 +832,15 @@ TransferTransaction subclass: #TransferDeposit
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:35:36'!
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:20:14'!
 affectBalance: aBalance
 
 	^aBalance + transfer value.! !
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 21:41:06'!
-transfer
-	^transfer! !
+
+!TransferDeposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:27'!
+description
+	^'Entrada por transferencia de ', self value asString! !
 
 
 !classDefinition: #TransferWithdraw category: 'Portfolio-Solucion'!
@@ -714,10 +850,15 @@ TransferTransaction subclass: #TransferWithdraw
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:52:13'!
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:19:54'!
 affectBalance: aBalance
 
 	^aBalance - transfer value.! !
+
+
+!TransferWithdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:01'!
+description
+	^'Salida por transferencia de ', self value asString ! !
 
 
 !classDefinition: #Withdraw category: 'Portfolio-Solucion'!
@@ -744,6 +885,11 @@ affectBalance: aBalance
 
 	^aBalance - value! !
 
+
+!Withdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:40:02'!
+description
+	^'Extracción por ', value asString ! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Withdraw class' category: 'Portfolio-Solucion'!
@@ -754,6 +900,60 @@ Withdraw class
 for: aValue
 
 	^ self new initializeFor: aValue ! !
+
+
+!classDefinition: #Report category: 'Portfolio-Solucion'!
+Object subclass: #Report
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!Report methodsFor: 'private' stamp: 'PJ 11/10/2020 23:11:11'!
+generateReportFor: anAccount
+	self subclassResponsibility ! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'Report class' category: 'Portfolio-Solucion'!
+Report class
+	instanceVariableNames: ''!
+
+!Report class methodsFor: 'instance creation' stamp: 'PJ 11/10/2020 23:12:22'!
+for: anAccount 
+	^self new generateReportFor: anAccount ! !
+
+
+!classDefinition: #AccountSummary category: 'Portfolio-Solucion'!
+Report subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 22:43:41'!
+generateReportFor: anAccount 
+	
+	|report transactions|
+	report := OrderedCollection new.
+	
+	transactions := anAccount transactions.
+	transactions do: [:transaction | report add: transaction description].
+	
+	report add: anAccount balanceDescription.
+	^report ! !
+
+
+!classDefinition: #TransferNet category: 'Portfolio-Solucion'!
+Report subclass: #TransferNet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/10/2020 23:08:11'!
+generateReportFor: anAccount 
+	^'Transfer Net: 0'! !
 
 
 !classDefinition: #Transfer category: 'Portfolio-Solucion'!
@@ -775,9 +975,9 @@ initializeFrom: aSenderAccount to: aReceiverAccount amount: anAmount
 	deposit := TransferDeposit registerOn: aReceiverAccount for: self.
 	withdraw := TransferWithdraw registerOn: aSenderAccount for: self.! !
 
-!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:54:56'!
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:26:04'!
 value
-	^value.! !
+	^value! !
 
 !Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 21:31:42'!
 withdraw

@@ -28135,3 +28135,957 @@ PASSED!
 ----SNAPSHOT----(9 November 2020 22:55:16) CuisUniversity-4384.image priorSource: 17155564!
 
 ----QUIT----(9 November 2020 22:56:31) CuisUniversity-4384.image priorSource: 17213580!
+
+----STARTUP---- (10 November 2020 21:03:20) as C:\Users\paujimenez\Documents\Ingenieria1\cuisWindows64\19-windows64-Portfolio2\CuisUniversity-4384.image!
+
+
+----End fileIn of C:\Users\paujimenez\Documents\Ingenieria1\IS1-2c-2020\19-Portfolio2\Portfolio-Solucion.st----!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositCanNavigateToTransferAndTransferWithdraw stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositCanNavigateToTransferAndTransferWithdraw stamp: 'PJ 11/10/2020 21:07:48'!
+PASSED!
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 21:16:10'!
+test10TransferDepositAndWithdrawCanNavigateToTransfer
+
+	| senderAccount receiverAccount transfer deposit withdraw |
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+	
+	deposit := transfer deposit.
+	withdraw  := transfer withdraw.
+	
+	self assert: transfer equals: deposit transfer.
+	self assert: transfer equals: withdraw transfer.
+! !
+
+!methodRemoval: ReceptiveAccountTest #test10TransferDepositCanNavigateToTransferAndTransferWithdraw stamp: 'PJ 11/10/2020 21:16:21'!
+test10TransferDepositCanNavigateToTransferAndTransferWithdraw
+
+	| senderAccount receiverAccount transfer deposit withdraw |
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+	
+	deposit := transfer deposit.
+	withdraw  := transfer withdraw.
+	
+	self assert: transfer equals: deposit transfer.
+	self assert: withdraw equals: deposit transfer withdraw.
+!
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 21:16:50' prior: 50868142!
+test08TransferSenderAccountAcknowledgesTransferTransactions 
+
+	| senderAccount receiverAccount transfer|
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+		
+	self assert: 90 equals: senderAccount balance.
+	self assert: (senderAccount hasRegistered: (transfer withdraw)).
+! !
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 21:17:27' prior: 50868159!
+test09TransferReceiverAccountAcknowledgesTransferTransactions 
+
+	| senderAccount receiverAccount transfer |
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+		
+	self assert: 10 equals: receiverAccount balance.
+	self assert: (receiverAccount hasRegistered: (transfer deposit) ).
+! !
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PJ 11/10/2020 21:17:34'!
+ERROR!
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:17:48'!
+transfer
+	self shouldBeImplemented.! !
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:18:08' prior: 50868800!
+transfer
+	^transfer! !
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PJ 11/10/2020 21:18:13'!
+PASSED!
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:19:11'!
+transfer
+	^transfer! !
+
+!methodRemoval: TransferDeposit #transfer stamp: 'PJ 11/10/2020 21:19:31'!
+transfer
+	^transfer!
+
+!methodRemoval: TransferWithdraw #transfer stamp: 'PJ 11/10/2020 21:19:36'!
+transfer
+	^transfer!
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:19:54' prior: 50868581 overrides: 50868449!
+affectBalance: aBalance
+
+	^aBalance - transfer value.! !
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:20:14' prior: 50868559 overrides: 50868449!
+affectBalance: aBalance
+
+	^aBalance + transfer value.! !
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:20:23' prior: 50868523!
+initializeOn: aReceiverAccount for: aTransfer
+
+	transfer := aTransfer.
+	aReceiverAccount register: self.! !
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PJ 11/10/2020 21:25:27'!
+PASSED!
+
+TestCase subclass: #ReportTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #ReportTest category: 'Portfolio-Solucion' stamp: 'PJ 11/10/2020 21:34:15'!
+TestCase subclass: #ReportTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #AccountSummary category: 'Portfolio-Solucion' stamp: 'PJ 11/10/2020 21:47:32'!
+Object subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReportTest methodsFor: 'nil' stamp: 'PJ 11/10/2020 21:47:09'!
+test01AccountSummaryFromANewAccountReturnsBalance0
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	report := AccountSummary for: account.
+	
+	self assert: 1 equals: report size.
+	self assert: 'Balance = 0' equals: report first.! !
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 21:47:36'!
+ERROR!
+!AccountSummary class methodsFor: 'initialization' stamp: 'PJ 11/10/2020 21:48:06'!
+for: aReceptiveAccount 
+	self shouldBeImplemented.! !
+!AccountSummary class methodsFor: 'initialization' stamp: 'PJ 11/10/2020 21:49:46' prior: 50868975!
+for: anAccount 
+	self new generateReportFor: anAccount.! !
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 21:50:00'!
+ERROR!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 21:50:30'!
+generateReportFor: aReceptiveAccount 
+	self shouldBeImplemented.! !
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 21:52:07' prior: 50868988!
+generateReportFor: anAccount 
+	
+	|report|
+	report := OrderedCollection with: 'Balance = 0'.
+	
+	^report ! !
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 21:52:09'!
+ERROR!
+
+report!
+!AccountSummary class methodsFor: 'initialization' stamp: 'PJ 11/10/2020 21:53:04' prior: 50868980!
+for: anAccount 
+	^self new generateReportFor: anAccount.! !
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 21:53:08'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 21:53:08'!
+PASSED!
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:57:55'!
+test02AccountSummaryReturnsAReportFromAnAccountWithADeposit
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	
+	report := AccountSummary for: account.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Depósito por 100' equals: (report at: 1).
+	self assert: 'Balance = 100' equals: (report at: 2).! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 21:57:57'!
+FAILURE!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 21:58:25'!
+FAILURE!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 22:06:39' prior: 50868993!
+generateReportFor: anAccount 
+	
+	|report transactions balance|
+	report := OrderedCollection new.
+	balance := 0.
+	
+	transactions := anAccount transactions.
+	transactions do: [:transaction | 
+		(transaction isKindOf: Deposit) ifTrue: [report add: ('Depósito por ', transaction value asString)].
+		balance := transaction affectBalance: balance. 
+		].
+	
+	report add: ('Balance = ', balance asString).
+	^report ! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:06:47'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:06:47'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:06:47'!
+PASSED!
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:08:03'!
+test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Withdraw register: 50 on: account.
+	
+	report := AccountSummary for: account.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Extracción por 50' equals: (report at: 1).
+	self assert: 'Balance = -50' equals: (report at: 2).! !
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:08:07'!
+FAILURE!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 22:10:44' prior: 50869038!
+generateReportFor: anAccount 
+	
+	|report transactions balance|
+	report := OrderedCollection new.
+	balance := anAccount balance.
+	
+	transactions := anAccount transactions.
+	transactions do: [:transaction | 
+		(transaction isKindOf: Deposit) ifTrue: [report add: ('Depósito por ', transaction value asString)].
+		(transaction isKindOf: Withdraw ) ifTrue: [report add: ('Extracción por ', transaction value asString)].
+		].
+	
+	report add: ('Balance = ', balance asString).
+	^report ! !
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:10:50'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:10:50'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:10:50'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:10:50'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:10:55'!
+PASSED!
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:15:11'!
+test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := AccountSummary for: senderAccount.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Salida por transferencia de 20' equals: (report at: 1).
+	self assert: 'Balance = -20' equals: (report at: 2).! !
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:15:12'!
+FAILURE!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 22:16:35' prior: 50869083!
+generateReportFor: anAccount 
+	
+	|report transactions balance|
+	report := OrderedCollection new.
+	balance := anAccount balance.
+	
+	transactions := anAccount transactions.
+	transactions do: [:transaction | 
+		(transaction isKindOf: Deposit) ifTrue: [report add: ('Depósito por ', transaction value asString)].
+		(transaction isKindOf: Withdraw ) ifTrue: [report add: ('Extracción por ', transaction value asString)].
+		(transaction isKindOf: TransferWithdraw ) ifTrue: [report add: ('Salida por transferencia de ', transaction value asString)].
+		].
+	
+	report add: ('Balance = ', balance asString).
+	^report ! !
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:16:39'!
+ERROR!
+
+transaction!
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 22:21:22'!
+test11TransferDepositAndWithdrawKnowTheTransferAmount
+
+	| senderAccount receiverAccount transfer deposit withdraw |
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+	
+	self assert: 10 equals: deposit value.
+	self assert: 10 equals: withdraw value.
+! !
+!ReceptiveAccountTest methodsFor: 'transfer tests' stamp: 'PJ 11/10/2020 22:22:28' prior: 50869181!
+test11TransferDepositAndWithdrawKnowTheTransferAmount
+
+	| senderAccount receiverAccount transfer deposit withdraw |
+	
+	senderAccount := ReceptiveAccount new.
+	Deposit register: 100 on: senderAccount.
+	
+	receiverAccount := ReceptiveAccount new.
+	
+	transfer := Transfer from: senderAccount to: receiverAccount amount: 10.
+	
+	deposit := transfer deposit.
+	withdraw  := transfer withdraw.
+	
+	self assert: 10 equals: deposit value.
+	self assert: 10 equals: withdraw value.
+! !
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PJ 11/10/2020 22:22:29'!
+ERROR!
+!TransferDeposit methodsFor: 'accessing' stamp: 'PJ 11/10/2020 22:22:59' overrides: 50868445!
+value
+	self shouldBeImplemented.! !
+!TransferDeposit methodsFor: 'accessing' stamp: 'PJ 11/10/2020 22:23:17' prior: 50869219 overrides: 50868445!
+value
+	^transfer value.! !
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PJ 11/10/2020 22:23:20'!
+ERROR!
+!TransferWithdraw methodsFor: 'accessing' stamp: 'PJ 11/10/2020 22:23:26' overrides: 50868445!
+value
+	self shouldBeImplemented.! !
+!TransferWithdraw methodsFor: 'accessing' stamp: 'PJ 11/10/2020 22:23:30' prior: 50869232 overrides: 50868445!
+value
+	^transfer value.! !
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PJ 11/10/2020 22:23:39'!
+PASSED!
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:23:50' overrides: 50868445!
+value
+	^transfer value.! !
+
+!methodRemoval: TransferWithdraw #value stamp: 'PJ 11/10/2020 22:24:17'!
+value
+	^transfer value.!
+
+!methodRemoval: TransferDeposit #value stamp: 'PJ 11/10/2020 22:24:29'!
+value
+	^transfer value.!
+
+!methodRemoval: Transfer #value stamp: 'PJ 11/10/2020 22:25:01'!
+value
+	^value.!
+
+----SNAPSHOT----(10 November 2020 22:25:07) CuisUniversity-4384.image priorSource: 17155564!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 22:25:12'!
+ERROR!
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:26:04' overrides: 16881508!
+value
+	^value! !
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PJ 11/10/2020 22:26:10'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:26:26'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:26:26'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:26:26'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:26:26'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:26:26'!
+PASSED!
+!ReportTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:27:31'!
+test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := AccountSummary for: receiverAccount.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Entrada por transferencia de 20' equals: (report at: 1).
+	self assert: 'Balance = 20' equals: (report at: 2).! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:27:34'!
+FAILURE!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 22:28:22' prior: 50869154!
+generateReportFor: anAccount 
+	
+	|report transactions balance|
+	report := OrderedCollection new.
+	balance := anAccount balance.
+	
+	transactions := anAccount transactions.
+	transactions do: [:transaction | 
+		(transaction isKindOf: Deposit) ifTrue: [report add: ('Depósito por ', transaction value asString)].
+		(transaction isKindOf: Withdraw ) ifTrue: [report add: ('Extracción por ', transaction value asString)].
+		(transaction isKindOf: TransferWithdraw ) ifTrue: [report add: ('Salida por transferencia de ', transaction value asString)].
+		(transaction isKindOf: TransferDeposit ) ifTrue: [report add: ('Entrada por transferencia de ', transaction value asString)].
+		].
+	
+	report add: ('Balance = ', balance asString).
+	^report ! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:28:26'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:28:26'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:28:26'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:28:26'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:28:26'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:28:26'!
+PASSED!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 22:36:48' prior: 50869401!
+generateReportFor: anAccount 
+	
+	|report transactions balance|
+	report := OrderedCollection new.
+	balance := anAccount balance.
+	
+	transactions := anAccount transactions.
+	transactions do: [:transaction | report add: transaction description].
+	
+	report add: ('Balance = ', balance asString).
+	^report ! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:36:55'!
+ERROR!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:37:20'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:37:20'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:37:20'!
+ERROR!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:37:20'!
+ERROR!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:37:20'!
+ERROR!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:37:20'!
+ERROR!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:37:33'!
+ERROR!
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:38:07'!
+description
+	self shouldBeImplemented.! !
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:38:23' prior: 50869495!
+description
+	self subclassResponsibility! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:38:25'!
+ERROR!
+!Deposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:38:45' overrides: 50869500!
+description
+	self shouldBeImplemented.! !
+!Deposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:39:34' prior: 50869508 overrides: 50869500!
+description
+	^'Depósito por ', value asString ! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:39:36'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:39:38'!
+ERROR!
+!Withdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:39:48' overrides: 50869500!
+description
+	self shouldBeImplemented.! !
+!Withdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:40:02' prior: 50869526 overrides: 50869500!
+description
+	^'Extracción por ', value asString ! !
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:40:03'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:40:04'!
+ERROR!
+!TransferWithdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:40:13' overrides: 50869500!
+description
+	self shouldBeImplemented.! !
+!TransferWithdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:01' prior: 50869544 overrides: 50869500!
+description
+	^'Salida por transferencia de ', self value asString ! !
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:41:02'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:41:04'!
+ERROR!
+!TransferDeposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:10' overrides: 50869500!
+description
+	self shouldBeImplemented.! !
+!TransferDeposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:27' prior: 50869563 overrides: 50869500!
+description
+	^'Entrada por transferencia de ', self value asString! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:41:29'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:41:34'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:41:34'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:41:34'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:41:34'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:41:34'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:41:34'!
+PASSED!
+
+----SNAPSHOT----(10 November 2020 22:41:40) CuisUniversity-4384.image priorSource: 17204818!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 22:43:41' prior: 50869451!
+generateReportFor: anAccount 
+	
+	|report transactions|
+	report := OrderedCollection new.
+	
+	transactions := anAccount transactions.
+	transactions do: [:transaction | report add: transaction description].
+	
+	report add: anAccount balanceDescription.
+	^report ! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:43:57'!
+ERROR!
+!Account methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:44:23'!
+balanceDescription
+	self shouldBeImplemented.! !
+!Account methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:44:31' prior: 50869619!
+balanceDescription
+	self subclassResponsibility .! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:44:33'!
+ERROR!
+!ReceptiveAccount methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:44:40' overrides: 50869624!
+balanceDescription
+	self shouldBeImplemented.! !
+!ReceptiveAccount methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:44:58' prior: 50869633 overrides: 50869624!
+balanceDescription
+	^'Balance = ', self balance asString! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:45:08'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:45:08'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:45:08'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:45:08'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:45:08'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:45:08'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:45:12'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 22:45:12'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 22:45:12'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 22:45:12'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:45:12'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 22:45:12'!
+PASSED!
+
+!classDefinition: #TransferNet category: 'Portfolio-Solucion' stamp: 'PJ 11/10/2020 23:05:20'!
+Object subclass: #TransferNet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 23:05:12'!
+test06TransferNetFromANewAccountReturnsZero
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report first.! !
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/10/2020 23:05:35'!
+ERROR!
+!TransferNet class methodsFor: 'instance creation' stamp: 'PJ 11/10/2020 23:06:03'!
+for: aReceptiveAccount 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeFor: aReceptiveAccount ! !
+!TransferNet class methodsFor: 'instance creation' stamp: 'PJ 11/10/2020 23:07:23' prior: 50869711!
+for: anAccount 
+	^self new generateReportFor: anAccount ! !
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/10/2020 23:07:26'!
+ERROR!
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/10/2020 23:07:37'!
+generateReportFor: aReceptiveAccount 
+	self shouldBeImplemented.! !
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/10/2020 23:08:11' prior: 50869728!
+generateReportFor: anAccount 
+	^'Transfer Net: 0'! !
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/10/2020 23:08:14'!
+FAILURE!
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 23:08:36' prior: 50869698!
+test06TransferNetFromANewAccountReturnsZero
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/10/2020 23:08:40'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 23:08:40'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 23:08:40'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 23:08:40'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 23:08:40'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 23:08:40'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/10/2020 23:08:40'!
+PASSED!
+
+Object subclass: #Report
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Report category: 'Portfolio-Solucion' stamp: 'PJ 11/10/2020 23:09:20'!
+Object subclass: #Report
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+Report subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #AccountSummary category: 'Portfolio-Solucion' stamp: 'PJ 11/10/2020 23:10:06'!
+Report subclass: #AccountSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+Report subclass: #TransferNet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #TransferNet category: 'Portfolio-Solucion' stamp: 'PJ 11/10/2020 23:10:21'!
+Report subclass: #TransferNet
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Report methodsFor: 'nil' stamp: 'PJ 11/10/2020 23:11:11'!
+generateReportFor: anAccount
+	self subclassResponsibility ! !
+!Report class methodsFor: 'instance creation' stamp: 'PJ 11/10/2020 23:12:22'!
+for: anAccount 
+	^self new generateReportFor: anAccount ! !
+
+!methodRemoval: AccountSummary class #for: stamp: 'PJ 11/10/2020 23:12:32'!
+for: anAccount 
+	^self new generateReportFor: anAccount.!
+
+!methodRemoval: TransferNet class #for: stamp: 'PJ 11/10/2020 23:12:43'!
+for: anAccount 
+	^self new generateReportFor: anAccount !
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/10/2020 23:12:55'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/10/2020 23:12:55'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/10/2020 23:12:55'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/10/2020 23:12:55'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 23:12:55'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/10/2020 23:12:55'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/10/2020 23:12:55'!
+PASSED!
+
+----SNAPSHOT----(10 November 2020 23:13:01) CuisUniversity-4384.image priorSource: 17214394!
