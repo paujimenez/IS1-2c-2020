@@ -29089,3 +29089,942 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(10 November 2020 23:13:01) CuisUniversity-4384.image priorSource: 17214394!
+
+----QUIT----(10 November 2020 23:14:46) CuisUniversity-4384.image priorSource: 17222523!
+
+----STARTUP---- (12 November 2020 20:04:41) as C:\Users\paujimenez\Documents\Ingenieria1\cuisWindows64\19-windows64-Portfolio2\CuisUniversity-4384.image!
+
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/12/2020 21:43:54' prior: 50869604 overrides: 50869810!
+generateReportFor: anAccount 
+	
+	|report transactions|
+	report := OrderedCollection new.
+	
+	transactions := anAccount transactions.
+	transactions do: [:transaction | report add: (transaction reportTo: self)].
+	
+	report add: anAccount balanceDescription.
+	^report ! !
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 21:44:05'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 21:44:05'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 21:44:05'!
+ERROR!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 21:44:05'!
+ERROR!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 21:44:05'!
+ERROR!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 21:44:05'!
+ERROR!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 21:44:05'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 21:44:08'!
+ERROR!
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:44:42'!
+reportTo: anAccountSummary 
+	self shouldBeImplemented.! !
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:45:00' prior: 50869908!
+reportTo: anAccountSummary 
+	self subclassResponsibility.! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 21:45:02'!
+ERROR!
+!Deposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:45:09' overrides: 50869914!
+reportTo: anAccountSummary 
+	self shouldBeImplemented.! !
+!Deposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:47:24' prior: 50869923 overrides: 50869914!
+reportTo: aReport 
+	aReport reportAsDeposit: self.! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 21:48:07'!
+ERROR!
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:48:25'!
+reportAsDeposit: aDeposit 
+	self shouldBeImplemented.! !
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:48:32' prior: 50869937!
+reportAsDeposit: aDeposit 
+	self subclassResponsibility.! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 21:48:33'!
+ERROR!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:48:39' overrides: 50869942!
+reportAsDeposit: aDeposit 
+	self shouldBeImplemented.! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:49:45' prior: 50869951 overrides: 50869942!
+reportAsDeposit: aTransaction 
+	^'Depósito por ', aTransaction value asString ! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 21:50:22'!
+FAILURE!
+!Deposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:51:39' prior: 50869929 overrides: 50869914!
+reportTo: aReport 
+	^aReport reportAsDeposit: self.! !
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 21:51:41'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 21:51:57'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 21:51:57'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 21:51:57'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 21:51:57'!
+ERROR!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 21:51:57'!
+ERROR!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 21:51:57'!
+ERROR!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 21:51:57'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 21:52:07'!
+ERROR!
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:52:19' overrides: 50869914!
+reportTo: anAccountSummary 
+	self shouldBeImplemented.! !
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:53:09' prior: 50870007 overrides: 50869914!
+reportTo: aReport 
+	aReport reportAsWithdraw: self.! !
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 21:53:14'!
+ERROR!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:53:20'!
+reportAsWithdraw: aWithdraw 
+	self shouldBeImplemented.! !
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:54:02' prior: 50870013 overrides: 50869914!
+reportTo: aReport 
+	^aReport reportAsWithdraw: self.! !
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 21:56:54'!
+ERROR!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:57:29' prior: 50870022!
+reportAsWithdraw: aWithdraw 
+	^'Extracción por ', aWithdraw value asString! !
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 21:57:56'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 21:58:06'!
+ERROR!
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:58:56' overrides: 50869914!
+reportTo: anAccountSummary 
+	self shouldBeImplemented.! !
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:59:45' prior: 50870051 overrides: 50869914!
+reportTo: aReport 
+	aReport reportAsTransferWithdraw: self.! !
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 21:59:49'!
+ERROR!
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:00:06'!
+reportAsTransferWithdraw: aTransferWithdraw 
+	self shouldBeImplemented.! !
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:00:41' prior: 50870066!
+reportAsTransferWithdraw: aTransaction
+	self subclassResponsibility .! !
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:00:42'!
+ERROR!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:00:51' overrides: 50870072!
+reportAsTransferWithdraw: aTransferWithdraw 
+	self shouldBeImplemented.! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:02:03' prior: 50870082 overrides: 50870072!
+reportAsTransferWithdraw: aTransaction 
+	^'Salida por transferencia de ', aTransaction value asString ! !
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:02:10' prior: 50870057 overrides: 50869914!
+reportTo: aReport 
+	^aReport reportAsTransferWithdraw: self.! !
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:02:11'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:02:16'!
+ERROR!
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:02:35' overrides: 50869914!
+reportTo: anAccountSummary 
+	self shouldBeImplemented.! !
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:03:00' prior: 50870111 overrides: 50869914!
+reportTo: aReport
+	self subclassResponsibility.! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:03:01'!
+ERROR!
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:03:08' overrides: 50870117!
+reportTo: anAccountSummary 
+	self shouldBeImplemented.! !
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:04:36' prior: 50870126 overrides: 50870117!
+reportTo: aReport
+	aReport reportAsTransferDeposit: self.! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:04:40'!
+ERROR!
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:04:48'!
+reportAsTransferDeposit: aTransferDeposit 
+	self shouldBeImplemented.! !
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:05:29' prior: 50870141!
+reportAsTransferDeposit: aTransaction
+	^'Entrada por transferencia de ', aTransaction value asString! !
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:05:36' prior: 50870132 overrides: 50870117!
+reportTo: aReport
+	^aReport reportAsTransferDeposit: self.! !
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:05:43'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:05:50'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:05:50'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:05:50'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:05:50'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:05:50'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:05:50'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:05:50'!
+PASSED!
+
+----SNAPSHOT----(12 November 2020 22:05:56) CuisUniversity-4384.image priorSource: 17222617!
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:07:39' prior: 50870147!
+reportAsTransferDeposit: aTransaction
+	self subclassResponsibility ! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:08:34' overrides: 50870193!
+reportAsTransferDeposit: aTransaction! !
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:09:00' prior: 50870199 overrides: 50870193!
+reportAsTransferDeposit: aTransaction
+	^'Entrada por transferencia de ', aTransaction value asString! !
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:09:57'!
+reportAsWithdraw: aWithdraw 
+	self subclassResponsibility .! !
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:10:04'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:10:04'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:10:04'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:10:04'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:10:04'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:10:04'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:10:04'!
+PASSED!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:15:02'!
+test07TransferNetReturnsAReportFromAnAccountWithADeposit
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:16:33' prior: 50870241!
+test07TransferNetReturnsAReportFromAnAccountWithADeposit
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:16:35'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:16:35'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:16:35'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:16:35'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:16:35'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:16:35'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:16:35'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:16:35'!
+PASSED!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:17:25'!
+test08TransferNetReturnsAReportFromAnAccountWithAWithdraw
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Withdraw register: 100 on: account.
+	
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:18:05'!
+PASSED!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:19:05'!
+test08TransferNetReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	TransferWithdraw .
+	
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/12/2020 22:19:53'!
+test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := AccountSummary for: receiverAccount.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Entrada por transferencia de 20' equals: (report at: 1).
+	self assert: 'Balance = 20' equals: (report at: 2).! !
+
+!methodRemoval: ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:19:53'!
+test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := AccountSummary for: receiverAccount.
+	
+	self assert: 2 equals: report size.
+	self assert: 'Entrada por transferencia de 20' equals: (report at: 1).
+	self assert: 'Balance = 20' equals: (report at: 2).!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:21:22' prior: 50870292!
+test08TransferNetReturnsAReportFromAnAccountWithAWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := TransferNet for: senderAccount.
+	
+	self assert: 'Transfer Net: -20' equals: report.! !
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:21:25'!
+FAILURE!
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/12/2020 22:27:32' prior: 50869733 overrides: 50869810!
+generateReportFor: anAccount 
+	|net transactions|
+	net := 0.
+	transactions := anAccount transactions.
+	
+	transactions do: [:aTransaction | (aTransaction isKindOf: TransferWithdraw) ifTrue: [net := aTransaction affectBalance: net]].
+	
+	^'Transfer Net: ', net asString. ! !
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:27:34'!
+PASSED!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:28:56'!
+test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := TransferNet for: senderAccount.
+	
+	self assert: 'Transfer Net: -20' equals: report.! !
+
+!methodRemoval: ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:29:08'!
+test08TransferNetReturnsAReportFromAnAccountWithAWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := TransferNet for: senderAccount.
+	
+	self assert: 'Transfer Net: -20' equals: report.!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:29:22'!
+test08TransferNetReturnsAReportFromAnAccountWithAWithdraw
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	TransferWithdraw .
+	
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+
+!methodRemoval: ReportTest #test08TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:29:27'!
+test08TransferNetReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	TransferWithdraw .
+	
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:30:12' prior: 50870480!
+test08TransferNetReturnsAReportFromAnAccountWithAWithdraw
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Withdraw register: 100 on: account.
+	
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:30:24'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:30:24'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:30:24'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:30:24'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:30:24'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:30:24'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:30:24'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:30:24'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:30:25'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:30:25'!
+PASSED!
+
+Withdraw!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:31:11'!
+test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := TransferNet for: receiverAccount.
+	
+	self assert: 'Transfer Net: 20' equals: report.! !
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:31:13'!
+FAILURE!
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/12/2020 22:32:04' prior: 50870402 overrides: 50869810!
+generateReportFor: anAccount 
+	|net transactions|
+	net := 0.
+	transactions := anAccount transactions.
+	
+	transactions do: [:aTransaction | 
+		(aTransaction isKindOf: TransferWithdraw) ifTrue: [net := aTransaction affectBalance: net].
+		(aTransaction isKindOf: TransferDeposit) ifTrue: [net := aTransaction affectBalance: net].
+		].
+	
+	^'Transfer Net: ', net asString. ! !
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:32:09'!
+PASSED!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:34:18' prior: 50870550!
+test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	Transfer from: senderAccount to: receiverAccount amount: 20.	
+	report := TransferNet for: receiverAccount.
+	
+	self assert: 'Transfer Net: 40' equals: report.! !
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:34:20'!
+PASSED!
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:34:36' prior: 50870627!
+test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+		
+	report := TransferNet for: receiverAccount.
+	
+	self assert: 'Transfer Net: 20' equals: report.! !
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:34:39'!
+PASSED!
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/12/2020 22:35:32' prior: 50870569 overrides: 50869810!
+generateReportFor: anAccount 
+	|net transactions|
+	net := 0.
+	transactions := anAccount transactions.
+	
+	transactions do: [:aTransaction | 
+		(aTransaction isKindOf: TransferWithdraw) ifTrue: [net := aTransaction reportTo: self].
+		(aTransaction isKindOf: TransferDeposit) ifTrue: [net := aTransaction affectBalance: net].
+		].
+	
+	^'Transfer Net: ', net asString. ! !
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:35:37'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:35:37'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:35:37'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:35:37'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:35:37'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:35:37'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:35:37'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:35:37'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:35:38'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:35:38'!
+ERROR!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:35:38'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:35:38'!
+ERROR!
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:35:49' overrides: 50870072!
+reportAsTransferWithdraw: aTransferWithdraw 
+	self shouldBeImplemented.! !
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:38:05' prior: 50870806 overrides: 50870072!
+reportAsTransferWithdraw: aTransaction 
+	^[:aBalance | aTransaction affectBalance: aBalance]! !
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:38:10'!
+FAILURE!
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/12/2020 22:39:02' prior: 50870744 overrides: 50869810!
+generateReportFor: anAccount 
+	|net transactions|
+	net := 0.
+	transactions := anAccount transactions.
+	
+	transactions do: [:aTransaction | 
+		(aTransaction isKindOf: TransferWithdraw) ifTrue: [net := (aTransaction reportTo: self) value: net].
+		(aTransaction isKindOf: TransferDeposit) ifTrue: [net := aTransaction affectBalance: net].
+		].
+	
+	^'Transfer Net: ', net asString. ! !
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:39:16'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:39:20'!
+PASSED!
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/12/2020 22:40:27' prior: 50870823 overrides: 50869810!
+generateReportFor: anAccount 
+	|net transactions|
+	net := 0.
+	transactions := anAccount transactions.
+	
+	transactions do: [:aTransaction | 		net := (aTransaction reportTo: self) value: net].
+	
+	^'Transfer Net: ', net asString. ! !
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:40:54'!
+ERROR!
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:41:10' overrides: 50870193!
+reportAsTransferDeposit: aTransferDeposit 
+	self shouldBeImplemented.! !
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:41:24' prior: 50870901 overrides: 50870193!
+reportAsTransferDeposit: aTransaction 
+	^[:aBalance | aTransaction affectBalance: aBalance]! !
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:41:40'!
+ERROR!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:41:40'!
+ERROR!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:41:40'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:41:46'!
+ERROR!
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:41:53' overrides: 50869942!
+reportAsDeposit: aDeposit 
+	self shouldBeImplemented.! !
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:42:35' prior: 50870960 overrides: 50869942!
+reportAsDeposit: aTransaction 
+	^[:aBalance | aBalance]! !
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:42:36'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:42:38'!
+ERROR!
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:42:43' overrides: 50870210!
+reportAsWithdraw: aWithdraw 
+	self shouldBeImplemented.! !
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:42:50' prior: 50870979 overrides: 50870210!
+reportAsWithdraw: aTransaction 
+	^[:aBalance | aBalance]! !
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:42:51'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:42:55'!
+PASSED!
+
+----SNAPSHOT----(12 November 2020 22:45:01) CuisUniversity-4384.image priorSource: 17233240!
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/12/2020 22:47:23' prior: 50870886 overrides: 50869810!
+generateReportFor: anAccount 
+	|net transactions|
+	net := 0.
+	transactions := anAccount transactions.
+	
+	transactions do: [:aTransaction | 		net := (aTransaction reportTo: self) + net].
+	
+	^'Transfer Net: ', net asString. ! !
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:47:38' prior: 50870966 overrides: 50869942!
+reportAsDeposit: aTransaction 
+	^0! !
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:47:56' prior: 50870907 overrides: 50870193!
+reportAsTransferDeposit: aTransaction 
+	^aTransaction affectBalance: 0! !
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:48:13' prior: 50870812 overrides: 50870072!
+reportAsTransferWithdraw: aTransaction 
+	^aTransaction affectBalance: 0! !
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:48:24' prior: 50870985 overrides: 50870210!
+reportAsWithdraw: aTransaction 
+	^0! !
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:48:43'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PJ 11/12/2020 22:48:43'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:48:43'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:48:43'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:48:44'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:48:44'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PJ 11/12/2020 22:48:44'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PJ 11/12/2020 22:48:44'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PJ 11/12/2020 22:48:44'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PJ 11/12/2020 22:48:44'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PJ 11/12/2020 22:48:44'!
+PASSED!
+
+----SNAPSHOT----(12 November 2020 22:55:59) CuisUniversity-4384.image priorSource: 17260345!

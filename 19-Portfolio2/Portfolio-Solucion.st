@@ -383,6 +383,67 @@ TestCase subclass: #ReportTest
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/10/2020 23:08:36'!
+test06TransferNetFromANewAccountReturnsZero
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:16:33'!
+test07TransferNetReturnsAReportFromAnAccountWithADeposit
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Deposit register: 100 on: account.
+	
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:30:12'!
+test08TransferNetReturnsAReportFromAnAccountWithAWithdraw
+
+	|account report|
+	
+	account := ReceptiveAccount new.
+	Withdraw register: 100 on: account.
+	
+	report := TransferNet for: account.
+	
+	self assert: 'Transfer Net: 0' equals: report.! !
+
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:28:56'!
+test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+	
+	report := TransferNet for: senderAccount.
+	
+	self assert: 'Transfer Net: -20' equals: report.! !
+
+!ReportTest methodsFor: 'transfer net' stamp: 'PJ 11/12/2020 22:34:36'!
+test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit
+
+	|senderAccount receiverAccount report|
+	
+	receiverAccount := ReceptiveAccount new.
+	senderAccount := ReceptiveAccount new.
+	Transfer from: senderAccount to: receiverAccount amount: 20.
+		
+	report := TransferNet for: receiverAccount.
+	
+	self assert: 'Transfer Net: 20' equals: report.! !
+
+
 !ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 21:47:09'!
 test01AccountSummaryFromANewAccountReturnsBalance0
 
@@ -437,8 +498,8 @@ test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw
 	self assert: 'Salida por transferencia de 20' equals: (report at: 1).
 	self assert: 'Balance = -20' equals: (report at: 2).! !
 
-!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 22:27:31'!
-test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw
+!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/12/2020 22:19:53'!
+test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit
 
 	|senderAccount receiverAccount report|
 	
@@ -451,16 +512,6 @@ test05AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw
 	self assert: 2 equals: report size.
 	self assert: 'Entrada por transferencia de 20' equals: (report at: 1).
 	self assert: 'Balance = 20' equals: (report at: 2).! !
-
-!ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 23:08:36'!
-test06TransferNetFromANewAccountReturnsZero
-
-	|account report|
-	
-	account := ReceptiveAccount new.
-	report := TransferNet for: account.
-	
-	self assert: 'Transfer Net: 0' equals: report.! !
 
 
 !classDefinition: #Account category: 'Portfolio-Solucion'!
@@ -733,6 +784,10 @@ affectBalance: aBalance
 description
 	self subclassResponsibility! !
 
+!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:45:00'!
+reportTo: anAccountSummary 
+	self subclassResponsibility.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'AccountTransaction class' category: 'Portfolio-Solucion'!
@@ -779,6 +834,11 @@ affectBalance: aBalance
 description
 	^'Depósito por ', value asString ! !
 
+
+!Deposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:51:39'!
+reportTo: aReport 
+	^aReport reportAsDeposit: self.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Deposit class' category: 'Portfolio-Solucion'!
@@ -803,6 +863,10 @@ initializeOn: aReceiverAccount for: aTransfer
 
 	transfer := aTransfer.
 	aReceiverAccount register: self.! !
+
+!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:03:00'!
+reportTo: aReport
+	self subclassResponsibility.! !
 
 !TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:19:11'!
 transfer
@@ -837,6 +901,10 @@ affectBalance: aBalance
 
 	^aBalance + transfer value.! !
 
+!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:05:36'!
+reportTo: aReport
+	^aReport reportAsTransferDeposit: self.! !
+
 
 !TransferDeposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:27'!
 description
@@ -854,6 +922,10 @@ TransferTransaction subclass: #TransferWithdraw
 affectBalance: aBalance
 
 	^aBalance - transfer value.! !
+
+!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:02:10'!
+reportTo: aReport 
+	^aReport reportAsTransferWithdraw: self.! !
 
 
 !TransferWithdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:01'!
@@ -890,6 +962,11 @@ affectBalance: aBalance
 description
 	^'Extracción por ', value asString ! !
 
+
+!Withdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:54:02'!
+reportTo: aReport 
+	^aReport reportAsWithdraw: self.! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Withdraw class' category: 'Portfolio-Solucion'!
@@ -913,6 +990,23 @@ Object subclass: #Report
 generateReportFor: anAccount
 	self subclassResponsibility ! !
 
+
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:48:32'!
+reportAsDeposit: aDeposit 
+	self subclassResponsibility.! !
+
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:07:39'!
+reportAsTransferDeposit: aTransaction
+	self subclassResponsibility ! !
+
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:00:41'!
+reportAsTransferWithdraw: aTransaction
+	self subclassResponsibility .! !
+
+!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:09:57'!
+reportAsWithdraw: aWithdraw 
+	self subclassResponsibility .! !
+
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
 !classDefinition: 'Report class' category: 'Portfolio-Solucion'!
@@ -931,17 +1025,34 @@ Report subclass: #AccountSummary
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!AccountSummary methodsFor: 'private' stamp: 'PJ 11/10/2020 22:43:41'!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/12/2020 21:43:54'!
 generateReportFor: anAccount 
 	
 	|report transactions|
 	report := OrderedCollection new.
 	
 	transactions := anAccount transactions.
-	transactions do: [:transaction | report add: transaction description].
+	transactions do: [:transaction | report add: (transaction reportTo: self)].
 	
 	report add: anAccount balanceDescription.
 	^report ! !
+
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:49:45'!
+reportAsDeposit: aTransaction 
+	^'Depósito por ', aTransaction value asString ! !
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:09:00'!
+reportAsTransferDeposit: aTransaction
+	^'Entrada por transferencia de ', aTransaction value asString! !
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:02:03'!
+reportAsTransferWithdraw: aTransaction 
+	^'Salida por transferencia de ', aTransaction value asString ! !
+
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:57:29'!
+reportAsWithdraw: aWithdraw 
+	^'Extracción por ', aWithdraw value asString! !
 
 
 !classDefinition: #TransferNet category: 'Portfolio-Solucion'!
@@ -951,9 +1062,32 @@ Report subclass: #TransferNet
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferNet methodsFor: 'private' stamp: 'PJ 11/10/2020 23:08:11'!
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/12/2020 22:47:23'!
 generateReportFor: anAccount 
-	^'Transfer Net: 0'! !
+	|net transactions|
+	net := 0.
+	transactions := anAccount transactions.
+	
+	transactions do: [:aTransaction | 		net := (aTransaction reportTo: self) + net].
+	
+	^'Transfer Net: ', net asString. ! !
+
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:47:38'!
+reportAsDeposit: aTransaction 
+	^0! !
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:47:56'!
+reportAsTransferDeposit: aTransaction 
+	^aTransaction affectBalance: 0! !
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:48:13'!
+reportAsTransferWithdraw: aTransaction 
+	^aTransaction affectBalance: 0! !
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:48:24'!
+reportAsWithdraw: aTransaction 
+	^0! !
 
 
 !classDefinition: #Transfer category: 'Portfolio-Solucion'!
