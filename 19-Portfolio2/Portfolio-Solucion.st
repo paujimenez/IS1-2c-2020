@@ -247,6 +247,16 @@ test18PortfolioWithTwoAccountsCanHaveAName
 	self assert: portfolioName equals: johnsPortfolio accountName.
 ! !
 
+!PortfolioTest methodsFor: 'tests' stamp: 'PJ 11/15/2020 18:29:38'!
+test19PortfolioWithoutANameReturnsDefault
+	
+	| johnsPortfolio portfolioName |
+	portfolioName := 'a Portfolio'.
+	johnsPortfolio := Portfolio new.
+	
+	self assert: portfolioName equals: johnsPortfolio accountName.
+! !
+
 
 !classDefinition: #ReceptiveAccountTest category: 'Portfolio-Solucion'!
 TestCase subclass: #ReceptiveAccountTest
@@ -344,6 +354,16 @@ test12ReceptiveAccountCanHaveAName
 	| johnsAccount accountName |
 	accountName := 'Cuenta de Juan'.
 	johnsAccount := ReceptiveAccount named: accountName.
+	
+	self assert: accountName equals: johnsAccount accountName.
+! !
+
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'PJ 11/15/2020 18:27:06'!
+test13ReceptiveAccountWithoutANameReturnsDefault
+	
+	| johnsAccount accountName |
+	accountName := 'a Receptive Account'.
+	johnsAccount := ReceptiveAccount new.
 	
 	self assert: accountName equals: johnsAccount accountName.
 ! !
@@ -505,18 +525,6 @@ test11TransferNetWorksWithAPortfolio
 	
 	self assert: 'Transfer Net: -45' equals: report.! !
 
-!ReportTest methodsFor: 'transfer net' stamp: 'PGTA 11/14/2020 23:19:31'!
-test12PortfolioStructureWithoutAccountsReturnsPortfolioName
-
-	| portfolio portfolioName report |
-	
-	portfolioName := 'Portfolio de Juan'.
-	portfolio := Portfolio named: portfolioName.
-		
-	report := PortfolioStructure for: portfolio.
-	
-	self assert: portfolioName equals: report.! !
-
 
 !ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 21:47:09'!
 test01AccountSummaryFromANewAccountReturnsBalance0
@@ -586,6 +594,19 @@ test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit
 	self assert: 2 equals: report size.
 	self assert: 'Entrada por transferencia de 20' equals: (report at: 1).
 	self assert: 'Balance = 20' equals: (report at: 2).! !
+
+
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/14/2020 23:19:31'!
+test12PortfolioStructureWithoutAccountsReturnsPortfolioName
+
+	| portfolio portfolioName report |
+	
+	portfolioName := 'Portfolio de Juan'.
+	portfolio := Portfolio named: portfolioName.
+		
+	report := PortfolioStructure for: portfolio.
+	
+	self assert: portfolioName equals: report.! !
 
 
 !classDefinition: #Account category: 'Portfolio-Solucion'!
@@ -685,9 +706,10 @@ rootParents
 	^ rootParents! !
 
 
-!Portfolio methodsFor: 'initialization' stamp: 'HAW 5/25/2019 12:03:18'!
+!Portfolio methodsFor: 'initialization' stamp: 'PJ 11/15/2020 18:30:32'!
 initialize
 
+	accountName := 'a Portfolio'.
 	accounts := OrderedCollection new.
 	parents := OrderedCollection new.! !
 
@@ -821,10 +843,11 @@ Account subclass: #ReceptiveAccount
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!ReceptiveAccount methodsFor: 'initialization' stamp: 'HernanWilkinson 7/13/2011 18:35'!
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'PJ 11/15/2020 18:27:55'!
 initialize
 
 	super initialize.
+	accountName := 'a Receptive Account'.
 	transactions := OrderedCollection new.! !
 
 !ReceptiveAccount methodsFor: 'initialization' stamp: 'PGTA 11/14/2020 22:48:04'!
