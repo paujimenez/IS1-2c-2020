@@ -578,6 +578,10 @@ balanceDescription
 	self subclassResponsibility .! !
 
 
+!Account methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:55:18'!
+report: myTransactions To: aReport 
+	myTransactions do: [:aTransaction |aTransaction reportTo: aReport ].! !
+
 !Account methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 23:19:40'!
 reportTo: aReport 
 	self subclassResponsibility.! !
@@ -695,9 +699,9 @@ signalCanNotAddAccount
 	self error: self class canNotAddAccountErrorMessage! !
 
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 23:20:04'!
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:33:55'!
 reportTo: aReport 
-	self transactions do: [:aTransaction | 	aReport reportTransactionInfo: (aTransaction reportTo: aReport )].! !
+	self report: self transactions To: aReport .! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -784,14 +788,9 @@ addedTo: aPortfolio
 	! !
 
 
-!ReceptiveAccount methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:44:58'!
-balanceDescription
-	^'Balance = ', self balance asString! !
-
-
-!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 23:11:39'!
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:34:15'!
 reportTo: aReport 
-	transactions do: [:aTransaction | 	aReport reportTransactionInfo: (aTransaction reportTo: aReport )].! !
+	self report: transactions To: aReport .! !
 
 
 !classDefinition: #AccountTransaction category: 'Portfolio-Solucion'!
@@ -1053,39 +1052,37 @@ for: anAccount
 
 !classDefinition: #AccountSummary category: 'Portfolio-Solucion'!
 Report subclass: #AccountSummary
-	instanceVariableNames: ''
+	instanceVariableNames: 'summary'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!AccountSummary methodsFor: 'private' stamp: 'PJ 11/12/2020 21:43:54'!
+!AccountSummary methodsFor: 'private' stamp: 'PJ 11/14/2020 21:14:01'!
 generateReportFor: anAccount 
 	
-	|report transactions|
-	report := OrderedCollection new.
+	summary := OrderedCollection new.
 	
-	transactions := anAccount transactions.
-	transactions do: [:transaction | report add: (transaction reportTo: self)].
+	anAccount reportTo: self.
 	
-	report add: anAccount balanceDescription.
-	^report ! !
+	summary add: ('Balance = ', anAccount balance asString).
+	^summary! !
 
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:49:45'!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 21:02:39'!
 reportAsDeposit: aTransaction 
-	^'Depósito por ', aTransaction value asString ! !
+	summary add: ('Depósito por ', aTransaction value asString)! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:09:00'!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 21:02:53'!
 reportAsTransferDeposit: aTransaction
-	^'Entrada por transferencia de ', aTransaction value asString! !
+	summary add: ('Entrada por transferencia de ', aTransaction value asString)! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:02:03'!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 21:03:01'!
 reportAsTransferWithdraw: aTransaction 
-	^'Salida por transferencia de ', aTransaction value asString ! !
+	summary add: ('Salida por transferencia de ', aTransaction value asString)! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:57:29'!
+!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 21:04:00'!
 reportAsWithdraw: aWithdraw 
-	^'Extracción por ', aWithdraw value asString! !
+	summary add: ('Extracción por ', aWithdraw value asString)! !
 
 
 !classDefinition: #TransferNet category: 'Portfolio-Solucion'!
@@ -1104,22 +1101,27 @@ generateReportFor: anAccount
 		
 	^'Transfer Net: ', netValue asString. ! !
 
+!TransferNet methodsFor: 'private' stamp: 'PJ 11/14/2020 20:54:58'!
+reportAffectedBalance: aTransaction
+	
+	^netValue := aTransaction affectBalance: netValue.! !
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:47:38'!
+
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:53:44'!
 reportAsDeposit: aTransaction 
-	^0! !
+	! !
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:47:56'!
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:43:41'!
 reportAsTransferDeposit: aTransaction 
-	^aTransaction affectBalance: 0! !
+	^self reportAffectedBalance: aTransaction! !
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:48:13'!
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:44:00'!
 reportAsTransferWithdraw: aTransaction 
-	^aTransaction affectBalance: 0! !
+	^self reportAffectedBalance: aTransaction! !
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:48:24'!
+!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:53:51'!
 reportAsWithdraw: aTransaction 
-	^0! !
+	! !
 
 !TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 23:14:20'!
 reportTransactionInfo: aValue 
