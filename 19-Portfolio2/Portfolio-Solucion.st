@@ -596,7 +596,7 @@ test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit
 	self assert: 'Balance = 20' equals: (report at: 2).! !
 
 
-!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/14/2020 23:19:31'!
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 19:29:34'!
 test12PortfolioStructureWithoutAccountsReturnsPortfolioName
 
 	| portfolio portfolioName report |
@@ -606,7 +606,39 @@ test12PortfolioStructureWithoutAccountsReturnsPortfolioName
 		
 	report := PortfolioStructure for: portfolio.
 	
-	self assert: portfolioName equals: report.! !
+	self assert: portfolioName equals: report first.! !
+
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 19:01:27'!
+test13PortfolioStructureWithOneAccount
+
+	| portfolio portfolioName report account accountName |
+	
+	accountName := 'Cuenta de Juan'.
+	account := 	ReceptiveAccount named: accountName.
+	
+	portfolioName := 'Portfolio de Juan'.
+	portfolio := Portfolio named: portfolioName with: account.
+	
+	report := PortfolioStructure for: portfolio.
+	
+	self assert: portfolioName equals: (report at: 1).
+	self assert: ('	', accountName) equals: (report at: 2).! !
+
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 19:33:34'!
+test14PortfolioStructureWithOnePortfolioIndentsCorrectly
+
+	| portfolio1 portfolio2 portfolioName1 portfolioName2 report |
+	
+	portfolioName1 := 'Portfolio hijo'.
+	portfolio1 := Portfolio named: portfolioName1.
+	
+	portfolioName2 := 'Portfolio padre'.
+	portfolio2 := Portfolio named: portfolioName2 with: portfolio1.
+	
+	report := PortfolioStructure for: portfolio2.
+	
+	self assert: portfolioName2 equals: (report at: 1).
+	self assert: ('	', portfolioName1) equals: (report at: 2).! !
 
 
 !classDefinition: #Account category: 'Portfolio-Solucion'!
@@ -786,6 +818,11 @@ signalCanNotAddAccount
 accountName
 	^accountName! !
 
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:31:05'!
+reportStructureTo: aReport  forLevel: aLevel
+	aReport reportAsPortfolio: self forLevel: aLevel.
+	accounts do: [:anAccount | anAccount reportStructureTo: aReport  forLevel: (aLevel+1)].! !
+
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:33:55'!
 reportTo: aReport 
 	self report: self transactions To: aReport .! !
@@ -903,6 +940,10 @@ addedTo: aPortfolio
 !ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 22:45:53'!
 accountName
 	^accountName.! !
+
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:40:52'!
+reportStructureTo: aReport forLevel: aLevel
+	aReport reportAsReceptiveAccount: self forLevel: aLevel.! !
 
 !ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:34:15'!
 reportTo: aReport 
@@ -1213,14 +1254,33 @@ reportAsWithdraw: aWithdraw
 
 !classDefinition: #PortfolioStructure category: 'Portfolio-Solucion'!
 Report subclass: #PortfolioStructure
-	instanceVariableNames: ''
+	instanceVariableNames: 'structure'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 23:20:58'!
+!PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:39:32'!
+generateIndentationFor: aLevel
+	^'' padded: #left to: aLevel with: $	! !
+
+!PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:28:53'!
 generateReportFor: aPortfolio 
-	^aPortfolio accountName.! !
+	structure := OrderedCollection new.
+	aPortfolio reportStructureTo: self forLevel: 0.
+	^structure.! !
+
+!PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:41:58'!
+reportAsReceptiveAccount: aReceptiveAccount forLevel: aLevel
+	| accountString |
+	accountString := self generateIndentationFor: aLevel.
+	structure add: (accountString, aReceptiveAccount accountName).! !
+
+
+!PortfolioStructure methodsFor: 'accessing' stamp: 'PGTA 11/15/2020 20:34:07'!
+reportAsPortfolio: aPortfolio forLevel: aLevel
+	| accountString |
+	accountString := self generateIndentationFor: aLevel.
+	structure add: (accountString, aPortfolio accountName).! !
 
 
 !classDefinition: #TransferNet category: 'Portfolio-Solucion'!
