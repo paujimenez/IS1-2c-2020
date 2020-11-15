@@ -213,6 +213,40 @@ test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd
 			self assert: Portfolio canNotAddAccountErrorMessage equals: anError messageText.
 			self assert: portfolioToModify accountsIsEmpty ]! !
 
+!PortfolioTest methodsFor: 'tests' stamp: 'PGTA 11/14/2020 22:49:17'!
+test16PortfolioCanHaveAName
+	
+	| johnsPortfolio accountName |
+	accountName := 'Cuenta de Juan'.
+	johnsPortfolio := Portfolio named: accountName.
+	
+	self assert: accountName equals: johnsPortfolio accountName.
+! !
+
+!PortfolioTest methodsFor: 'tests' stamp: 'PGTA 11/14/2020 22:57:00'!
+test17PortfolioWithAnAccountCanHaveAName
+	
+	| johnsPortfolio portfolioName account |
+	account := ReceptiveAccount new.
+	portfolioName := 'Cuenta de Juan'.
+	johnsPortfolio := Portfolio named: portfolioName with: account.
+	
+	self assert: portfolioName equals: johnsPortfolio accountName.
+! !
+
+!PortfolioTest methodsFor: 'tests' stamp: 'PGTA 11/14/2020 23:05:23'!
+test18PortfolioWithTwoAccountsCanHaveAName
+	
+	| johnsPortfolio portfolioName account1 account2 |
+	account1 := ReceptiveAccount new.
+	account2 := ReceptiveAccount new.
+	
+	portfolioName := 'Cuenta de Juan'.
+	johnsPortfolio := Portfolio named: portfolioName with: account1 with: account2.
+	
+	self assert: portfolioName equals: johnsPortfolio accountName.
+! !
+
 
 !classDefinition: #ReceptiveAccountTest category: 'Portfolio-Solucion'!
 TestCase subclass: #ReceptiveAccountTest
@@ -302,6 +336,16 @@ test07AccountKnowsItsTransactions
 		
 	self assert: 1 equals: account transactions size .
 	self assert: (account transactions includes: deposit).
+! !
+
+!ReceptiveAccountTest methodsFor: 'account tests' stamp: 'PGTA 11/14/2020 22:42:38'!
+test12ReceptiveAccountCanHaveAName
+	
+	| johnsAccount accountName |
+	accountName := 'Cuenta de Juan'.
+	johnsAccount := ReceptiveAccount named: accountName.
+	
+	self assert: accountName equals: johnsAccount accountName.
 ! !
 
 
@@ -461,6 +505,18 @@ test11TransferNetWorksWithAPortfolio
 	
 	self assert: 'Transfer Net: -45' equals: report.! !
 
+!ReportTest methodsFor: 'transfer net' stamp: 'PGTA 11/14/2020 23:19:31'!
+test12PortfolioStructureWithoutAccountsReturnsPortfolioName
+
+	| portfolio portfolioName report |
+	
+	portfolioName := 'Portfolio de Juan'.
+	portfolio := Portfolio named: portfolioName.
+		
+	report := PortfolioStructure for: portfolio.
+	
+	self assert: portfolioName equals: report.! !
+
 
 !ReportTest methodsFor: 'account summary' stamp: 'PJ 11/10/2020 21:47:09'!
 test01AccountSummaryFromANewAccountReturnsBalance0
@@ -589,7 +645,7 @@ reportTo: aReport
 
 !classDefinition: #Portfolio category: 'Portfolio-Solucion'!
 Account subclass: #Portfolio
-	instanceVariableNames: 'accounts parents'
+	instanceVariableNames: 'accounts parents name accountName'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
@@ -634,6 +690,11 @@ initialize
 
 	accounts := OrderedCollection new.
 	parents := OrderedCollection new.! !
+
+!Portfolio methodsFor: 'initialization' stamp: 'PGTA 11/14/2020 22:50:56'!
+initializeWithName: aName 
+	self initialize.
+	accountName := aName.! !
 
 
 !Portfolio methodsFor: 'balance' stamp: 'HAW 5/25/2019 11:19:36'!
@@ -699,6 +760,10 @@ signalCanNotAddAccount
 	self error: self class canNotAddAccountErrorMessage! !
 
 
+!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 22:51:15'!
+accountName
+	^accountName! !
+
 !Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:33:55'!
 reportTo: aReport 
 	self report: self transactions To: aReport .! !
@@ -713,6 +778,25 @@ Portfolio class
 canNotAddAccountErrorMessage
 	
 	^'Can not add repeated account to a portfolio!!'! !
+
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 22:50:18'!
+named: aName 
+	^self new initializeWithName: aName.! !
+
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 23:02:50'!
+named: aName with: anAccount 
+	
+	^self new initializeWithName: aName;
+		add: anAccount;
+		yourself! !
+
+!Portfolio class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 23:05:06'!
+named: aName with: anAccount with: anotherAccount
+	
+	^self new initializeWithName: aName;
+		add: anAccount;
+		add: anotherAccount;
+		yourself! !
 
 !Portfolio class methodsFor: 'as yet unclassified' stamp: 'HAW 5/25/2019 11:18:21'!
 with: anAccount
@@ -732,7 +816,7 @@ with: anAccount with: anotherAccount
 
 !classDefinition: #ReceptiveAccount category: 'Portfolio-Solucion'!
 Account subclass: #ReceptiveAccount
-	instanceVariableNames: 'transactions'
+	instanceVariableNames: 'transactions accountName'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
@@ -742,6 +826,11 @@ initialize
 
 	super initialize.
 	transactions := OrderedCollection new.! !
+
+!ReceptiveAccount methodsFor: 'initialization' stamp: 'PGTA 11/14/2020 22:48:04'!
+initializeWithName: aName 
+	self initialize.
+	accountName := aName.! !
 
 
 !ReceptiveAccount methodsFor: 'transactions' stamp: 'NR 11/9/2020 05:56:36'!
@@ -788,9 +877,23 @@ addedTo: aPortfolio
 	! !
 
 
+!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 22:45:53'!
+accountName
+	^accountName.! !
+
 !ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:34:15'!
 reportTo: aReport 
 	self report: transactions To: aReport .! !
+
+"-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
+
+!classDefinition: 'ReceptiveAccount class' category: 'Portfolio-Solucion'!
+ReceptiveAccount class
+	instanceVariableNames: ''!
+
+!ReceptiveAccount class methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 22:47:12'!
+named: aName
+	^self new initializeWithName: aName.! !
 
 
 !classDefinition: #AccountTransaction category: 'Portfolio-Solucion'!
@@ -1085,6 +1188,18 @@ reportAsWithdraw: aWithdraw
 	summary add: ('Extracción por ', aWithdraw value asString)! !
 
 
+!classDefinition: #PortfolioStructure category: 'Portfolio-Solucion'!
+Report subclass: #PortfolioStructure
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 23:20:58'!
+generateReportFor: aPortfolio 
+	^aPortfolio accountName.! !
+
+
 !classDefinition: #TransferNet category: 'Portfolio-Solucion'!
 Report subclass: #TransferNet
 	instanceVariableNames: 'netValue'
@@ -1122,10 +1237,6 @@ reportAsTransferWithdraw: aTransaction
 !TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:53:51'!
 reportAsWithdraw: aTransaction 
 	! !
-
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 23:14:20'!
-reportTransactionInfo: aValue 
-	netValue := netValue + aValue.! !
 
 
 !classDefinition: #Transfer category: 'Portfolio-Solucion'!
