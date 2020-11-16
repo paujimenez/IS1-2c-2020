@@ -33348,3 +33348,1752 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(15 November 2020 21:34:23) CuisUniversity-4384.image priorSource: 17226998!
+
+----SNAPSHOT----(15 November 2020 21:37:22) CuisUniversity-4384.image priorSource: 17256764!
+
+----QUIT----(15 November 2020 21:37:26) CuisUniversity-4384.image priorSource: 17256858!
+
+----STARTUP---- (16 November 2020 15:30:04) as /home/pablo/Documents/Ingenieria1/cuis_portfolio2/CuisUniversity-4384.image!
+
+
+!methodRemoval: Withdraw #description stamp: 'PGTA 11/16/2020 15:33:03'!
+description
+	^'Extracción por ', value asString !
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:33:22'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:33:27'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 15:33:33'!
+PASSED!
+
+!methodRemoval: Deposit #description stamp: 'PGTA 11/16/2020 15:40:06'!
+description
+	^'Depósito por ', value asString !
+
+!methodRemoval: TransferDeposit #description stamp: 'PGTA 11/16/2020 15:40:28'!
+description
+	^'Entrada por transferencia de ', self value asString!
+
+!methodRemoval: TransferWithdraw #description stamp: 'PGTA 11/16/2020 15:40:37'!
+description
+	^'Salida por transferencia de ', self value asString !
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 15:41:01'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 15:41:27'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 15:41:28'!
+PASSED!
+
+!methodRemoval: AccountTransaction #description stamp: 'PGTA 11/16/2020 15:41:50'!
+description
+	self subclassResponsibility!
+
+!methodRemoval: Account #balanceDescription stamp: 'PGTA 11/16/2020 15:46:54'!
+balanceDescription
+	self subclassResponsibility .!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 15:47:10'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 15:56:30'!
+PASSED!
+
+----SNAPSHOT----(16 November 2020 15:56:35) CuisUniversity-4384.image priorSource: 17256952!
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion' stamp: 'PGTA 11/16/2020 16:18:08'!
+Object subclass: #Transfer
+	instanceVariableNames: 'deposit withdraw value transferReceiver'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion' stamp: 'PGTA 11/16/2020 16:18:09'!
+Object subclass: #Transfer
+	instanceVariableNames: 'deposit withdraw value transferReceiver transferSender'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/16/2020 16:18:06' prior: 50869193!
+initializeFrom: aSenderAccount to: aReceiverAccount amount: anAmount
+	
+	value := anAmount.
+	transferReceiver := TransferDeposit registerOn: aReceiverAccount for: self.
+	transferSender := TransferWithdraw registerOn: aSenderAccount for: self.! !
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/16/2020 16:18:27' prior: 50869189!
+deposit
+	
+	^transferReceiver.! !
+!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/16/2020 16:18:35' prior: 50869207!
+withdraw
+	
+	^transferSender.! !
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 16:18:39'!
+PASSED!
+
+Object subclass: #Transfer
+	instanceVariableNames: 'value transferReceiver transferSender'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion' stamp: 'PGTA 11/16/2020 16:19:08'!
+Object subclass: #Transfer
+	instanceVariableNames: 'value transferReceiver transferSender'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 16:19:12'!
+PASSED!
+
+----SNAPSHOT----(16 November 2020 16:19:18) CuisUniversity-4384.image priorSource: 17288376!
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion' stamp: 'PGTA 11/16/2020 16:22:35'!
+Object subclass: #Transfer
+	instanceVariableNames: 'value transferReceiver transferSender receivedTransaction'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion' stamp: 'PGTA 11/16/2020 16:22:36'!
+Object subclass: #Transfer
+	instanceVariableNames: 'value transferReceiver transferSender receivedTransaction sendTransaction'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!Transfer methodsFor: 'private' stamp: 'PGTA 11/16/2020 16:22:34' prior: 50871933!
+initializeFrom: aSenderAccount to: aReceiverAccount amount: anAmount
+	
+	value := anAmount.
+	receivedTransaction := TransferDeposit registerOn: aReceiverAccount for: self.
+	sendTransaction := TransferWithdraw registerOn: aSenderAccount for: self.! !
+!Transfer methodsFor: 'private' stamp: 'PGTA 11/16/2020 16:22:52' prior: 50871944!
+deposit
+	
+	^receivedTransaction.! !
+!Transfer methodsFor: 'private' stamp: 'PGTA 11/16/2020 16:23:06' prior: 50871948!
+withdraw
+	
+	^sendTransaction.! !
+
+Object subclass: #Transfer
+	instanceVariableNames: 'value receivedTransaction sendTransaction'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!classDefinition: #Transfer category: 'Portfolio-Solucion' stamp: 'PGTA 11/16/2020 16:23:15'!
+Object subclass: #Transfer
+	instanceVariableNames: 'value receivedTransaction sendTransaction'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 16:23:17'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 16:23:18'!
+PASSED!
+
+----SNAPSHOT----(16 November 2020 16:23:21) CuisUniversity-4384.image priorSource: 17302077!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 16:32:34'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 16:32:35'!
+PASSED!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 16:32:40'!
+PASSED!
+
+----SNAPSHOT----(16 November 2020 16:32:44) CuisUniversity-4384.image priorSource: 17309809!
+
+!testRun: #PortfolioTest #test01BalanceOfPortfolioWithoutAccountsIsZero stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test02BalanceOfPortfolioWithOneAccountIsAccountBalance stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test03BalanceOfPortfolioIsCalculatedRecursivelyOnPortfolios stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test04PortfolioWithoutAccountsHasNoRegisteredTransaction stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test05PortfolioHasRegisteredItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test06PortfolioLooksForRegisteredTransactionsRecursively stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test07PortfolioHasNoTransactionWhenHasNoAccounts stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test08PortfolioTransactionsIncludesAllItsAccountsTransactions stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test09PortfolioTransactionsAreCalculatedRecursively stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test10PortfolioCanNotIncludeTheSameAccountMoreThanOnce stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test11PortfolioCanNotIncludeAccountOfItsPortfolios stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test12PortfolioCanNotIncludeItself stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test13ComposedPortfolioCanNotHaveParentPortfolioAccount stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test14ComposedPortfolioCanNotHaveAccountOfAnyRootParentRecursively stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test15PortfolioCanNotIncludeAnyOfTheComposedAccountOfPortfolioToAdd stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test16PortfolioCanHaveAName stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test17PortfolioWithAnAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test18PortfolioWithTwoAccountsCanHaveAName stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #PortfolioTest #test19PortfolioWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test01ReceptiveAccountHaveZeroAsBalanceWhenCreated stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test02DepositIncreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test03WithdrawDecreasesBalanceOnTransactionValue stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test04WithdrawValueMustBePositive stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test05ReceptiveAccountKnowsRegisteredTransactions stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test06ReceptiveAccountDoNotKnowNotRegisteredTransactions stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test07AccountKnowsItsTransactions stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test08TransferSenderAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test09TransferReceiverAccountAcknowledgesTransferTransactions stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test10TransferDepositAndWithdrawCanNavigateToTransfer stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test11TransferDepositAndWithdrawKnowTheTransferAmount stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test12ReceptiveAccountCanHaveAName stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReceptiveAccountTest #test13ReceptiveAccountWithoutANameReturnsDefault stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/16/2020 16:47:33'!
+PASSED!
+
+----SNAPSHOT----(16 November 2020 16:47:37) CuisUniversity-4384.image priorSource: 17321913!

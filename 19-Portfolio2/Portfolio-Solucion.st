@@ -713,6 +713,11 @@ isComposedBy: anAccount
 
 	self subclassResponsibility ! !
 
+!Account methodsFor: 'testing' stamp: 'HAW 5/25/2019 12:23:15'!
+transactions
+
+	self subclassResponsibility ! !
+
 
 !Account methodsFor: 'balance' stamp: 'HAW 5/25/2019 12:23:40'!
 balance
@@ -725,11 +730,6 @@ addTransactionsTo: aCollectionOfTransactions
 
 	self subclassResponsibility ! !
 
-!Account methodsFor: 'transactions' stamp: 'HAW 5/25/2019 12:23:15'!
-transactions
-
-	self subclassResponsibility ! !
-
 
 !Account methodsFor: 'composition' stamp: 'HAW 5/25/2019 12:24:04'!
 addedTo: aPortfolio
@@ -737,16 +737,11 @@ addedTo: aPortfolio
 	self subclassResponsibility ! !
 
 
-!Account methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:44:31'!
-balanceDescription
-	self subclassResponsibility .! !
-
-
-!Account methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:55:18'!
+!Account methodsFor: 'reports' stamp: 'PJ 11/14/2020 20:55:18'!
 report: myTransactions To: aReport 
 	myTransactions do: [:aTransaction |aTransaction reportTo: aReport ].! !
 
-!Account methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 23:19:40'!
+!Account methodsFor: 'reports' stamp: 'PJ 11/12/2020 23:19:40'!
 reportTo: aReport 
 	self subclassResponsibility.! !
 
@@ -869,16 +864,16 @@ signalCanNotAddAccount
 	self error: self class canNotAddAccountErrorMessage! !
 
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 22:51:15'!
+!Portfolio methodsFor: 'reports' stamp: 'PGTA 11/14/2020 22:51:15'!
 accountName
 	^accountName! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:31:05'!
+!Portfolio methodsFor: 'reports' stamp: 'PGTA 11/15/2020 20:31:05'!
 reportStructureTo: aReport  forLevel: aLevel
 	aReport reportAsPortfolio: self forLevel: aLevel.
 	accounts do: [:anAccount | anAccount reportStructureTo: aReport  forLevel: (aLevel+1)].! !
 
-!Portfolio methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:33:55'!
+!Portfolio methodsFor: 'reports' stamp: 'PJ 11/14/2020 20:33:55'!
 reportTo: aReport 
 	self report: self transactions To: aReport .! !
 
@@ -992,15 +987,15 @@ addedTo: aPortfolio
 	! !
 
 
-!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PGTA 11/14/2020 22:45:53'!
+!ReceptiveAccount methodsFor: 'reports' stamp: 'PGTA 11/14/2020 22:45:53'!
 accountName
 	^accountName.! !
 
-!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:40:52'!
+!ReceptiveAccount methodsFor: 'reports' stamp: 'PGTA 11/15/2020 20:40:52'!
 reportStructureTo: aReport forLevel: aLevel
 	aReport reportAsReceptiveAccount: self forLevel: aLevel.! !
 
-!ReceptiveAccount methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:34:15'!
+!ReceptiveAccount methodsFor: 'reports' stamp: 'PJ 11/14/2020 20:34:15'!
 reportTo: aReport 
 	self report: transactions To: aReport .! !
 
@@ -1034,11 +1029,7 @@ affectBalance: aBalance
 	self subclassResponsibility ! !
 
 
-!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:38:23'!
-description
-	self subclassResponsibility! !
-
-!AccountTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:45:00'!
+!AccountTransaction methodsFor: 'reports' stamp: 'PJ 11/12/2020 21:45:00'!
 reportTo: anAccountSummary 
 	self subclassResponsibility.! !
 
@@ -1084,12 +1075,7 @@ affectBalance: aBalance
 	^aBalance + value ! !
 
 
-!Deposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:39:34'!
-description
-	^'Depósito por ', value asString ! !
-
-
-!Deposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:51:39'!
+!Deposit methodsFor: 'reports' stamp: 'PJ 11/12/2020 21:51:39'!
 reportTo: aReport 
 	^aReport reportAsDeposit: self.! !
 
@@ -1112,23 +1098,25 @@ AccountTransaction subclass: #TransferTransaction
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:20:23'!
+!TransferTransaction methodsFor: 'private' stamp: 'PJ 11/10/2020 21:19:11'!
+transfer
+	^transfer! !
+
+!TransferTransaction methodsFor: 'private' stamp: 'PJ 11/10/2020 22:23:50'!
+value
+	^transfer value.! !
+
+
+!TransferTransaction methodsFor: 'initialization' stamp: 'PJ 11/10/2020 21:20:23'!
 initializeOn: aReceiverAccount for: aTransfer
 
 	transfer := aTransfer.
 	aReceiverAccount register: self.! !
 
-!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:03:00'!
+
+!TransferTransaction methodsFor: 'reports' stamp: 'PJ 11/12/2020 22:03:00'!
 reportTo: aReport
 	self subclassResponsibility.! !
-
-!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:19:11'!
-transfer
-	^transfer! !
-
-!TransferTransaction methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:23:50'!
-value
-	^transfer value.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -1150,19 +1138,15 @@ TransferTransaction subclass: #TransferDeposit
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:20:14'!
+!TransferDeposit methodsFor: 'balance' stamp: 'PJ 11/10/2020 21:20:14'!
 affectBalance: aBalance
 
 	^aBalance + transfer value.! !
 
-!TransferDeposit methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:05:36'!
+
+!TransferDeposit methodsFor: 'reports' stamp: 'PJ 11/12/2020 22:05:36'!
 reportTo: aReport
 	^aReport reportAsTransferDeposit: self.! !
-
-
-!TransferDeposit methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:27'!
-description
-	^'Entrada por transferencia de ', self value asString! !
 
 
 !classDefinition: #TransferWithdraw category: 'Portfolio-Solucion'!
@@ -1172,19 +1156,15 @@ TransferTransaction subclass: #TransferWithdraw
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 21:19:54'!
-affectBalance: aBalance
-
-	^aBalance - transfer value.! !
-
-!TransferWithdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:02:10'!
+!TransferWithdraw methodsFor: 'reports' stamp: 'PJ 11/12/2020 22:02:10'!
 reportTo: aReport 
 	^aReport reportAsTransferWithdraw: self.! !
 
 
-!TransferWithdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:41:01'!
-description
-	^'Salida por transferencia de ', self value asString ! !
+!TransferWithdraw methodsFor: 'balance' stamp: 'PJ 11/10/2020 21:19:54'!
+affectBalance: aBalance
+
+	^aBalance - transfer value.! !
 
 
 !classDefinition: #Withdraw category: 'Portfolio-Solucion'!
@@ -1212,12 +1192,7 @@ affectBalance: aBalance
 	^aBalance - value! !
 
 
-!Withdraw methodsFor: 'printing' stamp: 'PJ 11/10/2020 22:40:02'!
-description
-	^'Extracción por ', value asString ! !
-
-
-!Withdraw methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:54:02'!
+!Withdraw methodsFor: 'reports' stamp: 'PJ 11/12/2020 21:54:02'!
 reportTo: aReport 
 	^aReport reportAsWithdraw: self.! !
 
@@ -1240,28 +1215,28 @@ Object subclass: #Report
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
+!Report methodsFor: 'private' stamp: 'PGTA 11/15/2020 21:24:53'!
+generateIndentationFor: aLevel
+	^'' padded: #left to: aLevel with: $	! !
+
 !Report methodsFor: 'private' stamp: 'PJ 11/10/2020 23:11:11'!
 generateReportFor: anAccount
 	self subclassResponsibility ! !
 
 
-!Report methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:24:53'!
-generateIndentationFor: aLevel
-	^'' padded: #left to: aLevel with: $	! !
-
-!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:48:32'!
+!Report methodsFor: 'transaction report' stamp: 'PJ 11/12/2020 21:48:32'!
 reportAsDeposit: aDeposit 
 	self subclassResponsibility.! !
 
-!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:07:39'!
+!Report methodsFor: 'transaction report' stamp: 'PJ 11/12/2020 22:07:39'!
 reportAsTransferDeposit: aTransaction
 	self subclassResponsibility ! !
 
-!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:00:41'!
+!Report methodsFor: 'transaction report' stamp: 'PJ 11/12/2020 22:00:41'!
 reportAsTransferWithdraw: aTransaction
 	self subclassResponsibility .! !
 
-!Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 22:09:57'!
+!Report methodsFor: 'transaction report' stamp: 'PJ 11/12/2020 22:09:57'!
 reportAsWithdraw: aWithdraw 
 	self subclassResponsibility .! !
 
@@ -1294,19 +1269,19 @@ generateReportFor: anAccount
 	^summary! !
 
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 21:02:39'!
+!AccountSummary methodsFor: 'transaction report' stamp: 'PJ 11/14/2020 21:02:39'!
 reportAsDeposit: aTransaction 
 	summary add: ('Depósito por ', aTransaction value asString)! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 21:02:53'!
+!AccountSummary methodsFor: 'transaction report' stamp: 'PJ 11/14/2020 21:02:53'!
 reportAsTransferDeposit: aTransaction
 	summary add: ('Entrada por transferencia de ', aTransaction value asString)! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 21:03:01'!
+!AccountSummary methodsFor: 'transaction report' stamp: 'PJ 11/14/2020 21:03:01'!
 reportAsTransferWithdraw: aTransaction 
 	summary add: ('Salida por transferencia de ', aTransaction value asString)! !
 
-!AccountSummary methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 21:04:00'!
+!AccountSummary methodsFor: 'transaction report' stamp: 'PJ 11/14/2020 21:04:00'!
 reportAsWithdraw: aWithdraw 
 	summary add: ('Extracción por ', aWithdraw value asString)! !
 
@@ -1318,20 +1293,20 @@ Report subclass: #PortfolioStructure
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:28:53'!
+!PortfolioStructure methodsFor: 'account report' stamp: 'PGTA 11/15/2020 20:28:53'!
 generateReportFor: aPortfolio 
 	structure := OrderedCollection new.
 	aPortfolio reportStructureTo: self forLevel: 0.
 	^structure.! !
 
-!PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:41:58'!
+!PortfolioStructure methodsFor: 'account report' stamp: 'PGTA 11/15/2020 20:41:58'!
 reportAsReceptiveAccount: aReceptiveAccount forLevel: aLevel
 	| accountString |
 	accountString := self generateIndentationFor: aLevel.
 	structure add: (accountString, aReceptiveAccount accountName).! !
 
 
-!PortfolioStructure methodsFor: 'accessing' stamp: 'PGTA 11/15/2020 20:34:07'!
+!PortfolioStructure methodsFor: 'private' stamp: 'PGTA 11/15/2020 20:34:07'!
 reportAsPortfolio: aPortfolio forLevel: aLevel
 	| accountString |
 	accountString := self generateIndentationFor: aLevel.
@@ -1345,19 +1320,13 @@ Report subclass: #SpecialSummary
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:23:01'!
-generateReportFor: aPortfolio
-	summary := OrderedCollection new.
-	aPortfolio reportStructureTo: self forLevel: 0.
-	^summary.! !
-
-!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:24:04'!
+!SpecialSummary methodsFor: 'account report' stamp: 'PGTA 11/15/2020 21:24:04'!
 reportAsPortfolio: aPortfolio forLevel: aLevel
 	| accountString |
 	accountString := self generateIndentationFor: aLevel.
 	summary add: (accountString, aPortfolio accountName).! !
 
-!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:32:25'!
+!SpecialSummary methodsFor: 'account report' stamp: 'PGTA 11/15/2020 21:32:25'!
 reportAsReceptiveAccount: aReceptiveAccount forLevel: aLevel
 	| accountString accountSummary|
 	accountString := self generateIndentationFor: aLevel.
@@ -1368,6 +1337,12 @@ reportAsReceptiveAccount: aReceptiveAccount forLevel: aLevel
 		accountString := self generateIndentationFor: (aLevel+1).
 		summary add: (accountString, transactionDescription).]! !
 
+
+!SpecialSummary methodsFor: 'private' stamp: 'PGTA 11/15/2020 21:23:01'!
+generateReportFor: aPortfolio
+	summary := OrderedCollection new.
+	aPortfolio reportStructureTo: self forLevel: 0.
+	^summary.! !
 
 
 !classDefinition: #TransferNet category: 'Portfolio-Solucion'!
@@ -1392,50 +1367,50 @@ reportAffectedBalance: aTransaction
 	^netValue := aTransaction affectBalance: netValue.! !
 
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:53:44'!
+!TransferNet methodsFor: 'transaction report' stamp: 'PJ 11/14/2020 20:53:44'!
 reportAsDeposit: aTransaction 
 	! !
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:43:41'!
+!TransferNet methodsFor: 'transaction report' stamp: 'PJ 11/14/2020 20:43:41'!
 reportAsTransferDeposit: aTransaction 
 	^self reportAffectedBalance: aTransaction! !
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:44:00'!
+!TransferNet methodsFor: 'transaction report' stamp: 'PJ 11/14/2020 20:44:00'!
 reportAsTransferWithdraw: aTransaction 
 	^self reportAffectedBalance: aTransaction! !
 
-!TransferNet methodsFor: 'as yet unclassified' stamp: 'PJ 11/14/2020 20:53:51'!
+!TransferNet methodsFor: 'transaction report' stamp: 'PJ 11/14/2020 20:53:51'!
 reportAsWithdraw: aTransaction 
 	! !
 
 
 !classDefinition: #Transfer category: 'Portfolio-Solucion'!
 Object subclass: #Transfer
-	instanceVariableNames: 'deposit withdraw value'
+	instanceVariableNames: 'value receivedTransaction sendTransaction'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 21:31:24'!
+!Transfer methodsFor: 'private' stamp: 'PGTA 11/16/2020 16:22:52'!
 deposit
 	
-	^deposit.! !
+	^receivedTransaction.! !
 
-!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 22:51:42'!
+!Transfer methodsFor: 'private' stamp: 'PGTA 11/16/2020 16:22:34'!
 initializeFrom: aSenderAccount to: aReceiverAccount amount: anAmount
 	
 	value := anAmount.
-	deposit := TransferDeposit registerOn: aReceiverAccount for: self.
-	withdraw := TransferWithdraw registerOn: aSenderAccount for: self.! !
+	receivedTransaction := TransferDeposit registerOn: aReceiverAccount for: self.
+	sendTransaction := TransferWithdraw registerOn: aSenderAccount for: self.! !
 
-!Transfer methodsFor: 'as yet unclassified' stamp: 'PJ 11/10/2020 22:26:04'!
+!Transfer methodsFor: 'private' stamp: 'PJ 11/10/2020 22:26:04'!
 value
 	^value! !
 
-!Transfer methodsFor: 'as yet unclassified' stamp: 'PGTA 11/9/2020 21:31:42'!
+!Transfer methodsFor: 'private' stamp: 'PGTA 11/16/2020 16:23:06'!
 withdraw
 	
-	^withdraw.! !
+	^sendTransaction.! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
