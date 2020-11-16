@@ -27274,3 +27274,277 @@ RefactoringClassTestData subclass: #ClassOfSender
 PASSED!
 
 ----QUIT----(2 October 2020 16:25:14) CuisUniversity-4384.image priorSource: 16021447!
+
+----STARTUP---- (16 November 2020 17:46:21) as /home/pablo/Documents/Ingenieria1/repoNuestro/20-TusLibros/cuis/CuisUniversity-4384.image!
+
+
+Object subclass: #TusLibros
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #TusLibros category: 'Tus-Libros' stamp: 'PGTA 11/16/2020 18:55:43'!
+Object subclass: #TusLibros
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+----SNAPSHOT----(16 November 2020 18:57:52) CuisUniversity-4384.image priorSource: 17155564!
+
+----QUIT----(16 November 2020 18:57:55) CuisUniversity-4384.image priorSource: 17156133!
+
+----STARTUP---- (16 November 2020 18:58:25) as /home/pablo/Documents/Ingenieria1/repoNuestro/20-TusLibros/cuis/CuisUniversity-4384.image!
+
+
+TestCase subclass: #CarritoTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #CarritoTest category: 'Tus-Libros' stamp: 'PGTA 11/16/2020 18:59:47'!
+TestCase subclass: #CarritoTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRemoval: #TusLibros stamp: 'PGTA 11/16/2020 18:59:55'!
+Object subclass: #TusLibros
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classRenamed: #CarritoTest as: #CartTest stamp: 'PGTA 11/16/2020 19:00:46'!
+Smalltalk renameClassNamed: #CarritoTest as: #CartTest!
+
+!classDefinition: #Cart category: 'Tus-Libros' stamp: 'PGTA 11/16/2020 19:03:47'!
+Object subclass: #Cart
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'no messages' stamp: 'PGTA 11/16/2020 19:03:08'!
+test01_newCartIsAnEmptyCart
+	
+	| cart |
+	cart := Cart new.
+	
+	self assert: cart isEmpty.! !
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:04:19'!
+ERROR!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:04:28'!
+ERROR!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:04:33'!
+ERROR!
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:04:44'!
+isEmpty
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:04:51' prior: 50867831!
+isEmpty
+	^true.! !
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:04:52'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:04:52'!
+PASSED!
+
+!classDefinition: #Book category: 'Tus-Libros' stamp: 'PGTA 11/16/2020 19:11:43'!
+Object subclass: #Book
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/16/2020 19:11:31'!
+test02_cartWithOneBookIsNotEmpty
+	
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	
+	self assert: cart isEmpty not.! !
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:11:52'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/16/2020 19:12:46' prior: 50867850!
+test02_cartWithOneBookIsNotEmpty
+	
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	
+	cart addBook: book.
+	self assert: cart isEmpty not.! !
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:12:51'!
+ERROR!
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/16/2020 19:13:14'!
+addBook: aBook 
+	self shouldBeImplemented.! !
+
+!classDefinition: #Cart category: 'Tus-Libros' stamp: 'PGTA 11/16/2020 19:14:10'!
+Object subclass: #Cart
+	instanceVariableNames: 'content'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/16/2020 19:14:08' prior: 50867870!
+addBook: aBook 
+	content := aBook! !
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:14:13'!
+FAILURE!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:14:40'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/16/2020 19:14:54' prior: 50867860!
+test02_cartWithOneBookIsNotEmpty
+	
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	
+	cart addBook: book.
+	self assert: (cart isEmpty not).! !
+
+cart isEmpty!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:15:26'!
+FAILURE!
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:15:45' prior: 50867835!
+isEmpty
+	^content = nil.! !
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:15:53'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:15:53'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:15:53'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/16/2020 19:19:00'!
+test03_addedBookToCartHasTheBook
+	
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	
+	cart addBook: book.
+	self assert: (cart hasBook: book).! !
+
+!testRun: #CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/16/2020 19:19:01'!
+ERROR!
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:19:21'!
+hasBook: aBook 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:19:36' prior: 50867924!
+hasBook: aBook 
+	^content = aBook.! !
+
+!testRun: #CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/16/2020 19:19:38'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:19:38'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:19:38'!
+PASSED!
+
+!testRun: #CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/16/2020 19:19:38'!
+PASSED!
+
+!testRun: #CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/16/2020 19:19:44'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:19:44'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:19:44'!
+PASSED!
+
+!testRun: #CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/16/2020 19:19:44'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/16/2020 19:21:19'!
+test04_cartContainsAllAddedBooks
+	
+	| cart book1 book2 |
+	cart := Cart new.
+	book1 := Book new.
+	book2 := Book new.
+	
+	cart addBook: book1.
+	cart addBook: book2.
+	self assert: (cart hasBook: book1).
+	self assert: (cart hasBook: book2).! !
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/16/2020 19:21:21'!
+FAILURE!
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/16/2020 19:22:23' prior: 50867881!
+addBook: aBook 
+	content add: aBook.! !
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/16/2020 19:22:24'!
+ERROR!
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:23:06' overrides: 16896425!
+initialize
+	content = OrderedCollection new.! !
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:23:13' prior: 50867977 overrides: 16896425!
+initialize
+	content := OrderedCollection new.! !
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/16/2020 19:24:29'!
+FAILURE!
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:24:57' prior: 50867928!
+hasBook: aBook 
+	^content includes: aBook.! !
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/16/2020 19:24:59'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:24:59'!
+FAILURE!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:24:59'!
+PASSED!
+
+!testRun: #CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/16/2020 19:24:59'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/16/2020 19:24:59'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:24:59'!
+FAILURE!
+!Cart methodsFor: 'testing' stamp: 'PGTA 11/16/2020 19:25:24' prior: 50867902!
+isEmpty
+	^content isEmpty.! !
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:25:25'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/16/2020 19:25:28'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/16/2020 19:25:28'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/16/2020 19:25:28'!
+PASSED!
+
+!testRun: #CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/16/2020 19:25:28'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/16/2020 19:25:28'!
+PASSED!
+
+----SNAPSHOT----(16 November 2020 19:35:40) CuisUniversity-4384.image priorSource: 17156227!
+
+----QUIT----(16 November 2020 19:35:45) CuisUniversity-4384.image priorSource: 17164287!

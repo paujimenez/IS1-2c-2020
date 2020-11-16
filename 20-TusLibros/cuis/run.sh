@@ -1,2 +1,2 @@
 #!/bin/bash
-vm/squeak CuisUniversity-4384.image
+vm-linux/squeak CuisUniversity-4384.image
