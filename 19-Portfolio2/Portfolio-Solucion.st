@@ -640,6 +640,61 @@ test14PortfolioStructureWithOnePortfolioIndentsCorrectly
 	self assert: portfolioName2 equals: (report at: 1).
 	self assert: ('	', portfolioName1) equals: (report at: 2).! !
 
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:03:09'!
+test15PortfolioStructureCatedra
+	| johnsAccount angiesAccount childrenPortfolio myAccount familyPortfolio report stringReport |
+
+	johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
+	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
+	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
+	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
+	
+	report := PortfolioStructure for: familyPortfolio.
+	stringReport := 'Portfolio de la familia
+	Cuenta mia
+	Portfolio de hijos
+		Cuenta de Juan
+		Cuenta de Angeles'.
+			
+	self assert: stringReport equals: (report printStringWithNewline).! !
+
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:08:58'!
+test16SpecialSummaryReportForOnePortfolio
+	| johnsPortfolio report stringReport |
+	
+	stringReport := 'Portfolio de Juan'.
+	johnsPortfolio := Portfolio named: stringReport.
+	
+	report := SpecialSummary for: johnsPortfolio.
+	self assert: stringReport equals: (report first).! !
+
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:33:40'!
+test17SpecialSummaryReportForOnePortfolioWithOneAccount
+	| johnsPortfolio report stringReport account account2 |
+	
+	account := ReceptiveAccount named: 'Cuenta de Juan'.
+	account2 := ReceptiveAccount new.
+	
+	Deposit register: 100 on: account.
+	Transfer from: account2 to: account amount: 30.
+	Withdraw register: 20 on: account.
+	Transfer from: account to: account2 amount: 15.
+	
+	johnsPortfolio := Portfolio named: 'Portfolio de Juan' with: account.
+	
+	report := SpecialSummary for: johnsPortfolio.
+	
+	stringReport := 'Portfolio de Juan
+	Cuenta de Juan
+		Depósito por 100
+		Entrada por transferencia de 30
+		Extracción por 20
+		Salida por transferencia de 15
+		Balance = 95'.
+		
+	self assert: stringReport equals: (report printStringWithNewline).! !
+
 
 !classDefinition: #Account category: 'Portfolio-Solucion'!
 Object subclass: #Account
@@ -1190,6 +1245,10 @@ generateReportFor: anAccount
 	self subclassResponsibility ! !
 
 
+!Report methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:24:53'!
+generateIndentationFor: aLevel
+	^'' padded: #left to: aLevel with: $	! !
+
 !Report methodsFor: 'as yet unclassified' stamp: 'PJ 11/12/2020 21:48:32'!
 reportAsDeposit: aDeposit 
 	self subclassResponsibility.! !
@@ -1259,10 +1318,6 @@ Report subclass: #PortfolioStructure
 	poolDictionaries: ''
 	category: 'Portfolio-Solucion'!
 
-!PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:39:32'!
-generateIndentationFor: aLevel
-	^'' padded: #left to: aLevel with: $	! !
-
 !PortfolioStructure methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 20:28:53'!
 generateReportFor: aPortfolio 
 	structure := OrderedCollection new.
@@ -1281,6 +1336,38 @@ reportAsPortfolio: aPortfolio forLevel: aLevel
 	| accountString |
 	accountString := self generateIndentationFor: aLevel.
 	structure add: (accountString, aPortfolio accountName).! !
+
+
+!classDefinition: #SpecialSummary category: 'Portfolio-Solucion'!
+Report subclass: #SpecialSummary
+	instanceVariableNames: 'summary'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:23:01'!
+generateReportFor: aPortfolio
+	summary := OrderedCollection new.
+	aPortfolio reportStructureTo: self forLevel: 0.
+	^summary.! !
+
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:24:04'!
+reportAsPortfolio: aPortfolio forLevel: aLevel
+	| accountString |
+	accountString := self generateIndentationFor: aLevel.
+	summary add: (accountString, aPortfolio accountName).! !
+
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:32:25'!
+reportAsReceptiveAccount: aReceptiveAccount forLevel: aLevel
+	| accountString accountSummary|
+	accountString := self generateIndentationFor: aLevel.
+	summary add: (accountString, aReceptiveAccount accountName).
+	
+	accountSummary := AccountSummary for: aReceptiveAccount.
+	accountSummary do: [:transactionDescription | 
+		accountString := self generateIndentationFor: (aLevel+1).
+		summary add: (accountString, transactionDescription).]! !
+
 
 
 !classDefinition: #TransferNet category: 'Portfolio-Solucion'!

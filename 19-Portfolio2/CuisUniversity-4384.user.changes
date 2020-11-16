@@ -32621,3 +32621,730 @@ PASSED!
 PASSED!
 
 ----SNAPSHOT----(15 November 2020 20:48:26) CuisUniversity-4384.image priorSource: 17224910!
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 20:57:39'!
+test15PortfolioStructureCatedra
+	| johnsAccount angiesAccount childrenPortfolio myAccount familyPortfolio report stringReport |
+
+	johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
+	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
+	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
+	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
+	
+	report := PortfolioStructure for: familyPortfolio.
+	stringReport := 'Portfolio de la familia
+	Cuenta Mia
+	Portfolio de hijos
+		Cuenta de Juan
+		Cuenta de Angeles'.
+			
+	self assert: stringReport equals: report printStringWithNewline.! !
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 20:57:39'!
+FAILURE!
+
+report!
+
+stringReport!
+
+stringReport asString!
+
+report printStringWithNewline!
+
+stringReport asString!
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:01:23' prior: 50869998!
+test15PortfolioStructureCatedra
+	| johnsAccount angiesAccount childrenPortfolio myAccount familyPortfolio report stringReport |
+
+	johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
+	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
+	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
+	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
+	
+	report := PortfolioStructure for: familyPortfolio.
+	stringReport := 'Portfolio de la familia
+	Cuenta Mia
+	Portfolio de hijos
+		Cuenta de Juan
+		Cuenta de Angeles'.
+			
+	self assert: (stringReport asString) equals: (report printStringWithNewline).! !
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:01:27'!
+FAILURE!
+
+stringReport asString!
+
+report printStringWithNewline!
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:02:47' prior: 50870031!
+test15PortfolioStructureCatedra
+	| johnsAccount angiesAccount childrenPortfolio myAccount familyPortfolio report stringReport |
+
+	johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
+	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
+	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
+	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
+	
+	report := PortfolioStructure for: familyPortfolio.
+	stringReport := 'Portfolio de la familia
+	Cuenta mia
+	Portfolio de hijos
+		Cuenta de Juan
+		Cuenta de Angeles'.
+			
+	self assert: (stringReport asString) equals: (report printStringWithNewline).! !
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:02:54' prior: 50870063!
+test15PortfolioStructureCatedra
+	| johnsAccount angiesAccount childrenPortfolio myAccount familyPortfolio report stringReport |
+
+	johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
+	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
+	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
+	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
+	
+	report := PortfolioStructure for: familyPortfolio.
+	stringReport := 'Portfolio de la familia
+	Cuenta mia
+	Portfolio de hijos
+		Cuenta de Juan
+		Cuenta de Angeles'.
+			
+	self assert: (stringReport asString) equals: (report printStringWithNewline).! !
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:02:57'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:02:58'!
+PASSED!
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:03:09' prior: 50870090!
+test15PortfolioStructureCatedra
+	| johnsAccount angiesAccount childrenPortfolio myAccount familyPortfolio report stringReport |
+
+	johnsAccount := ReceptiveAccount named: 'Cuenta de Juan'.
+	angiesAccount := ReceptiveAccount named: 'Cuenta de Angeles'.
+	childrenPortfolio := Portfolio named: 'Portfolio de hijos' with: johnsAccount with: angiesAccount.
+	myAccount := ReceptiveAccount named: 'Cuenta mia'.
+	familyPortfolio := Portfolio named: 'Portfolio de la familia' with: myAccount with: childrenPortfolio.
+	
+	report := PortfolioStructure for: familyPortfolio.
+	stringReport := 'Portfolio de la familia
+	Cuenta mia
+	Portfolio de hijos
+		Cuenta de Juan
+		Cuenta de Angeles'.
+			
+	self assert: stringReport equals: (report printStringWithNewline).! !
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:03:09'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:03:13'!
+PASSED!
+
+!classDefinition: #SpecialSummary category: 'Portfolio-Solucion' stamp: 'PGTA 11/15/2020 21:09:19'!
+Report subclass: #SpecialSummary
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:08:58'!
+test16SpecialSummaryReportForOnePortfolio
+	| johnsPortfolio report stringReport |
+	
+	stringReport := 'Portfolio de Juan'.
+	johnsPortfolio := Portfolio named: stringReport.
+	
+	report := SpecialSummary for: johnsPortfolio.
+	self assert: stringReport equals: (report first).! !
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:09:36'!
+ERROR!
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:09:46' overrides: 50869026!
+generateReportFor: aPortfolio 
+	self shouldBeImplemented.! !
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:10:03' prior: 50870347 overrides: 50869026!
+generateReportFor: aPortfolio 
+	^aPortfolio accountName.! !
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:10:05'!
+FAILURE!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:10:14'!
+FAILURE!
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:10:54' prior: 50870353 overrides: 50869026!
+generateReportFor: aPortfolio 
+	^OrderedCollection with: aPortfolio accountName.! !
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:10:55'!
+PASSED!
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:11:14'!
+test17SpecialSummaryReportForOnePortfolioWithOneAccount
+	| johnsPortfolio report stringReport |
+	
+	stringReport := 'Portfolio de Juan'.
+	johnsPortfolio := Portfolio named: stringReport.
+	
+	report := SpecialSummary for: johnsPortfolio.
+	self assert: stringReport equals: (report first).! !
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:17:02' prior: 50870435!
+test17SpecialSummaryReportForOnePortfolioWithOneAccount
+	| johnsPortfolio report stringReport account account2 |
+	
+	account := ReceptiveAccount named: 'Cuenta de Juan'.
+	account2 := ReceptiveAccount new.
+	
+	Deposit register: 100 on: account.
+	Transfer from: account2 to: account amount: 30.
+	Withdraw register: 20 on: account.
+	Transfer from: account to: account2 amount: 15.
+	
+	johnsPortfolio := Portfolio named: 'Portfolio de Juan'.
+	
+	report := SpecialSummary for: johnsPortfolio.
+	
+	
+	
+	stringReport := 'Portfolio de Juan'.
+	self assert: stringReport equals: (report first).! !
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:19:21' prior: 50870447!
+test17SpecialSummaryReportForOnePortfolioWithOneAccount
+	| johnsPortfolio report stringReport account account2 |
+	
+	account := ReceptiveAccount named: 'Cuenta de Juan'.
+	account2 := ReceptiveAccount new.
+	
+	Deposit register: 100 on: account.
+	Transfer from: account2 to: account amount: 30.
+	Withdraw register: 20 on: account.
+	Transfer from: account to: account2 amount: 15.
+	
+	johnsPortfolio := Portfolio named: 'Portfolio de Juan' with: account.
+	
+	report := SpecialSummary for: johnsPortfolio.
+	
+	stringReport := 'Portfolio de Juan
+	Cuenta de Juan
+		Depósito por 100
+		Entrada por transferencia de 30
+		Extracción por 20
+		Salida por transferencia de 15'.
+		
+	self assert: stringReport equals: (report printStringWithNewline).! !
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:19:24'!
+FAILURE!
+
+!classDefinition: #SpecialSummary category: 'Portfolio-Solucion' stamp: 'PGTA 11/15/2020 21:21:46'!
+Report subclass: #SpecialSummary
+	instanceVariableNames: 'summary'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Portfolio-Solucion'!
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:21:45' prior: 50870366 overrides: 50869026!
+generateReportFor: aPortfolio
+	summary := OrderedCollection new.
+	^OrderedCollection with: aPortfolio accountName.! !
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:23:01' prior: 50870508 overrides: 50869026!
+generateReportFor: aPortfolio
+	summary := OrderedCollection new.
+	aPortfolio reportStructureTo: self forLevel: 0.
+	^summary.! !
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:23:03'!
+ERROR!
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:23:13'!
+reportAsPortfolio: aPortfolio forLevel: aSmallInteger 
+	self shouldBeImplemented.! !
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:24:04' prior: 50870527!
+reportAsPortfolio: aPortfolio forLevel: aLevel
+	| accountString |
+	accountString := self generateIndentationFor: aLevel.
+	summary add: (accountString, aPortfolio accountName).! !
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:24:08'!
+ERROR!
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:24:14'!
+generateIndentationFor: aSmallInteger 
+	self shouldBeImplemented.! !
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:24:37'!
+ERROR!
+!Report methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:24:53'!
+generateIndentationFor: aLevel
+	^'' padded: #left to: aLevel with: $	! !
+
+!methodRemoval: PortfolioStructure #generateIndentationFor: stamp: 'PGTA 11/15/2020 21:25:05'!
+generateIndentationFor: aLevel
+	^'' padded: #left to: aLevel with: $	!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:25:11'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:25:13'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:25:13'!
+ERROR!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:25:13'!
+ERROR!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:25:19'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:25:19'!
+ERROR!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:25:19'!
+ERROR!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:25:34'!
+ERROR!
+!SpecialSummary methodsFor: 'error handling' stamp: 'PGTA 11/15/2020 21:25:47' overrides: 16881409!
+error: aString 
+	self shouldBeImplemented.! !
+
+!methodRemoval: SpecialSummary #generateIndentationFor: stamp: 'PGTA 11/15/2020 21:26:41'!
+generateIndentationFor: aSmallInteger 
+	self shouldBeImplemented.!
+
+!methodRemoval: SpecialSummary #error: stamp: 'PGTA 11/15/2020 21:26:50'!
+error: aString 
+	self shouldBeImplemented.!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:26:55'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:26:58'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:27:04'!
+ERROR!
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:27:12'!
+reportAsReceptiveAccount: aReceptiveAccount forLevel: aSmallInteger 
+	self shouldBeImplemented.! !
+!SpecialSummary methodsFor: 'as yet unclassified' stamp: 'PGTA 11/15/2020 21:32:25' prior: 50870733!
+reportAsReceptiveAccount: aReceptiveAccount forLevel: aLevel
+	| accountString accountSummary|
+	accountString := self generateIndentationFor: aLevel.
+	summary add: (accountString, aReceptiveAccount accountName).
+	
+	accountSummary := AccountSummary for: aReceptiveAccount.
+	accountSummary do: [:transactionDescription | 
+		accountString := self generateIndentationFor: (aLevel+1).
+		summary add: (accountString, transactionDescription).]! !
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:32:27'!
+FAILURE!
+
+report printStringWithNewline!
+
+stringReport!
+!ReportTest methodsFor: 'portfolio tree' stamp: 'PGTA 11/15/2020 21:33:40' prior: 50870469!
+test17SpecialSummaryReportForOnePortfolioWithOneAccount
+	| johnsPortfolio report stringReport account account2 |
+	
+	account := ReceptiveAccount named: 'Cuenta de Juan'.
+	account2 := ReceptiveAccount new.
+	
+	Deposit register: 100 on: account.
+	Transfer from: account2 to: account amount: 30.
+	Withdraw register: 20 on: account.
+	Transfer from: account to: account2 amount: 15.
+	
+	johnsPortfolio := Portfolio named: 'Portfolio de Juan' with: account.
+	
+	report := SpecialSummary for: johnsPortfolio.
+	
+	stringReport := 'Portfolio de Juan
+	Cuenta de Juan
+		Depósito por 100
+		Entrada por transferencia de 30
+		Extracción por 20
+		Salida por transferencia de 15
+		Balance = 95'.
+		
+	self assert: stringReport equals: (report printStringWithNewline).! !
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:33:41'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test01AccountSummaryFromANewAccountReturnsBalance0 stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test02AccountSummaryReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test03AccountSummaryReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test04AccountSummaryReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test05AccountSummaryReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test06TransferNetFromANewAccountReturnsZero stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test07TransferNetReturnsAReportFromAnAccountWithADeposit stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test08TransferNetReturnsAReportFromAnAccountWithAWithdraw stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test09TransferNetReturnsAReportFromAnAccountWithATransferWithdraw stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test10TransferNetReturnsAReportFromAnAccountWithATransferDeposit stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test11TransferNetWorksWithAPortfolio stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test12PortfolioStructureWithoutAccountsReturnsPortfolioName stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test13PortfolioStructureWithOneAccount stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test14PortfolioStructureWithOnePortfolioIndentsCorrectly stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test15PortfolioStructureCatedra stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test16SpecialSummaryReportForOnePortfolio stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+!testRun: #ReportTest #test17SpecialSummaryReportForOnePortfolioWithOneAccount stamp: 'PGTA 11/15/2020 21:34:19'!
+PASSED!
+
+----SNAPSHOT----(15 November 2020 21:34:23) CuisUniversity-4384.image priorSource: 17226998!
