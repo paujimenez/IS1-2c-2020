@@ -27548,3 +27548,418 @@ PASSED!
 ----SNAPSHOT----(16 November 2020 19:35:40) CuisUniversity-4384.image priorSource: 17156227!
 
 ----QUIT----(16 November 2020 19:35:45) CuisUniversity-4384.image priorSource: 17164287!
+
+----STARTUP---- (18 November 2020 18:13:03) as /home/pablo/Documents/Ingenieria1/repoNuestro/20-TusLibros/cuis/CuisUniversity-4384.image!
+
+
+a := set new.
+a add: 4.!
+
+a := Set new.
+a add: 4.!
+
+a!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:07:32'!
+test05_cannotAddBookOutsideTheCatalogIntoCart
+	
+	| book1 isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart new.
+	cart addBook: isbn1.
+	cart addBook: isbn2.
+	
+	self should: [cart addBook: 1234567] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:07:46' prior: 50868046!
+test05_cannotAddBookOutsideTheCatalogIntoCart
+	
+	| isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart new.
+	cart addBook: isbn1.
+	cart addBook: isbn2.
+	
+	self should: [cart addBook: 1234567] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:07:50'!
+ERROR!
+!Cart class methodsFor: 'errors' stamp: 'PGTA 11/18/2020 19:08:39'!
+ISBNNotInCatalogErrorDescription
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'errors' stamp: 'PGTA 11/18/2020 19:09:26' prior: 50868080!
+ISBNNotInCatalogErrorDescription
+	^'ISBN not in catalog.'! !
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:09:28'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:09:59' prior: 50868062!
+test05_cannotAddBookOutsideTheCatalogIntoCart
+	
+	| isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart withCatalog: catalog.
+	cart addBook: isbn1.
+	cart addBook: isbn2.
+	
+	self should: [cart addBook: 1234567] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:10:02'!
+ERROR!
+!Cart class methodsFor: 'instance creation' stamp: 'PGTA 11/18/2020 19:10:12'!
+withCatalog: aSet 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithCatalog: aSet ! !
+!Cart class methodsFor: 'instance creation' stamp: 'PGTA 11/18/2020 19:10:57' prior: 50868112!
+withCatalog: aCatalog
+
+	^self new initializeWithCatalog: aCatalog ! !
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:10:59'!
+ERROR!
+
+!classDefinition: #Cart category: 'Tus-Libros' stamp: 'PGTA 11/18/2020 19:11:17'!
+Object subclass: #Cart
+	instanceVariableNames: 'content catalog'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!Cart methodsFor: 'initialization' stamp: 'PGTA 11/18/2020 19:11:17'!
+initializeWithCatalog: aCatalog 
+	self shouldBeImplemented.
+	catalog := aCatalog.! !
+!Cart methodsFor: 'initialization' stamp: 'PGTA 11/18/2020 19:11:29' prior: 50868135!
+initializeWithCatalog: aCatalog 
+	catalog := aCatalog.! !
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:11:31'!
+FAILURE!
+!Cart methodsFor: 'initialization' stamp: 'PGTA 11/18/2020 19:12:39' prior: 50868141!
+initializeWithCatalog: aCatalog
+	content := OrderedCollection new.
+	catalog := aCatalog.! !
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:12:44'!
+FAILURE!
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/18/2020 19:15:28' prior: 50867970!
+addBook: aBook
+	(catalog includes: aBook) ifFalse: [ self error: self class ISBNNotInCatalogErrorDescription ].
+	content add: aBook.! !
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:15:34'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/18/2020 19:15:34'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/18/2020 19:15:34'!
+ERROR!
+
+!testRun: #CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/18/2020 19:15:34'!
+ERROR!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/18/2020 19:15:34'!
+ERROR!
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:15:34'!
+PASSED!
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/18/2020 19:16:17'!
+addBookISBN: aBook
+	(catalog includes: aBook) ifFalse: [ self error: self class ISBNNotInCatalogErrorDescription ].
+	content add: aBook.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/18/2020 19:16:17' prior: 50867956!
+test04_cartContainsAllAddedBooks
+	
+	| cart book1 book2 |
+	cart := Cart new.
+	book1 := Book new.
+	book2 := Book new.
+	
+	cart addBookISBN: book1.
+	cart addBookISBN: book2.
+	self assert: (cart hasBook: book1).
+	self assert: (cart hasBook: book2).! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/18/2020 19:16:17' prior: 50867891!
+test02_cartWithOneBookIsNotEmpty
+	
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	
+	cart addBookISBN: book.
+	self assert: (cart isEmpty not).! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/18/2020 19:16:17' prior: 50868093!
+test05_cannotAddBookOutsideTheCatalogIntoCart
+	
+	| isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart withCatalog: catalog.
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	
+	self should: [cart addBookISBN: 1234567] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/18/2020 19:16:17' prior: 50867914!
+test03_addedBookToCartHasTheBook
+	
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	
+	cart addBookISBN: book.
+	self assert: (cart hasBook: book).! !
+
+!methodRemoval: Cart #addBook: stamp: 'PGTA 11/18/2020 19:16:17'!
+addBook: aBook
+	(catalog includes: aBook) ifFalse: [ self error: self class ISBNNotInCatalogErrorDescription ].
+	content add: aBook.!
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/18/2020 19:16:43' prior: 50868185!
+addBookISBN: anISBN
+	(catalog includes: anISBN) ifFalse: [ self error: self class ISBNNotInCatalogErrorDescription ].
+	content add: anISBN.! !
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:17:30' prior: 50867817!
+test01_newCartIsAnEmptyCart
+	
+	| cart |
+	cart := Cart initializeWithCatalog: Set new.
+	
+	self assert: cart isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:18:27' prior: 50868204!
+test02_cartWithOneBookIsNotEmpty
+	
+	| cart |
+	cart := Cart initializeWithCatalog: (Set with: 12345).
+	
+	cart addBookISBN: 12345.
+	self assert: (cart isEmpty not).! !
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/18/2020 19:18:35'!
+ERROR!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/18/2020 19:18:35'!
+ERROR!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/18/2020 19:18:42'!
+ERROR!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/18/2020 19:18:42'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:19:30' prior: 50868250!
+test01_newCartIsAnEmptyCart
+	
+	| cart |
+	cart := Cart withCatalog: Set new.
+	
+	self assert: cart isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:19:36' prior: 50868257!
+test02_cartWithOneBookIsNotEmpty
+	
+	| cart |
+	cart := Cart withCatalog: (Set with: 12345).
+	
+	cart addBookISBN: 12345.
+	self assert: (cart isEmpty not).! !
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/18/2020 19:19:43'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/18/2020 19:19:46'!
+PASSED!
+
+!methodRemoval: CartTest #test03_addedBookToCartHasTheBook stamp: 'PGTA 11/18/2020 19:21:12'!
+test03_addedBookToCartHasTheBook
+	
+	| cart book |
+	cart := Cart new.
+	book := Book new.
+	
+	cart addBookISBN: book.
+	self assert: (cart hasBook: book).!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:23:54' prior: 50868193!
+test04_cartContainsAllAddedBooks
+	
+	| cart isbn1 isbn2 |
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1 with: isbn2).
+	
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	self assert: (cart content includes: isbn1).
+	self assert: (cart content includes: isbn2).! !
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/18/2020 19:23:58'!
+ERROR!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/18/2020 19:23:58'!
+ERROR!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/18/2020 19:24:08'!
+ERROR!
+!Cart methodsFor: 'private' stamp: 'PGTA 11/18/2020 19:24:56'!
+content
+	self shouldBeImplemented.
+	^content! !
+!Cart methodsFor: 'private' stamp: 'PGTA 11/18/2020 19:25:09' prior: 50868326!
+content
+	^content copy.! !
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/18/2020 19:25:10'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/18/2020 19:25:10'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/18/2020 19:25:10'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/18/2020 19:25:10'!
+PASSED!
+
+!testRun: #CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:25:10'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:25:50'!
+test03_cannotAddBookOutsideTheCatalogIntoCart
+	
+	| isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart withCatalog: catalog.
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	
+	self should: [cart addBookISBN: 1234567] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+
+!methodRemoval: CartTest #test05_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:25:50'!
+test05_cannotAddBookOutsideTheCatalogIntoCart
+	
+	| isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart withCatalog: catalog.
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	
+	self should: [cart addBookISBN: 1234567] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:26:02'!
+test04_cartContainsAllAddedBooksISBN
+	
+	| cart isbn1 isbn2 |
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1 with: isbn2).
+	
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	self assert: (cart content includes: isbn1).
+	self assert: (cart content includes: isbn2).! !
+
+!methodRemoval: CartTest #test04_cartContainsAllAddedBooks stamp: 'PGTA 11/18/2020 19:26:02'!
+test04_cartContainsAllAddedBooks
+	
+	| cart isbn1 isbn2 |
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1 with: isbn2).
+	
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	self assert: (cart content includes: isbn1).
+	self assert: (cart content includes: isbn2).!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/18/2020 19:26:18'!
+test03_cannotAddISBNOutsideTheCatalogIntoCart
+	
+	| isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart withCatalog: catalog.
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	
+	self should: [cart addBookISBN: 1234567] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+
+!methodRemoval: CartTest #test03_cannotAddBookOutsideTheCatalogIntoCart stamp: 'PGTA 11/18/2020 19:26:18'!
+test03_cannotAddBookOutsideTheCatalogIntoCart
+	
+	| isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart withCatalog: catalog.
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	
+	self should: [cart addBookISBN: 1234567] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.!
+
+----QUIT----(18 November 2020 19:29:04) CuisUniversity-4384.image priorSource: 17164381!
