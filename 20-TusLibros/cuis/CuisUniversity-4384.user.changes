@@ -27963,3 +27963,649 @@ test03_cannotAddBookOutsideTheCatalogIntoCart
 		withMessageText: cart class ISBNNotInCatalogErrorDescription.!
 
 ----QUIT----(18 November 2020 19:29:04) CuisUniversity-4384.image priorSource: 17164381!
+
+----STARTUP---- (18 November 2020 20:15:59) as C:\Users\paujimenez\Documents\Ingenieria1\IS1-2c-2020\20-TusLibros\cuis\CuisUniversity-4384.image!
+
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 20:20:37'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 20:20:37'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 20:20:37'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 20:20:37'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 20:20:37'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:14:02'!
+test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN
+	
+	| cart isbn1 isbn2 |
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1 with: isbn2).
+	
+	cart addBookISBN: isbn1 quantity: 2.
+	cart addBookISBN: isbn2 quantity: 5.
+	
+	self assert: 2 equals: (cart content at: isbn1).
+	self assert: 5 equals: (cart content at: isbn2).! !
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:14:13'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'PJ 11/18/2020 21:14:41'!
+addBookISBN: aSmallInteger quantity: aSmallInteger2 
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'as yet unclassified' stamp: 'PJ 11/18/2020 21:15:51' prior: 50868477!
+addBookISBN: anISBN quantity: aNumberOfCopies 
+	! !
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:15:59'!
+ERROR!
+!Cart methodsFor: 'as yet unclassified' stamp: 'PJ 11/18/2020 21:17:38' prior: 50868483!
+addBookISBN: anISBN quantity: aNumberOfCopies 
+	
+	(catalog includes: anISBN) ifFalse: [ ^self error: self class ISBNNotInCatalogErrorDescription ].
+	content add: anISBN withOccurrences: aNumberOfCopies.! !
+
+cart content at: isbn1!
+!Cart methodsFor: 'initialization' stamp: 'PJ 11/18/2020 21:19:01' prior: 50868149!
+initializeWithCatalog: aCatalog
+	
+	content := Bag new.
+	catalog := aCatalog.! !
+
+cart content at: isbn1!
+
+cart content!
+!Cart methodsFor: 'private' stamp: 'PJ 11/18/2020 21:20:48' prior: 50868330!
+content
+	^content content copy.! !
+
+cart content!
+!Cart methodsFor: 'private' stamp: 'PJ 11/18/2020 21:21:55' prior: 50868508!
+content
+	^content contents copy.! !
+
+cart content!
+
+cart content at: isbn1!
+
+cart content at: isbn2!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:22:35'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 21:22:35'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 21:22:35'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 21:22:35'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:22:35'!
+FAILURE!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:22:35'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:22:35'!
+FAILURE!
+
+cart content includes: isbn1!
+
+cart content includesKey: isbn1!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:24:31' prior: 50868381!
+test04_cartContainsAllAddedBooksISBN
+	
+	| cart isbn1 isbn2 |
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1 with: isbn2).
+	
+	cart addBookISBN: isbn1.
+	cart addBookISBN: isbn2.
+	self assert: (cart content includesKey: isbn1).
+	self assert: (cart content includesKey: isbn2).! !
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:24:34'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:24:44'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 21:24:44'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 21:24:44'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 21:24:44'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:24:44'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:24:44'!
+PASSED!
+
+!methodRemoval: Cart #addBookISBN: stamp: 'PJ 11/18/2020 21:25:34'!
+addBookISBN: anISBN
+	(catalog includes: anISBN) ifFalse: [ self error: self class ISBNNotInCatalogErrorDescription ].
+	content add: anISBN.!
+
+!methodRemoval: Cart #initialize stamp: 'PJ 11/18/2020 21:26:35'!
+initialize
+	content := OrderedCollection new.!
+
+!classRemoval: #Book stamp: 'PJ 11/18/2020 21:27:57'!
+Object subclass: #Book
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:28:02'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 21:28:02'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 21:28:02'!
+ERROR!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 21:28:02'!
+ERROR!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:28:02'!
+ERROR!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:28:02'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 21:28:08'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:28:54' prior: 50868283!
+test02_cartWithOneBookIsNotEmpty
+	
+	| cart |
+	cart := Cart withCatalog: (Set with: 12345).
+	
+	cart addBookISBN: 12345 quantity: 1.
+	self assert: (cart isEmpty not).! !
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 21:28:57'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 21:29:00'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:29:34' prior: 50868405!
+test03_cannotAddISBNOutsideTheCatalogIntoCart
+	
+	| isbn1 isbn2 cart catalog |
+	
+	isbn1 := 12345.	
+	isbn2 := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1.
+	catalog add: isbn2.
+	
+	cart := Cart withCatalog: catalog.
+	cart addBookISBN: isbn1 quantity: 1.
+	cart addBookISBN: isbn2 quantity: 1.
+	
+	self should: [cart addBookISBN: 1234567 quantity: 1] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 21:29:40'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:29:42'!
+ERROR!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:29:58' prior: 50868543!
+test04_cartContainsAllAddedBooksISBN
+	
+	| cart isbn1 isbn2 |
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1 with: isbn2).
+	
+	cart addBookISBN: isbn1 quantity: 1.
+	cart addBookISBN: isbn2 quantity: 1.
+	self assert: (cart content includesKey: isbn1).
+	self assert: (cart content includesKey: isbn2).! !
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:30:01'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:30:38'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 21:30:38'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 21:30:38'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 21:30:38'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:30:38'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:30:38'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:36:04'!
+test06_theNumberOfCopiesToAddOfABookISBNMustBePositive
+	
+	| cart isbn1 isbn2 |
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1 with: isbn2).
+	
+	self should: [cart addBookISBN: isbn1 quantity: 0]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cart numberOfCopiesMustBePrositiveErrorDescription.! !
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 21:36:09'!
+ERROR!
+!Cart class methodsFor: 'errors' stamp: 'PJ 11/18/2020 21:36:36'!
+numberOfCopiesMustBePrositiveErrorDescription
+	self shouldBeImplemented.! !
+!Cart class methodsFor: 'errors' stamp: 'PJ 11/18/2020 21:37:48' prior: 50868708!
+numberOfCopiesMustBePrositiveErrorDescription
+	^'Number of copies must be positive'! !
+!Cart class methodsFor: 'errors' stamp: 'PJ 11/18/2020 21:38:16'!
+numberOfCopiesMustBePositiveErrorDescription
+	^'Number of copies must be positive'! !
+!CartTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/18/2020 21:38:16' prior: 50868691!
+test06_theNumberOfCopiesToAddOfABookISBNMustBePositive
+	
+	| cart isbn1 isbn2 |
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1 with: isbn2).
+	
+	self should: [cart addBookISBN: isbn1 quantity: 0]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cart numberOfCopiesMustBePositiveErrorDescription.! !
+
+!methodRemoval: Cart class #numberOfCopiesMustBePrositiveErrorDescription stamp: 'PJ 11/18/2020 21:38:16'!
+numberOfCopiesMustBePrositiveErrorDescription
+	^'Number of copies must be positive'!
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 21:38:41'!
+FAILURE!
+!Cart methodsFor: 'cart operations' stamp: 'PJ 11/18/2020 21:40:16' prior: 50868491!
+addBookISBN: anISBN quantity: aNumberOfCopies 
+	
+	(catalog includes: anISBN) ifFalse: [ ^self error: self class ISBNNotInCatalogErrorDescription ].
+	(aNumberOfCopies > 0) ifFalse: [ ^self error: self class numberOfCopiesMustBePositiveErrorDescription ].
+	content add: anISBN withOccurrences: aNumberOfCopies.! !
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 21:40:18'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 21:40:19'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 21:40:19'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 21:40:19'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:40:19'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:40:19'!
+PASSED!
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 21:40:19'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:47:40' overrides: 16927572!
+setUp
+	
+	! !
+
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'isbn1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #NameOfSubclass category: 'Tus-Libros' stamp: 'PJ 11/18/2020 21:47:54'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'isbn1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'isbn1 isbn2 catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #NameOfSubclass category: 'Tus-Libros' stamp: 'PJ 11/18/2020 21:48:16'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'isbn1 isbn2 catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+TestCase subclass: #CartTest
+	instanceVariableNames: 'isbn1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:52:04' prior: 50868631!
+test03_cannotAddISBNOutsideTheCatalogIntoCart
+	
+	| isbn1s isbn2s cart catalog |
+	
+	isbn1s := 12345.	
+	isbn2s := 123456.	
+	
+	catalog := Set new.
+	catalog add: isbn1s.
+	catalog add: isbn2s.
+	
+	cart := Cart withCatalog: catalog.
+	cart addBookISBN: isbn1s quantity: 1.
+	cart addBookISBN: isbn2s quantity: 1.
+	
+	self should: [cart addBookISBN: 1234567 quantity: 1] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:52:27' prior: 50868655!
+test04_cartContainsAllAddedBooksISBN
+	
+	| cart isbn1s isbn2s |
+	
+	isbn1s := 12345.
+	isbn2s := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1s with: isbn2s).
+	
+	cart addBookISBN: isbn1s quantity: 1.
+	cart addBookISBN: isbn2s quantity: 1.
+	self assert: (cart content includesKey: isbn1s).
+	self assert: (cart content includesKey: isbn2s).! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:52:48' prior: 50868460!
+test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN
+	
+	| cart isbn1s isbn2s |
+	
+	isbn1s := 12345.
+	isbn2s := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1s with: isbn2s).
+	
+	cart addBookISBN: isbn1s quantity: 2.
+	cart addBookISBN: isbn2s quantity: 5.
+	
+	self assert: 2 equals: (cart content at: isbn1s).
+	self assert: 5 equals: (cart content at: isbn2s).! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:53:04' prior: 50868724!
+test06_theNumberOfCopiesToAddOfABookISBNMustBePositive
+	
+	| cart isbn1s isbn2s |
+	
+	isbn1s := 12345.
+	isbn2s := 123456.
+	
+	cart := Cart withCatalog: (Set with: isbn1s with: isbn2s).
+	
+	self should: [cart addBookISBN: isbn1s quantity: 0]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cart numberOfCopiesMustBePositiveErrorDescription.! !
+
+!classDefinition: #CartTest category: 'Tus-Libros' stamp: 'PJ 11/18/2020 21:53:33'!
+TestCase subclass: #CartTest
+	instanceVariableNames: 'isbn1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #CartTest category: 'Tus-Libros' stamp: 'PJ 11/18/2020 21:53:35'!
+TestCase subclass: #CartTest
+	instanceVariableNames: 'isbn1 isbn2'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+
+!classDefinition: #CartTest category: 'Tus-Libros' stamp: 'PJ 11/18/2020 21:53:36'!
+TestCase subclass: #CartTest
+	instanceVariableNames: 'isbn1 isbn2 catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:53:32' prior: 50868784 overrides: 16927572!
+setUp
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	catalog1 :=Set with: isbn1 with: isbn2.
+	! !
+
+!classRemoval: #NameOfSubclass stamp: 'PJ 11/18/2020 21:54:16'!
+Object subclass: #NameOfSubclass
+	instanceVariableNames: 'isbn1 isbn2 catalog1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:54:53' prior: 50868277!
+test01_newCartIsAnEmptyCart
+	
+	| cart |
+	cart := Cart withCatalog: catalog1.
+	
+	self assert: cart isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:55:26' prior: 50868616!
+test02_cartWithOneBookIsNotEmpty
+	
+	| cart |
+	cart := Cart withCatalog: catalog1 .
+	
+	cart addBookISBN: isbn1 quantity: 1.
+	self assert: (cart isEmpty not).! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:56:22' prior: 50868815!
+test03_cannotAddISBNOutsideTheCatalogIntoCart
+	
+	| cart |
+	
+	
+	cart := Cart withCatalog: catalog1.
+	cart addBookISBN: isbn1 quantity: 1.
+	cart addBookISBN: isbn2 quantity: 1.
+	
+	self should: [cart addBookISBN: 1234567 quantity: 1] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:56:26' prior: 50868923!
+test03_cannotAddISBNOutsideTheCatalogIntoCart
+	
+	| cart |
+	
+	cart := Cart withCatalog: catalog1.
+	cart addBookISBN: isbn1 quantity: 1.
+	cart addBookISBN: isbn2 quantity: 1.
+	
+	self should: [cart addBookISBN: 1234567 quantity: 1] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: cart class ISBNNotInCatalogErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:57:08' prior: 50868833!
+test04_cartContainsAllAddedBooksISBN
+	
+	| cart |
+	
+	cart := Cart withCatalog: catalog1 .
+	
+	cart addBookISBN: isbn1 quantity: 1.
+	cart addBookISBN: isbn2 quantity: 1.
+	self assert: (cart content includesKey: isbn1).
+	self assert: (cart content includesKey: isbn2).! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:57:44' prior: 50868847!
+test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN
+	
+	| cart |
+	
+	cart := Cart withCatalog: catalog1 .
+	
+	cart addBookISBN: isbn1 quantity: 2.
+	cart addBookISBN: isbn2 quantity: 5.
+	
+	self assert: 2 equals: (cart content at: isbn1).
+	self assert: 5 equals: (cart content at: isbn2).! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 21:58:40' prior: 50868861!
+test06_theNumberOfCopiesToAddOfABookISBNMustBePositive
+	
+	| cart |
+	
+	cart := Cart withCatalog: catalog1.
+	
+	self should: [cart addBookISBN: isbn1 quantity: 0]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cart numberOfCopiesMustBePositiveErrorDescription.! !
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 21:58:42'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 21:58:42'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 21:58:42'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 21:58:42'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 21:58:42'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 21:58:42'!
+PASSED!
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 21:58:42'!
+PASSED!
+
+!classDefinition: #CartTest category: 'Tus-Libros' stamp: 'PJ 11/18/2020 22:05:06'!
+TestCase subclass: #CartTest
+	instanceVariableNames: 'isbn1 isbn2 catalog1 cart1'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros'!
+!CartTest methodsFor: 'setUp/tearDown' stamp: 'PJ 11/18/2020 22:05:04' prior: 50868896 overrides: 16927572!
+setUp
+	
+	isbn1 := 12345.
+	isbn2 := 123456.
+	
+	catalog1 :=Set with: isbn1 with: isbn2.
+	
+	cart1 := Cart withCatalog: catalog1.
+	! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 22:05:25' prior: 50868909!
+test01_newCartIsAnEmptyCart
+	
+	self assert: cart1 isEmpty.! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 22:05:44' prior: 50868915!
+test02_cartWithOneBookIsNotEmpty
+
+	cart1 addBookISBN: isbn1 quantity: 1.
+	self assert: (cart1 isEmpty not).! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 22:06:19' prior: 50868937!
+test03_cannotAddISBNOutsideTheCatalogIntoCart
+	
+	cart1 addBookISBN: isbn1 quantity: 1.
+	cart1 addBookISBN: isbn2 quantity: 1.
+	
+	self should: [cart1 addBookISBN: 1234567 quantity: 1] 
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cart ISBNNotInCatalogErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 22:06:39' prior: 50868950!
+test04_cartContainsAllAddedBooksISBN
+	
+	cart1 addBookISBN: isbn1 quantity: 1.
+	cart1 addBookISBN: isbn2 quantity: 1.
+	
+	self assert: (cart1 content includesKey: isbn1).
+	self assert: (cart1 content includesKey: isbn2).! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 22:06:55' prior: 50868961!
+test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN
+	
+	cart1 addBookISBN: isbn1 quantity: 2.
+	cart1 addBookISBN: isbn2 quantity: 5.
+	
+	self assert: 2 equals: (cart1 content at: isbn1).
+	self assert: 5 equals: (cart1 content at: isbn2).! !
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/18/2020 22:07:07' prior: 50868973!
+test06_theNumberOfCopiesToAddOfABookISBNMustBePositive
+	
+	self should: [cart1 addBookISBN: isbn1 quantity: 0]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cart numberOfCopiesMustBePositiveErrorDescription.! !
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 22:07:12'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 22:07:12'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 22:07:12'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 22:07:12'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 22:07:12'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 22:07:12'!
+PASSED!
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 22:07:12'!
+PASSED!
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 22:10:50'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/18/2020 22:10:50'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/18/2020 22:10:50'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/18/2020 22:10:50'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/18/2020 22:10:50'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/18/2020 22:10:50'!
+PASSED!
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/18/2020 22:10:50'!
+PASSED!
+
+----QUIT----(18 November 2020 22:15:09) CuisUniversity-4384.image priorSource: 17177175!
