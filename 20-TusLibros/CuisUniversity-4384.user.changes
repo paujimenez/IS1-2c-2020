@@ -30601,3 +30601,160 @@ checkOut: aCart
 ----SNAPSHOT----(22 November 2020 19:34:30) CuisUniversity-4384.image priorSource: 17248356!
 
 ----QUIT----(22 November 2020 19:34:52) CuisUniversity-4384.image priorSource: 17248450!
+
+----STARTUP---- (24 November 2020 18:13:15) as /home/pablo/Documents/Ingenieria1/cuis_TusLibros2/CuisUniversity-4384.image!
+
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PGTA 11/24/2020 18:14:02'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PGTA 11/24/2020 18:14:02'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PGTA 11/24/2020 18:14:02'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PGTA 11/24/2020 18:14:02'!
+PASSED!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/24/2020 18:22:26'!
+test08_cartKnowsTotalPurchaseValue
+	
+	self should: [cart1 add: isbn1 quantity: 3.141592654]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cart numberOfCopiesMustBeIntegerErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/24/2020 18:23:19' prior: 50870689!
+test08_cartKnowsTotalPurchaseValue
+	cart1 add: isbn1 quantity: 1.
+	
+	
+	self should: [cart1 add: isbn1 quantity: 3.141592654]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cart numberOfCopiesMustBeIntegerErrorDescription.! !
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/24/2020 18:26:11' prior: 50870698!
+test08_cartKnowsTotalPurchaseValue
+	
+	| total |
+	cart1 add: isbn1 quantity: 2.
+	cart1 add: isbn2 quantity: 3.
+	
+	total := 2*100 + 3*30.
+	
+	self assert: total equals: cart1 purchaseValue.! !
+
+!testRun: #CartTest #test08_cartKnowsTotalPurchaseValue stamp: 'PGTA 11/24/2020 18:26:16'!
+ERROR!
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/24/2020 18:26:28'!
+purchaseValue
+	self shouldBeImplemented.! !
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/24/2020 18:28:47' prior: 50870720!
+purchaseValue
+	| total |
+	content do: [:item | total := (total + (catalog at: item)) ].
+	^total! !
+
+!testRun: #CartTest #test08_cartKnowsTotalPurchaseValue stamp: 'PGTA 11/24/2020 18:28:50'!
+ERROR!
+!Cart methodsFor: 'cart operations' stamp: 'PGTA 11/24/2020 18:29:13' prior: 50870725!
+purchaseValue
+	| total |
+	total := 0.
+	content do: [:item | total := (total + (catalog at: item)) ].
+	^total! !
+
+!testRun: #CartTest #test08_cartKnowsTotalPurchaseValue stamp: 'PGTA 11/24/2020 18:29:19'!
+FAILURE!
+!CartTest methodsFor: 'tests' stamp: 'PGTA 11/24/2020 18:30:07' prior: 50870708!
+test08_cartKnowsTotalPurchaseValue
+	
+	| total |
+	cart1 add: isbn1 quantity: 2.
+	cart1 add: isbn2 quantity: 3.
+	
+	total := (2*100) + (3*30).
+	
+	self assert: total equals: cart1 purchaseValue.! !
+
+!testRun: #CartTest #test08_cartKnowsTotalPurchaseValue stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+
+!testRun: #CartTest #test07_theNumberOfCopiesToAddOfABookISBNMustBeInteger stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+
+!testRun: #CartTest #test08_cartKnowsTotalPurchaseValue stamp: 'PGTA 11/24/2020 18:30:08'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/24/2020 18:37:15'!
+test04_cashierPerformsTransactionWithMerchantProcessorIfCreditCardIsValid
+	
+	| cashier expiredCreditCard |
+	cashier := Cashier withCatalog: catalog.
+	
+	expiredCreditCard := CreditCard withNumber: '1234567812345678' owner: 'Juan el irresistible'  expirationDate: '062010'.
+	
+	self should: [ cashier checkOut: cart withCard: expiredCreditCard ]
+		raise: Error - MessageNotUnderstood! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/24/2020 18:39:38'!
+test04_cashierLogsTransactionIfMerchantProcessorSaysOK
+	
+	| cashier |
+	cashier := Cashier withCatalog: catalog.
+	
+	self assert: 'OK' equals: (cashier checkOut: cart withCard: enabledCreditCard).! !
+
+!methodRemoval: CashierTest #test04_cashierPerformsTransactionWithMerchantProcessorIfCreditCardIsValid stamp: 'PGTA 11/24/2020 18:39:44'!
+test04_cashierPerformsTransactionWithMerchantProcessorIfCreditCardIsValid
+	
+	| cashier expiredCreditCard |
+	cashier := Cashier withCatalog: catalog.
+	
+	expiredCreditCard := CreditCard withNumber: '1234567812345678' owner: 'Juan el irresistible'  expirationDate: '062010'.
+	
+	self should: [ cashier checkOut: cart withCard: expiredCreditCard ]
+		raise: Error - MessageNotUnderstood!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/24/2020 18:46:28' prior: 50870798!
+test04_cashierLogsTransactionIfMerchantProcessorSaysOK
+	
+	| cashier register |
+	register := OrderedCollection new.
+	cashier := Cashier withRegister: register.
+	
+	cashier checkOut: cart withCard: enabledCreditCard.
+	
+	self assert: register first equals: cart.! !
+
+!classDefinition: #MerchantProcessorInterface category: 'Tus-Libros-Iteracion2' stamp: 'PGTA 11/24/2020 18:55:12'!
+Object subclass: #MerchantProcessorInterface
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PGTA 11/24/2020 18:55:24' prior: 50870824!
+test04_cashierLogsTransactionIfMerchantProcessorSaysOK
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MerchantProcessorInterface new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	cashier checkOut: cart withCard: enabledCreditCard.
+	
+	self assert: register first equals: cart.! !
