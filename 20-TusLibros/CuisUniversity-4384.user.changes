@@ -30758,3 +30758,1305 @@ test04_cashierLogsTransactionIfMerchantProcessorSaysOK
 	cashier checkOut: cart withCard: enabledCreditCard.
 	
 	self assert: register first equals: cart.! !
+
+----STARTUP---- (24 November 2020 19:09:35) as C:\Users\paujimenez\Documents\Ingenieria1\cuisWindows64\20-windows64-TusLibros2\CuisUniversity-4384.image!
+
+
+----End fileIn of C:\Users\paujimenez\Documents\Ingenieria1\IS1-2c-2020\20-TusLibros\Tus-Libros-Iteracion2.st----!
+
+!classRenamed: #MerchantProcessorInterface as: #MerchantProcessorInterfaceSimulator stamp: 'PJ 11/24/2020 20:14:54'!
+Smalltalk renameClassNamed: #MerchantProcessorInterface as: #MerchantProcessorInterfaceSimulator!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/24/2020 20:14:54' prior: 50867914!
+test04_cashierLogsTransactionIfMerchantProcessorSaysOK
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MerchantProcessorInterfaceSimulator new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	cashier checkOut: cart withCard: enabledCreditCard.
+	
+	self assert: register first equals: cart.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/24/2020 20:19:21' prior: 50868336!
+test04_cashierLogsTransactionIfMerchantProcessorSaysOK
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MerchantProcessorInterfaceSimulator new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	cashier checkOut: cart withCard: enabledCreditCard.
+	
+	self assert: register first equals: cart.! !
+
+!classDefinition: #MPInterfaceSimulatorOpSuccess category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/24/2020 20:32:41'!
+MerchantProcessorInterfaceSimulator subclass: #MPInterfaceSimulatorOpSuccess
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/24/2020 20:32:09' prior: 50868351!
+test04_cashierLogsTransactionIfMerchantProcessorSaysOK
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorOpSuccess new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	cashier checkOut: cart withCard: enabledCreditCard.
+	
+	self assert: register first equals: cart.! !
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/24/2020 20:42:20'!
+ERROR!
+!Cashier class methodsFor: 'instance creation' stamp: 'PJ 11/24/2020 20:42:58'!
+withRegister: anOrderedCollection withMerchant: aMPInterfaceSimulatorOpSuccess 
+	"DO NOT FORGET TO RENAME COLLABORATORS AND REMOVE THIS COMMENT!!!!"
+	self shouldBeImplemented.
+	^self new initializeWithRegister: anOrderedCollection withMerchant: aMPInterfaceSimulatorOpSuccess ! !
+!Cashier class methodsFor: 'instance creation' stamp: 'PJ 11/24/2020 20:44:36' prior: 50868393!
+withRegister: aRegister withMerchant: aMerchantProcesorInterface
+	
+	^self new initializeWithRegister: aRegister withMerchant: aMerchantProcesorInterface ! !
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/24/2020 20:44:41'!
+ERROR!
+
+!classDefinition: #Cashier category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/24/2020 20:45:16'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog register'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+
+!classDefinition: #Cashier category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/24/2020 20:45:16'!
+Object subclass: #Cashier
+	instanceVariableNames: 'catalog register merchantProcesorInterface'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+!Cashier methodsFor: 'initialization' stamp: 'PJ 11/24/2020 20:45:16'!
+initializeWithRegister: aRegister withMerchant: aMerchantProcesorInterface 
+	self shouldBeImplemented.
+	register := aRegister.
+	merchantProcesorInterface := aMerchantProcesorInterface.! !
+!Cashier methodsFor: 'initialization' stamp: 'PJ 11/24/2020 20:45:42' prior: 50868433!
+initializeWithRegister: aRegister withMerchant: aMerchantProcesorInterface
+	register := aRegister.
+	merchantProcesorInterface := aMerchantProcesorInterface.! !
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/24/2020 20:45:45'!
+ERROR!
+
+----SNAPSHOT----(24 November 2020 20:53:34) CuisUniversity-4384.image priorSource: 17155564!
+
+----SNAPSHOT----(25 November 2020 00:14:04) CuisUniversity-4384.image priorSource: 17177687!
+
+----QUIT----(25 November 2020 00:14:14) CuisUniversity-4384.image priorSource: 17177781!
+
+----STARTUP---- (25 November 2020 20:51:31) as C:\Users\paujimenez\Documents\Ingenieria1\cuisWindows64\20-windows64-TusLibros2\CuisUniversity-4384.image!
+
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 20:57:47'!
+ERROR!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 21:01:23' prior: 50868160!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:01:24'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:01:24'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:01:24'!
+ERROR!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 21:01:24'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:01:24'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:01:24'!
+ERROR!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:02:40'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:02:40'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:02:40'!
+ERROR!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 21:02:40'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:02:40'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:02:40'!
+ERROR!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:04:36' prior: 50867876!
+test01_cashierCannotCheckoutAnEmptyCart
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorOpSuccess new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [ cashier checkOut: cart withCard: enabledCreditCard ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cashier cannotCheckoutAnEmptyCartErrorDescription.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:04:39' prior: 50868527!
+test01_cashierCannotCheckoutAnEmptyCart
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorOpSuccess new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [ cashier checkOut: cart withCard: enabledCreditCard ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cashier cannotCheckoutAnEmptyCartErrorDescription.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:06:04' prior: 50867889!
+test02_cashierReturnsSuccessWithValidTransaction
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorOpSuccess new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self assert: (cashier checkOut: cart withCard: enabledCreditCard) equals: (Cashier okTransactionMessage).! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:07:06' prior: 50867899!
+test03_cashierRejectsTransactionWithExpiredCreditCard
+	
+	| cashier expiredCreditCard register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorOpSuccess new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	expiredCreditCard := CreditCard withNumber: '1234567812345678' owner: 'Juan el irresistible'  expirationDate: '062010'.
+	
+	self should: [ cashier checkOut: cart withCard: expiredCreditCard ]
+		raise: Error - MessageNotUnderstood! !
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:07:19'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:07:19'!
+FAILURE!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:07:19'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 21:07:19'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:07:19'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:07:19'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:09:58' prior: 50868544!
+test01_cashierCannotCheckoutAnEmptyCart
+	
+	| cashier register merchantIface emptyCart|
+	
+	merchantIface := MPInterfaceSimulatorOpSuccess new.
+	register := OrderedCollection new.
+	emptyCart := Cart withCatalog: catalog.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [ cashier checkOut: emptyCart withCard: enabledCreditCard ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cashier cannotCheckoutAnEmptyCartErrorDescription.! !
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:10:00'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:10:00'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:10:00'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 21:10:00'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:10:00'!
+PASSED!
+
+!classDefinition: #MPInterfaceSimulatorStolenCard category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/25/2020 21:22:14'!
+MerchantProcessorInterfaceSimulator subclass: #MPInterfaceSimulatorStolenCard
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:21:44'!
+test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorStolenCard new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [cashier checkOut: cart withCard: enabledCreditCard.]
+		raise: Error - MessageNotUnderstood.	
+	
+	self assert: register isEmpty.! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:23:10'!
+FAILURE!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 21:27:10' prior: 50868471!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard.
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:27:16'!
+ERROR!
+!MerchantProcessorInterfaceSimulator methodsFor: 'testing' stamp: 'PJ 11/25/2020 21:27:57'!
+debit: aSmallInteger from: aCreditCard 
+	self shouldBeImplemented.! !
+!MerchantProcessorInterfaceSimulator methodsFor: 'testing' stamp: 'PJ 11/25/2020 21:28:25' prior: 50868700!
+debit: aPurchaseValue from: aCreditCard 
+	self subclassResponsibility.! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:28:26'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:28:26'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:28:26'!
+ERROR!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 21:28:26'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:28:26'!
+ERROR!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:28:26'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:28:30'!
+ERROR!
+!MPInterfaceSimulatorOpSuccess methodsFor: 'testing' stamp: 'PJ 11/25/2020 21:28:54' overrides: 50868706!
+debit: aSmallInteger from: aCreditCard 
+	self shouldBeImplemented.! !
+!MPInterfaceSimulatorOpSuccess methodsFor: 'testing' stamp: 'PJ 11/25/2020 21:30:24' prior: 50868738 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	! !
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:30:29'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:30:31'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:30:46'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:30:46'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:30:46'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 21:30:46'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:30:46'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:30:46'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:39:16' prior: 50868662!
+test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorStolenCard new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [cashier checkOut: cart withCard: enabledCreditCard.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cashier stolenCardErrorDescription.
+	
+	self assert: register isEmpty.! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:39:21'!
+ERROR!
+!Cashier class methodsFor: 'errors' stamp: 'PJ 11/25/2020 21:39:36'!
+stolenCardErrorDescription
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'errors' stamp: 'PJ 11/25/2020 21:40:15' prior: 50868800!
+stolenCardErrorDescription
+	^'Stolen Card'! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:40:19'!
+FAILURE!
+!MPInterfaceSimulatorStolenCard methodsFor: 'nil' stamp: 'PJ 11/25/2020 21:42:10' overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	^self error: 'MP: Stolen Card'.! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:42:28'!
+FAILURE!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 21:47:36' prior: 50868682!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	[merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard]
+	on: Error
+	do: [^self error: self class stolenCardErrorDescription].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:47:39'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:47:39'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:47:39'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 21:47:39'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:47:39'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:47:39'!
+PASSED!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:51:50'!
+test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorStolenCard new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [cashier checkOut: cart withCard: enabledCreditCard.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cashier noFundsCardErrorDescription.
+	
+	self assert: register isEmpty.! !
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 21:51:55'!
+ERROR!
+!Cashier class methodsFor: 'errors' stamp: 'PJ 11/25/2020 21:52:17'!
+noFundsCardErrorDescription
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'errors' stamp: 'PJ 11/25/2020 21:52:52' prior: 50868884!
+noFundsCardErrorDescription
+	^'The card has no funds!!'! !
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 21:53:06'!
+FAILURE!
+
+!classDefinition: #MPInterfaceSimulatorNoFundsCard category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/25/2020 21:55:05'!
+MerchantProcessorInterfaceSimulator subclass: #MPInterfaceSimulatorNoFundsCard
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 21:54:45' prior: 50868779!
+test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorNoFundsCard new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [cashier checkOut: cart withCard: enabledCreditCard.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cashier stolenCardErrorDescription.
+	
+	self assert: register isEmpty.! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:55:16'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 21:55:16'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 21:55:16'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 21:55:16'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 21:55:16'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 21:55:16'!
+PASSED!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 21:55:16'!
+FAILURE!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 21:55:16'!
+FAILURE!
+!MPInterfaceSimulatorNoFundsCard methodsFor: 'nil' stamp: 'PJ 11/25/2020 21:57:18' overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	^self error: 'MP: No Funds'.! !
+!Cashier class methodsFor: 'errors' stamp: 'PJ 11/25/2020 22:10:44'!
+unableToCompleteTransactionErrorDescription
+	^'Unable To Complete Transaction'! !
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 22:11:34' prior: 50868824!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	[merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard]
+	on: Error
+	do: [^self error: self class unableToCompleteTransactionErrorDescription ].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 22:11:50'!
+FAILURE!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 22:12:12' prior: 50868863!
+test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorStolenCard new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [cashier checkOut: cart withCard: enabledCreditCard.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cashier unableToCompleteTransactionErrorDescription.
+	
+	self assert: register isEmpty.! !
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 22:12:25' prior: 50868908!
+test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorNoFundsCard new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [cashier checkOut: cart withCard: enabledCreditCard.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cashier unableToCompleteTransactionErrorDescription.
+	
+	self assert: register isEmpty.! !
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 22:12:28'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 22:12:28'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 22:12:28'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 22:12:28'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 22:12:28'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 22:12:28'!
+PASSED!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 22:12:28'!
+PASSED!
+
+----SNAPSHOT----(25 November 2020 22:12:34) CuisUniversity-4384.image priorSource: 17177875!
+
+!classDefinition: #MPInterfaceSimulatorDown category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/25/2020 22:42:01'!
+MerchantProcessorInterfaceSimulator subclass: #MPInterfaceSimulatorDown
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+!CashierTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 22:41:14'!
+test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown
+	
+	| cashier register merchantIface |
+	
+	merchantIface := MPInterfaceSimulatorDown new.
+	register := OrderedCollection new.
+	
+	cashier := Cashier withRegister: register withMerchant: merchantIface.
+	
+	self should: [cashier checkOut: cart withCard: enabledCreditCard.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: Cashier transactionWillBeMadeLaterErrorDescription.
+	
+	self assert: register isEmpty.! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 22:42:13'!
+ERROR!
+!Cashier class methodsFor: 'errors' stamp: 'PJ 11/25/2020 22:42:39'!
+transactionWillBeMadeLaterErrorDescription
+	self shouldBeImplemented.! !
+!Cashier class methodsFor: 'errors' stamp: 'PJ 11/25/2020 22:43:16' prior: 50869087!
+transactionWillBeMadeLaterErrorDescription
+	^'Merchant Processor Interface Simulator'.! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 22:43:18'!
+FAILURE!
+!MPInterfaceSimulatorDown methodsFor: 'nil' stamp: 'PJ 11/25/2020 22:44:29' overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	^self error: 'MP: Offline'.! !
+
+FixedGregorianDate today year !
+
+FixedGregorianDate today yearNumber !
+
+FixedGregorianDate today!
+
+self year !
+
+self year number !
+
+self year number asString !
+
+FixedGregorianDate today month !
+
+FixedGregorianDate today monthOfYear !
+
+FixedGregorianDate today month number !
+
+FixedGregorianDate today day !
+
+FixedGregorianDate today dayOfMonth !
+
+FixedGregorianDate today day number!
+
+FixedGregorianDate today dayNumber !
+
+!classDefinition: #MPException category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/25/2020 23:02:06'!
+Object subclass: #MPException
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:01:56' prior: 50868968!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	[merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard]
+	on: Error
+	do: [^self error: self class unableToCompleteTransactionErrorDescription ]
+	on: MPException
+	do: [ |aStream aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number, today dayNumber, '.csv'.
+		aStream := aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk'].
+		].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:02:29' prior: 50869128!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	[merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard]
+	on: Error
+	do: [^self error: self class unableToCompleteTransactionErrorDescription ]
+	on: MPException
+	do: [ |aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number, today dayNumber, '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk'].
+		].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+!MPInterfaceSimulatorDown methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:03:32' prior: 50869102 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: Offline'."
+	^MPException new.! !
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:07:49' prior: 50869155!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	[merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard]
+	on: Error
+	do: [^self error: self class unableToCompleteTransactionErrorDescription ]
+	on: MPException
+	do: [ |aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number, today dayNumber, '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk'].
+		^self error: self class transactionWillBeMadeLaterErrorDescription
+	].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:08:02'!
+FAILURE!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:09:02' prior: 50869189!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	[merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard]
+	on: Error
+	do: [^self error: self class unableToCompleteTransactionErrorDescription ]
+	on: MPException
+	do: [ "|aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number, today dayNumber, '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk']."
+		^self error: self class transactionWillBeMadeLaterErrorDescription
+	].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:09:13'!
+FAILURE!
+!MPInterfaceSimulatorDown methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:09:38' prior: 50869183 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: Offline'."
+	^MPException.! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:09:54'!
+FAILURE!
+
+merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard!
+
+MPException!
+
+self value!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:17:08' prior: 50869222!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	[merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard]
+	on: Error
+	do: [^self error: self class unableToCompleteTransactionErrorDescription ]
+	on: DomainError
+	do: [ "|aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number, today dayNumber, '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk']."
+		^self error: self class transactionWillBeMadeLaterErrorDescription
+	].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+!MPInterfaceSimulatorDown methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:22:19' prior: 50869256 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: Offline'."
+	^DomainError signal.! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:22:31'!
+FAILURE!
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:23:19'!
+FAILURE!
+
+MPException subclass: #MPOk
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+
+!classDefinition: #MPOk category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/25/2020 23:25:08'!
+MPException subclass: #MPOk
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+
+MPException subclass: #MPError
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+
+!classDefinition: #MPError category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/25/2020 23:25:18'!
+MPException subclass: #MPError
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+
+MPException subclass: #MPOffline
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+
+!classDefinition: #MPOffline category: 'Tus-Libros-Iteracion2' stamp: 'PJ 11/25/2020 23:25:48'!
+MPException subclass: #MPOffline
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'Tus-Libros-Iteracion2'!
+!MPInterfaceSimulatorDown methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:26:50' prior: 50869299 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: Offline'."
+	^MPOffline.! !
+!MPInterfaceSimulatorNoFundsCard methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:28:15' prior: 50868957 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: No Funds'."
+	^MPError ! !
+!MPInterfaceSimulatorStolenCard methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:28:25' prior: 50868814 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: Stolen Card'."
+	^MPError ! !
+!MPInterfaceSimulatorOpSuccess methodsFor: 'testing' stamp: 'PJ 11/25/2020 23:28:43' prior: 50868744 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	^MPOk! !
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:29:39' prior: 50869269!
+checkOut: aCart withCard: aCreditCard
+ 
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	[merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard]
+	on: MPError 
+	do: [^self error: self class unableToCompleteTransactionErrorDescription ]
+	on: DomainError
+	do: [ "|aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number, today dayNumber, '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk']."
+		^self error: self class transactionWillBeMadeLaterErrorDescription
+	].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:29:44'!
+FAILURE!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 23:30:00'!
+FAILURE!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:32:38' prior: 50869376!
+checkOut: aCart withCard: aCreditCard
+ 
+	|answer|
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	answer := merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard.
+	(answer isKindOf: MPError) ifTrue: [^self error: self class unableToCompleteTransactionErrorDescription ].
+	(answer isKindOf: MPOffline ) ifTrue: [ "|aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number, today dayNumber, '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk']."
+		^self error: self class transactionWillBeMadeLaterErrorDescription
+	].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:32:52'!
+FAILURE!
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:34:24'!
+FAILURE!
+
+answer!
+
+answer isKindOf: MPOffline!
+
+answer!
+
+self class!
+
+answer isKindOf: MPOffline!
+
+answer isMemberOf: MPError!
+
+answer isMemberOf: MPOffline!
+
+answer!
+
+self isKindOf: self!
+!MPInterfaceSimulatorDown methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:39:47' prior: 50869350 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: Offline'."
+	^MPOffline new.! !
+!MPInterfaceSimulatorNoFundsCard methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:39:55' prior: 50869357 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: No Funds'."
+	^MPError new ! !
+!MPInterfaceSimulatorOpSuccess methodsFor: 'testing' stamp: 'PJ 11/25/2020 23:40:08' prior: 50869371 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	^MPOk new! !
+!MPInterfaceSimulatorStolenCard methodsFor: 'as yet unclassified' stamp: 'PJ 11/25/2020 23:40:16' prior: 50869364 overrides: 50868706!
+debit: aPurchaseValue from: aCreditCard 
+	"^self error: 'MP: Stolen Card'."
+	^MPError new! !
+
+answer!
+
+answer isKindOf: MPOffline !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:41:32'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 23:41:32'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 23:41:32'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 23:41:32'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 23:41:32'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 23:41:32'!
+PASSED!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 23:41:32'!
+PASSED!
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:41:32'!
+PASSED!
+
+----SNAPSHOT----(25 November 2020 23:41:43) CuisUniversity-4384.image priorSource: 17196890!
+
+!methodRemoval: Cashier #initializeWithCatalog: stamp: 'PJ 11/25/2020 23:42:38'!
+initializeWithCatalog: aCatalog 
+
+	catalog := aCatalog.!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 23:42:45'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 23:42:45'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 23:42:45'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 23:42:45'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 23:42:45'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 23:42:45'!
+PASSED!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 23:42:45'!
+PASSED!
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:42:45'!
+PASSED!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:43:00' prior: 50869413!
+checkOut: aCart withCard: aCreditCard
+ 
+	|answer|
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	answer := merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard.
+	(answer isKindOf: MPError) ifTrue: [^self error: self class unableToCompleteTransactionErrorDescription ].
+	(answer isKindOf: MPOffline ) ifTrue: [ |aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number, today dayNumber, '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk'].
+		^self error: self class transactionWillBeMadeLaterErrorDescription
+	].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:43:06'!
+ERROR!
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:43:39' prior: 50869555!
+checkOut: aCart withCard: aCreditCard
+ 
+	|answer|
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	answer := merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard.
+	(answer isKindOf: MPError) ifTrue: [^self error: self class unableToCompleteTransactionErrorDescription ].
+	(answer isKindOf: MPOffline ) ifTrue: [ |aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number asString , today dayNumber asString , '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: 'test,sdaspp,a sdasdk'].
+		^self error: self class transactionWillBeMadeLaterErrorDescription
+	].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:43:44'!
+ERROR!
+!CreditCard methodsFor: 'initialization' stamp: 'PJ 11/25/2020 23:53:35' prior: 50868217!
+initializeWithNumber: aCreditCardNumberString owner: aCreditCardOwnerName expirationDate: aCreditCardExpirationDateString 
+
+	| yearNumber monthNumber |
+	
+	aCreditCardNumberString isEmpty ifTrue: [ ^self error: self class wrongCreditCardNumberErrorDescription ].
+	aCreditCardNumberString do: [:aChar | aChar isDigit ifFalse: [ ^self error: self class wrongCreditCardNumberErrorDescription ] ].
+
+	aCreditCardOwnerName isEmpty ifTrue: [ ^self error: self class wrongCreditCardOwnerErrorDescription ].
+	
+	aCreditCardExpirationDateString isEmpty ifTrue: [ ^self error: self class wrongCreditCardExpirationDateErrorDescription ].
+	aCreditCardExpirationDateString do: [:aChar | aChar isDigit ifFalse: [ ^self error: self class wrongCreditCardExpirationDateErrorDescription ] ].
+	aCreditCardExpirationDateString size > 6 ifTrue: [^self error: self class wrongCreditCardExpirationDateErrorDescription].
+	
+	monthNumber := (aCreditCardExpirationDateString collect: [:digit | digit] from: 1 to: 2) asNumber.
+	yearNumber := (aCreditCardExpirationDateString collect: [:digit | digit] from: 3 to: 6) asNumber.
+
+	expirationDate := GregorianMonthOfYear yearNumber: yearNumber monthNumber: monthNumber.
+	number := aCreditCardNumberString.
+	ownerName := aCreditCardOwnerName.
+	! !
+
+FixedGregorianDate today monthOfYear .!
+
+FixedGregorianDate today monthOfYear asString !
+!Cashier methodsFor: 'operations' stamp: 'PJ 11/25/2020 23:55:47' prior: 50869589!
+checkOut: aCart withCard: aCreditCard
+ 
+	|answer|
+	aCart isEmpty ifTrue: [^self error: self class cannotCheckoutAnEmptyCartErrorDescription. ].
+	aCreditCard isExpired ifTrue: [^self error: self class expiredCardErrorDescription ].
+	
+	answer := merchantProcesorInterface debit: aCart purchaseValue from: aCreditCard.
+	(answer isKindOf: MPError) ifTrue: [^self error: self class unableToCompleteTransactionErrorDescription ].
+	(answer isKindOf: MPOffline ) ifTrue: [ "|aFilenameString today|
+		today := FixedGregorianDate today.
+		aFilenameString := 'TUSLIBROS_INPUT_', today year number asString, today month number asString , today dayNumber asString , '.csv'.
+		aFilenameString asFileName appendStreamDo:[:stream | stream nextPutAll: ('2', aCreditCard cardNumber, aCreditCard expirationDate, aCreditCard ownerName)]."
+		^self error: self class transactionWillBeMadeLaterErrorDescription
+	].
+	
+	register add: aCart.
+	^self class okTransactionMessage! !
+
+expirationDate := FixedGregorianDate today monthOfYear.!
+
+expirationDate monthNumber asString, expirationDate year number asString !
+!CreditCard methodsFor: 'accessing' stamp: 'PJ 11/25/2020 23:57:49' prior: 50868263!
+expirationDate
+
+	^expirationDate monthNumber asString, expirationDate year number asString ! !
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:58:11'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/25/2020 23:58:11'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/25/2020 23:58:11'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/25/2020 23:58:11'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/25/2020 23:58:11'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/25/2020 23:58:11'!
+PASSED!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/25/2020 23:58:11'!
+PASSED!
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/25/2020 23:58:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PJ 11/25/2020 23:58:23'!
+FAILURE!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PJ 11/25/2020 23:58:23'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PJ 11/25/2020 23:58:23'!
+FAILURE!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/26/2020 00:00:35' prior: 50868054!
+test10_creditCardKnowsItsExpirationDate
+	| ccard expDate |
+	
+	"expDate := GregorianMonthOfYear yearNumber: 2021 monthNumber: 2."
+	expDate := '022021'.
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: expDate.
+	self assert: expDate = ccard expirationDate! !
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PJ 11/26/2020 00:00:36'!
+FAILURE!
+
+expDate!
+
+ccard expirationDate!
+
+FixedGregorianDate today monthOfYear!
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/26/2020 00:09:07' prior: 50869790!
+test10_creditCardKnowsItsExpirationDate
+	| ccard expDate |
+	
+	"expDate := GregorianMonthOfYear yearNumber: 2021 monthNumber: 2."
+	expDate := '102021'.
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: expDate.
+	self assert: expDate = ccard expirationDate! !
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PJ 11/26/2020 00:09:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PJ 11/26/2020 00:09:55'!
+PASSED!
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/26/2020 00:10:02'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/26/2020 00:10:02'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/26/2020 00:10:02'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/26/2020 00:10:02'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/26/2020 00:10:02'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/26/2020 00:10:02'!
+PASSED!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/26/2020 00:10:02'!
+PASSED!
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/26/2020 00:10:02'!
+PASSED!
+
+!testRun: #CartTest #test01_newCartIsAnEmptyCart stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CartTest #test02_cartWithOneBookIsNotEmpty stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CartTest #test03_cannotAddISBNOutsideTheCatalogIntoCart stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CartTest #test04_cartContainsAllAddedBooksISBN stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CartTest #test05_aCartCanAddANumberOfCopiesOfTheSameBookISBN stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CartTest #test06_theNumberOfCopiesToAddOfABookISBNMustBePositive stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CartTest #test07_theNumberOfCopiesToAddOfABookISBNMustBeInteger stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CartTest #test08_cartKnowsTotalPurchaseValue stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CashierTest #test01_cashierCannotCheckoutAnEmptyCart stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CashierTest #test02_cashierReturnsSuccessWithValidTransaction stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CashierTest #test03_cashierRejectsTransactionWithExpiredCreditCard stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CashierTest #test04_cashierLogsTransactionIfMerchantProcessorSaysOK stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CashierTest #test05_cashierFailsTransactionIfMerchantProcessorSaysStolenCard stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CashierTest #test06_cashierFailsTransactionIfMerchantProcessorCardwithNoFunds stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CashierTest #test07_cashierSavesBatchTransactionIfMerchantProcessorIsDown stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PJ 11/26/2020 00:27:06'!
+PASSED!
+
+----SNAPSHOT----(26 November 2020 00:27:57) CuisUniversity-4384.image priorSource: 17211700!
+
+----QUIT----(26 November 2020 00:28:39) CuisUniversity-4384.image priorSource: 17228170!
