@@ -91,6 +91,41 @@ test08CartRemembersTheNumberOfAddedItems
 	cart add: 2 of: testObjectsFactory itemSellByTheStore.
 	self assert: (cart occurrencesOf: testObjectsFactory itemSellByTheStore) = 2! !
 
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/29/2020 18:48:23'!
+test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty
+
+	| cart cartList|
+	
+	cart := testObjectsFactory createCart.
+	cartList := OrderedCollection new.
+	
+	cart addItemsWithQuantityTo: cartList.
+	self assert: cartList isEmpty.! !
+
+!CartTest methodsFor: 'tests' stamp: 'PJ 11/29/2020 19:06:16'!
+test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty
+
+	| cart cartList bookIsbn1 bookIsbn2|
+	
+	cartList := OrderedCollection new.
+	cart := testObjectsFactory createCart.
+	bookIsbn1 := testObjectsFactory itemSellByTheStore.
+	bookIsbn2 := testObjectsFactory secondItemSellByTheStore.
+	
+	cart add: 3 of: bookIsbn1.
+	cart add: 6 of: bookIsbn2.
+	cart add: 2 of: bookIsbn1.
+	
+	cart addItemsWithQuantityTo: cartList.
+	
+	self assert: 4 equals: cartList size.
+	
+	self assert: bookIsbn1 equals: (cartList at: 1).
+	self assert: 5 equals: (cartList at: 2).
+	
+	self assert: bookIsbn2 equals: (cartList at: 3).
+	self assert: 6 equals: (cartList at: 4).! !
+
 
 !CartTest methodsFor: 'setup' stamp: 'HernanWilkinson 6/17/2013 18:09'!
 setUp 
@@ -161,15 +196,16 @@ test03CanNotCheckoutWithAnExpiredCreditCart
 			self assert: anError messageText = Cashier canNotChargeAnExpiredCreditCardErrorMessage.
 			self assert: salesBook isEmpty ]! !
 
-!CashierTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 19:04'!
+!CashierTest methodsFor: 'tests' stamp: 'PJ 11/29/2020 20:05:17'!
 test04CheckoutRegistersASale
 
-	| cart cashier salesBook total |
+	| cart cashier salesBook total cartList|
 
 	cart := testObjectsFactory createCart.
 	cart add: testObjectsFactory itemSellByTheStore.
 	salesBook := OrderedCollection new.
- 
+ 	cartList := OrderedCollection new.
+	
 	cashier:= Cashier 
 		toCheckout: cart 
 		charging: testObjectsFactory notExpiredCreditCard
@@ -178,9 +214,12 @@ test04CheckoutRegistersASale
 		registeringOn: salesBook.
 		
 	total := cashier checkOut.
+	cart addItemsWithQuantityTo: cartList.
 					
 	self assert: salesBook size = 1.
-	self assert: salesBook first total = total.! !
+	self assert: salesBook first total = total.
+	self assert: salesBook first itemsSold = cartList.
+	! !
 
 !CashierTest methodsFor: 'tests' stamp: 'HernanWilkinson 6/17/2013 19:00'!
 test05CashierChargesCreditCardUsingMerchantProcessor
@@ -265,36 +304,36 @@ authenticate: aClientId password: aPassword
 
 	^authenticateBehavior value: aClientId value: aPassword ! !
 
-!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/28/2020 17:27:31'!
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 17:45:37'!
 test01_CannotCreateCartWithInvalidClient
 
 	|tusLibros|
 
-	tusLibros := TusLibrosInterface withCatalog: testObjectsFactory defaultCatalog authenticator: self.
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
 	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidClientErrorDescription ].
 	
 	self should: [tusLibros createCartWithClient: '1239' password: 'test1234']
 		raise: Error - MessageNotUnderstood
 		withMessageText: TusLibrosInterface invalidClientErrorDescription.! !
 
-!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/28/2020 17:23:17'!
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 17:45:37'!
 test02_CannotCreateCartWithInvalidPassword
 
 	|tusLibros|
 
-	tusLibros := TusLibrosInterface withCatalog: testObjectsFactory defaultCatalog authenticator: self.
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
 	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidPasswordErrorDescription].
 	
 	self should: [tusLibros createCartWithClient: '1239' password: 'invalid']
 		raise: Error - MessageNotUnderstood
 		withMessageText: TusLibrosInterface invalidPasswordErrorDescription.! !
 
-!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/28/2020 17:44:00'!
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 17:45:37'!
 test03_InterfaceCanCreateACartAndIsEmpty
 
 	|tusLibros cartId cartList| 
 
-	tusLibros := TusLibrosInterface withCatalog: testObjectsFactory defaultCatalog authenticator: self.
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
 	
 	cartId := tusLibros createCartWithClient: '1239' password: 'test123'.
 	cartList := tusLibros 	listCart: cartId.
@@ -302,13 +341,13 @@ test03_InterfaceCanCreateACartAndIsEmpty
 	self assert: cartList isEmpty.
 	! !
 
-!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/28/2020 18:17:26'!
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 17:45:37'!
 test04_InterfaceCannotListAnInvalidCartId
 
 	|tusLibros cartId invalidCartId| 
 	
 	invalidCartId := 'invalid'.
-	tusLibros := TusLibrosInterface withCatalog: testObjectsFactory defaultCatalog authenticator: self.
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
 	
 	cartId := tusLibros createCartWithClient: '1239' password: 'test123'.
 	
@@ -319,12 +358,12 @@ test04_InterfaceCannotListAnInvalidCartId
 		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
 	! !
 
-!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/28/2020 18:37:37'!
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 17:45:37'!
 test05_InterfaceCanCreateManyCarts
 
 	|tusLibros cartId1 cartId2| 
 	
-	tusLibros := TusLibrosInterface withCatalog: testObjectsFactory defaultCatalog authenticator: self.
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
 	
 	cartId1 := tusLibros createCartWithClient: '1239' password: 'test123'.
 	cartId2 := tusLibros createCartWithClient: '1238' password: 'test123'.
@@ -333,14 +372,14 @@ test05_InterfaceCanCreateManyCarts
 	self assert: (tusLibros 	listCart: cartId2) isEmpty.
 	! !
 
-!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/28/2020 21:36:49'!
-test06_InterfaceCanAddBooksIntoACart
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 17:45:37'!
+test06_InterfaceCanAddBooksIntoACartAndListThem
 
 	|tusLibros cartId cartList bookIsbn| 
 	
 	bookIsbn := testObjectsFactory itemSellByTheStore.
 	
-	tusLibros := TusLibrosInterface withCatalog: testObjectsFactory defaultCatalog authenticator: self.
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
 	
 	cartId := tusLibros createCartWithClient: '1239' password: 'test123'.
 	tusLibros addToCart: cartId isbn: bookIsbn quantity: 5.
@@ -350,6 +389,203 @@ test06_InterfaceCanAddBooksIntoACart
 	self assert: 2 equals: cartList size.
 	self assert: bookIsbn equals: (cartList at: 1).
 	self assert: 5 equals: (cartList at: 2).	
+	! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 17:45:37'!
+test07_InterfaceCannotAddBooksIntoAnInvalidCart
+
+	|tusLibros cartId bookIsbn invalidCartId|
+	
+	invalidCartId := 'invalid'. 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
+	
+	cartId := tusLibros createCartWithClient: '1239' password: 'test123'.
+	
+	self assert: (invalidCartId = cartId) not.
+	
+	self should: [tusLibros addToCart: invalidCartId isbn: bookIsbn quantity: 5]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+		
+	self should: [tusLibros listCart: invalidCartId]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 17:45:37'!
+test08_InterfaceCannotCheckoutAnInvalidCart
+
+	|tusLibros cartId bookIsbn invalidCartId|
+	
+	invalidCartId := 'invalid'. 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
+	
+	cartId := tusLibros createCartWithClient: '1239' password: 'test123'.
+	tusLibros addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self assert: (invalidCartId = cartId) not.
+	
+	self should: [tusLibros checkoutCart: invalidCartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 18:22:02'!
+test09_InterfaceCannotCheckoutAnEmptyCart
+
+	|tusLibros cartId|
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new.
+	
+	cartId := tusLibros createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibros checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface emptyCartErrorDescription.
+	
+	! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 18:20:55'!
+test10_InterfaceSuccessfullyMakesASale
+
+	|tusLibros cartId bookIsbn transactionId|
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	
+	cartId := tusLibros createCartWithClient: '1239' password: 'test123'.
+	tusLibros addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	transactionId := tusLibros checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	self assert: transactionId isEmpty not.
+	
+	! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 20:26:00'!
+test11_NewInterfaceHasNoSales
+
+	|tusLibros purchaseList|
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	
+	purchaseList := 	tusLibros listPurchasesFor: '1234' password: 'test1234'.
+	
+	self assert: purchaseList isEmpty.! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 20:32:00'!
+test12_CannotListPurchasesForAnInvalidClient
+
+	|tusLibros |
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidClientErrorDescription ].	
+	
+	self should: [tusLibros listPurchasesFor: '1234' password: 'test1234']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidClientErrorDescription.! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 20:35:47'!
+test13_CannotListPurchasesForAClientWithAnInvalidPassword
+
+	|tusLibros |
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidPasswordErrorDescription].	
+	
+	self should: [tusLibros listPurchasesFor: '1234' password: 'test1234']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidPasswordErrorDescription .! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 20:55:17'!
+test14_InterfaceCanListOneClientPurchase
+
+	|tusLibros cartId bookIsbn purchaseList clientId password total quantity|
+	
+	clientId := '1239'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	total := testObjectsFactory itemSellByTheStorePrice * quantity.
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	
+	cartId := tusLibros createCartWithClient: clientId password: password .
+	tusLibros addToCart: cartId isbn: bookIsbn quantity: quantity.
+	
+	tusLibros checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList := tusLibros listPurchasesFor: clientId password: password.
+	
+	self assert: 3 equals: purchaseList size.
+	self assert: bookIsbn equals: (purchaseList at: 1).
+	self assert: quantity equals: (purchaseList at: 2).
+	self assert: total equals: (purchaseList at: 3).
+	! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 20:54:47'!
+test15_InterfaceCanListMoreThanOnePurchaseFromAClient
+
+	|tusLibros cartId bookIsbn purchaseList clientId password total quantity|
+	
+	self shouldBeImplemented.
+	
+	clientId := '1239'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	total := testObjectsFactory itemSellByTheStorePrice * quantity.
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	
+	cartId := tusLibros createCartWithClient: clientId password: password .
+	tusLibros addToCart: cartId isbn: bookIsbn quantity: quantity.
+	
+	tusLibros checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList := tusLibros listPurchasesFor: clientId password: password.
+	
+	self assert: 3 equals: purchaseList size.
+	self assert: bookIsbn equals: (purchaseList at: 1).
+	self assert: quantity equals: (purchaseList at: 2).
+	self assert: total equals: (purchaseList at: 3).
+	! !
+
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 20:55:54'!
+test16_InterfaceCanListPurchasesFromMoreThanOneClient
+
+	|tusLibros cartId bookIsbn purchaseList clientId password total quantity|
+	
+	self shouldBeImplemented.
+	
+	clientId := '1239'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	total := testObjectsFactory itemSellByTheStorePrice * quantity.
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	
+	cartId := tusLibros createCartWithClient: clientId password: password .
+	tusLibros addToCart: cartId isbn: bookIsbn quantity: quantity.
+	
+	tusLibros checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList := tusLibros listPurchasesFor: clientId password: password.
+	
+	self assert: 3 equals: purchaseList size.
+	self assert: bookIsbn equals: (purchaseList at: 1).
+	self assert: quantity equals: (purchaseList at: 2).
+	self assert: total equals: (purchaseList at: 3).
 	! !
 
 
@@ -461,10 +697,15 @@ calculateTotal
 	total := cart total.
 	! !
 
-!Cashier methodsFor: 'checkout - private' stamp: 'HernanWilkinson 6/17/2013 19:07'!
+!Cashier methodsFor: 'checkout - private' stamp: 'PJ 11/29/2020 20:12:57'!
 createSale
 
-	^ Sale of: total
+	|cartList|
+	
+	cartList := OrderedCollection new.
+	cart addItemsWithQuantityTo: cartList.
+	
+	^ Sale of: total withItems: cartList.
 ! !
 
 !Cashier methodsFor: 'checkout - private' stamp: 'HernanWilkinson 6/17/2013 19:06'!
@@ -571,7 +812,7 @@ expiringOn: aMonth
 
 !classDefinition: #Sale category: 'TusLibros-Iteracion3'!
 Object subclass: #Sale
-	instanceVariableNames: 'total'
+	instanceVariableNames: 'total items'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Iteracion3'!
@@ -582,10 +823,16 @@ total
 	^ total! !
 
 
-!Sale methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:47'!
-initializeTotal: aTotal
+!Sale methodsFor: 'initialization' stamp: 'PJ 11/29/2020 20:16:05'!
+initializeTotal: aTotal withItems: aSoldItemsList 
 
-	total := aTotal ! !
+	total := aTotal.
+	items := aSoldItemsList.! !
+
+
+!Sale methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 20:06:33'!
+itemsSold
+	^items copy! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -593,11 +840,11 @@ initializeTotal: aTotal
 Sale class
 	instanceVariableNames: ''!
 
-!Sale class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 18:47'!
-of: aTotal
+!Sale class methodsFor: 'instance creation' stamp: 'PJ 11/29/2020 20:14:40'!
+of: aTotal withItems: aSoldItemsList 
 
 	"should assert total is not negative or 0!!"
-	^self new initializeTotal: aTotal ! !
+	^self new initializeTotal: aTotal withItems: aSoldItemsList ! !
 
 
 !classDefinition: #StoreTestObjectsFactory category: 'TusLibros-Iteracion3'!
@@ -622,17 +869,28 @@ itemSellByTheStorePrice
 	
 	^10! !
 
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'PJ 11/29/2020 19:00:24'!
+secondItemSellByTheStore
+	
+	^ 'validBook2'! !
+
+!StoreTestObjectsFactory methodsFor: 'items' stamp: 'PJ 11/29/2020 19:01:07'!
+secondItemSellByTheStorePrice
+	
+	^25! !
+
 
 !StoreTestObjectsFactory methodsFor: 'cart' stamp: 'HernanWilkinson 6/17/2013 18:08'!
 createCart
 	
 	^Cart acceptingItemsOf: self defaultCatalog! !
 
-!StoreTestObjectsFactory methodsFor: 'cart' stamp: 'HernanWilkinson 6/17/2013 18:08'!
+!StoreTestObjectsFactory methodsFor: 'cart' stamp: 'PJ 11/29/2020 19:02:10'!
 defaultCatalog
 	
 	^ Dictionary new
 		at: self itemSellByTheStore put: self itemSellByTheStorePrice;
+		at: self secondItemSellByTheStore put: self secondItemSellByTheStorePrice;
 		yourself ! !
 
 
@@ -658,30 +916,68 @@ today
 	
 	^ today! !
 
+
+!StoreTestObjectsFactory methodsFor: 'interface' stamp: 'PJ 11/29/2020 17:45:46'!
+createTusLibrosInterfaceWith: anAuthenticator andMerchant: aMerchantProcessor 
+	
+	^TusLibrosInterface withCatalog: self defaultCatalog authenticator: anAuthenticator merchantProcessor: aMerchantProcessor! !
+
 
 !classDefinition: #TusLibrosInterface category: 'TusLibros-Iteracion3'!
 Object subclass: #TusLibrosInterface
-	instanceVariableNames: 'catalog authenticator carts cartId'
+	instanceVariableNames: 'catalog authenticator carts cartId salesBook merchantProcessor transactionId'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Iteracion3'!
 
-!TusLibrosInterface methodsFor: 'initialization' stamp: 'PJ 11/28/2020 18:48:05'!
-initializeWithCatalog: aCatalog authenticator: anAuthenticator 
+!TusLibrosInterface methodsFor: 'initialization' stamp: 'PJ 11/29/2020 18:19:49'!
+initializeWithCatalog: aCatalog authenticator: anAuthenticator merchantProcessor: aMerchantProcessor  
 	
 	catalog := aCatalog.
 	authenticator := anAuthenticator.
+	merchantProcessor := aMerchantProcessor.
 	cartId := 0.
-	carts := Dictionary new.! !
+	transactionId := 0.
+	carts := Dictionary new.
+	salesBook := OrderedCollection new.! !
 
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/28/2020 19:08:11'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/29/2020 15:56:53'!
 addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
 	
 	|cart|
+	[
+		cart := carts at: aCartId.
+		cart add: aBookQuantity of: aBookIsbn. 	
+	]
+	on: Error
+ 	do: [
+		^self error: self class invalidCartIdErrorDescription.
+	]
 	
-	cart := carts at: aCartId.
-	cart add: aBookQuantity of: aBookIsbn. 
+	! !
+
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/29/2020 18:05:59'!
+checkoutCart: aCartId cardNumeber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|cart cashier creditCard today|
+	
+	[cart := carts at: aCartId ]
+	on: Error
+	do: [^self error: self class invalidCartIdErrorDescription].
+	
+	creditCard := CreditCard expiringOn: (Month month: 5 year: 2025) "Change this!! anExpDate".
+	
+	[
+	today := DateAndTime now.
+	cashier := Cashier toCheckout: cart charging: creditCard throught: merchantProcessor on: today registeringOn: salesBook.
+	]
+	on: Error
+	do: [^self error: self class emptyCartErrorDescription].
+	
+	cashier checkOut.
+	
+	^self transactionId
 	! !
 
 !TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/28/2020 18:51:06'!
@@ -698,16 +994,37 @@ createCartWithClient: aClientId password: aPassword
 	
 	^cartIdStr.! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/28/2020 20:42:24'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/29/2020 16:05:00'!
 listCart: aCartId
-	|cart cartList|
-	(carts includesKey: aCartId) ifFalse: [^self error: self class invalidCartIdErrorDescription].
+	|cart|
 	
-	cart := carts at: aCartId.
+	[cart := carts at: aCartId]
+	on: Error
+	do: [^self error: self class invalidCartIdErrorDescription].
+	
+	^self listCartWithQuantity: cart.
+	! !
+
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/29/2020 20:33:58'!
+listPurchasesFor: aClientId password: aPassword
+	
+	authenticator authenticate: aClientId password: aPassword.
+	^OrderedCollection new.! !
+
+
+!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 11/29/2020 16:02:54'!
+listCartWithQuantity: aCart
+	|cartList|
+	
 	cartList := OrderedCollection new.
-	cart addItemsWithQuantityTo: cartList.
+	aCart addItemsWithQuantityTo: cartList.
 	^cartList.
 	! !
+
+!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 11/29/2020 18:18:52'!
+transactionId
+	transactionId := transactionId + 1.
+	^transactionId asString! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -715,11 +1032,15 @@ listCart: aCartId
 TusLibrosInterface class
 	instanceVariableNames: ''!
 
-!TusLibrosInterface class methodsFor: 'instance creation' stamp: 'PJ 11/28/2020 16:52:34'!
-withCatalog: aCatalog authenticator: anAuthenticator
+!TusLibrosInterface class methodsFor: 'instance creation' stamp: 'PJ 11/29/2020 18:08:22'!
+withCatalog: aCatalog authenticator: anAuthenticator merchantProcessor: aMerchantProcessor 
 
-	^self new initializeWithCatalog: aCatalog authenticator: anAuthenticator ! !
+	^self new initializeWithCatalog: aCatalog authenticator: anAuthenticator merchantProcessor: aMerchantProcessor ! !
 
+
+!TusLibrosInterface class methodsFor: 'errors' stamp: 'PJ 11/29/2020 17:05:56'!
+emptyCartErrorDescription
+	^'Your cart is empty'! !
 
 !TusLibrosInterface class methodsFor: 'errors' stamp: 'PJ 11/28/2020 18:19:10'!
 invalidCartIdErrorDescription
