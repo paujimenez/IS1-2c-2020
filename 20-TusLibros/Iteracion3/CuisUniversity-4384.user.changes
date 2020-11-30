@@ -30097,3 +30097,949 @@ test16_InterfaceCanListPurchasesFromMoreThanOneClient
 ERROR!
 
 ----SNAPSHOT----(29 November 2020 20:56:07) CuisUniversity-4384.image priorSource: 17314812!
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/29/2020 23:17:45'!
+FAILURE!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/29/2020 23:28:01' prior: 50872544!
+listPurchasesFor: aClientId password: aPassword
+	
+	|purchaseList|
+	
+	authenticator authenticate: aClientId password: aPassword.
+	
+	purchaseList := OrderedCollection new.
+	
+	salesBook do: [:sale |
+		purchaseList addAllLast: sale itemsSold.
+		purchaseList add: sale total.
+	].
+
+	^purchaseList ! !
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test11_NewInterfaceHasNoSales stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/29/2020 23:28:05'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/29/2020 23:28:05'!
+ERROR!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/29/2020 23:28:05'!
+ERROR!
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/29/2020 23:28:23'!
+ERROR!
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 23:35:16' prior: 50872746!
+test15_InterfaceCanListMoreThanOnePurchaseFromAClient
+
+	|tusLibros cartId1 cartId2 bookIsbn1 bookIsbn2 purchaseList clientId password total quantity|
+	
+	clientId := '1239'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn1 := testObjectsFactory itemSellByTheStore.
+	bookIsbn2 := testObjectsFactory secondItemSellByTheStore.
+	total := (testObjectsFactory itemSellByTheStorePrice * quantity) + (testObjectsFactory secondItemSellByTheStorePrice * (quantity + 1)).
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	
+	cartId1 := tusLibros createCartWithClient: clientId password: password .
+	tusLibros addToCart: cartId1 isbn: bookIsbn1 quantity: quantity.
+	tusLibros checkoutCart: cartId1 cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	cartId2 := tusLibros createCartWithClient: clientId password: password .
+	tusLibros addToCart: cartId2 isbn: bookIsbn2 quantity: (quantity + 1).
+	tusLibros checkoutCart: cartId2 cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList := tusLibros listPurchasesFor: clientId password: password.
+	
+	self assert: 5 equals: purchaseList size.
+	self assert: bookIsbn1 equals: (purchaseList at: 1).
+	self assert: quantity equals: (purchaseList at: 2).
+	self assert: bookIsbn2 equals: (purchaseList at: 3).
+	self assert: (quantity + 1) equals: (purchaseList at: 4).
+	self assert: total equals: (purchaseList at: 5).
+	! !
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/29/2020 23:35:22'!
+FAILURE!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/29/2020 23:38:16' prior: 50872889!
+listPurchasesFor: aClientId password: aPassword
+	
+	|purchaseList total|
+	
+	authenticator authenticate: aClientId password: aPassword.
+	
+	total := 0.
+	purchaseList := OrderedCollection new.
+	
+	salesBook do: [:sale |
+		purchaseList addAllLast: sale itemsSold.
+		total := total + sale total.
+	].
+	
+	purchaseList add: total.
+	^purchaseList ! !
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/29/2020 23:38:19'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/29/2020 23:38:27'!
+ERROR!
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 23:45:38' prior: 50872845!
+test16_InterfaceCanListPurchasesFromMoreThanOneClient
+	
+	|tusLibros cartId1 cartId2 bookIsbn1 bookIsbn2 purchaseList1 purchaseList2 clientId1 clientId2 password total1 total2 quantity|
+	
+	clientId1 := '1239'.
+	clientId2 := '5678'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn1 := testObjectsFactory itemSellByTheStore.
+	bookIsbn2 := testObjectsFactory secondItemSellByTheStore.
+	total1 := (testObjectsFactory itemSellByTheStorePrice * quantity).
+	total2 := (testObjectsFactory secondItemSellByTheStorePrice * (quantity + 1)).
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	
+	cartId1 := tusLibros createCartWithClient: clientId1 password: password .
+	tusLibros addToCart: cartId1 isbn: bookIsbn1 quantity: quantity.
+	tusLibros checkoutCart: cartId1 cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList1 := tusLibros listPurchasesFor: clientId1 password: password.
+	
+	cartId2 := tusLibros createCartWithClient: clientId2 password: password .
+	tusLibros addToCart: cartId2 isbn: bookIsbn2 quantity: (quantity + 1).
+	tusLibros checkoutCart: cartId2 cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList2 := tusLibros listPurchasesFor: clientId2 password: password.
+	
+	self assert: 3 equals: purchaseList1 size.
+	self assert: bookIsbn1 equals: (purchaseList1 at: 1).
+	self assert: quantity equals: (purchaseList1 at: 2).
+	self assert: total1 equals: (purchaseList1 at: 3).
+	
+	self assert: 3 equals: purchaseList2 size.
+	self assert: bookIsbn2 equals: (purchaseList2 at: 1).
+	self assert: (quantity + 1) equals: (purchaseList2 at: 2).
+	self assert: total2 equals: (purchaseList2 at: 3).
+	! !
+!TusLibrosInterfazTest methodsFor: 'as yet unclassified' stamp: 'PJ 11/29/2020 23:46:43' prior: 50873046!
+test16_InterfaceCanListPurchasesFromMoreThanOneClient
+	
+	|tusLibros cartId1 cartId2 bookIsbn1 bookIsbn2 purchaseList1 purchaseList2 clientId1 clientId2 password total1 total2 quantity|
+	
+	clientId1 := '1239'.
+	clientId2 := '5678'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn1 := testObjectsFactory itemSellByTheStore.
+	bookIsbn2 := testObjectsFactory secondItemSellByTheStore.
+	total1 := (testObjectsFactory itemSellByTheStorePrice * quantity).
+	total2 := (testObjectsFactory secondItemSellByTheStorePrice * (quantity + 1)).
+	
+	tusLibros := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp.
+	
+	cartId1 := tusLibros createCartWithClient: clientId1 password: password .
+	tusLibros addToCart: cartId1 isbn: bookIsbn1 quantity: quantity.
+	tusLibros checkoutCart: cartId1 cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList1 := tusLibros listPurchasesFor: clientId1 password: password.
+	
+	cartId2 := tusLibros createCartWithClient: clientId2 password: password .
+	tusLibros addToCart: cartId2 isbn: bookIsbn2 quantity: (quantity + 1).
+	tusLibros checkoutCart: cartId2 cardNumeber: '14556458' expDate: '102030' ownerName: 'Ana Sanchez'.
+	
+	purchaseList2 := tusLibros listPurchasesFor: clientId2 password: password.
+	
+	self assert: 3 equals: purchaseList1 size.
+	self assert: bookIsbn1 equals: (purchaseList1 at: 1).
+	self assert: quantity equals: (purchaseList1 at: 2).
+	self assert: total1 equals: (purchaseList1 at: 3).
+	
+	self assert: 3 equals: purchaseList2 size.
+	self assert: bookIsbn2 equals: (purchaseList2 at: 1).
+	self assert: (quantity + 1) equals: (purchaseList2 at: 2).
+	self assert: total2 equals: (purchaseList2 at: 3).
+	! !
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/29/2020 23:46:53'!
+FAILURE!
+!TusLibrosInterface methodsFor: 'initialization' stamp: 'PJ 11/29/2020 23:48:57' prior: 50871775!
+initializeWithCatalog: aCatalog authenticator: anAuthenticator merchantProcessor: aMerchantProcessor  
+	
+	catalog := aCatalog.
+	authenticator := anAuthenticator.
+	merchantProcessor := aMerchantProcessor.
+	cartId := 0.
+	transactionId := 0.
+	carts := Dictionary new.
+	salesBook := Dictionary new.! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/29/2020 23:58:05' prior: 50870351!
+createCartWithClient: aClientId password: aPassword 
+	
+	|cart cartIdStr clientSalesBook|
+	authenticator authenticate: aClientId password: aPassword.
+	
+	clientSalesBook := salesBook at: aClientId ifAbsent: [salesBook at: aClientId put: OrderedCollection new].
+	
+	cart := Cart acceptingItemsOf: catalog.
+	cartId := cartId + 1.
+	
+	cartIdStr := cartId asString.
+	carts at: cartIdStr put: cart.
+	
+	^cartIdStr.! !
+
+#('awe' 23)!
+
+self first!
+
+self second!
+
+car := 45.!
+
+#('awe' 23 car)!
+
+{'awe'. 23. car}!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 00:15:16' prior: 50873177!
+createCartWithClient: aClientId password: aPassword 
+	
+	|cart cartIdStr clientSalesBook|
+	authenticator authenticate: aClientId password: aPassword.
+	
+	clientSalesBook := salesBook at: aClientId ifAbsent: [salesBook at: aClientId put: OrderedCollection new].
+	
+	cart := Cart acceptingItemsOf: catalog.
+	cartId := cartId + 1.
+	
+	cartIdStr := cartId asString.
+	carts at: cartIdStr put: {cart. clientSalesBook}.
+	
+	^cartIdStr.! !
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 00:16:03'!
+ERROR!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 00:19:05' prior: 50870661!
+addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
+	
+	|cart|
+	[
+		cart := (carts at: aCartId) first.
+		cart add: aBookQuantity of: aBookIsbn. 	
+	]
+	on: Error
+ 	do: [
+		^self error: self class invalidCartIdErrorDescription.
+	]
+	
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 00:23:43' prior: 50871686!
+checkoutCart: aCartId cardNumeber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientAccount clientCart clientSalesBook cashier creditCard today|
+	
+	[clientAccount := carts at: aCartId ]
+	on: Error
+	do: [^self error: self class invalidCartIdErrorDescription].
+	
+	clientCart := clientAccount first.
+	clientSalesBook := clientAccount second.
+	creditCard := CreditCard expiringOn: (Month month: 5 year: 2025) "Change this!! anExpDate".
+	
+	[
+	today := DateAndTime now.
+	cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: today registeringOn: clientSalesBook.
+	]
+	on: Error
+	do: [^self error: self class emptyCartErrorDescription].
+	
+	cashier checkOut.
+	
+	^self transactionId
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 00:27:13' prior: 50873023!
+listPurchasesFor: aClientId password: aPassword
+	
+	|purchaseList total clientSalesBook|
+	
+	authenticator authenticate: aClientId password: aPassword.
+	
+	total := 0.
+	purchaseList := OrderedCollection new.
+	
+	clientSalesBook := salesBook at: aClientId ifAbsent: [^purchaseList ].
+	
+	clientSalesBook do: [:sale |
+		purchaseList addAllLast: sale itemsSold.
+		total := total + sale total.
+	].
+	
+	purchaseList add: total.
+	^purchaseList ! !
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 00:32:43'!
+ERROR!
+
+!testRun: #TusLibrosInterfazTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 11/30/2020 00:32:43'!
+ERROR!
+
+!testRun: #TusLibrosInterfazTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 11/30/2020 00:32:43'!
+ERROR!
+
+!testRun: #TusLibrosInterfazTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test11_NewInterfaceHasNoSales stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 00:32:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 00:33:11'!
+ERROR!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 00:33:16'!
+ERROR!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 00:34:40' prior: 50870713!
+listCart: aCartId
+	|clientAccount clientCart|
+	
+	[clientAccount := carts at: aCartId]
+	on: Error
+	do: [^self error: self class invalidCartIdErrorDescription].
+	
+	clientCart  := clientAccount first.
+	^self listCartWithQuantity: clientCart .
+	! !
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 00:34:43'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test11_NewInterfaceHasNoSales stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 00:35:04'!
+PASSED!
+
+----SNAPSHOT----(30 November 2020 00:35:21) CuisUniversity-4384.image priorSource: 17319401!
+
+!testRun: #TusLibrosInterfazTest #test11_NewInterfaceHasNoSales stamp: 'PJ 11/30/2020 00:36:30'!
+PASSED!
+!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 11/30/2020 00:40:53'!
+cartId
+	cartId := cartId + 1.
+	^cartId asString! !
+!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 11/30/2020 00:41:33'!
+nextCartId
+	cartId := cartId + 1.
+	^cartId asString! !
+
+!methodRemoval: TusLibrosInterface #cartId stamp: 'PJ 11/30/2020 00:41:33'!
+cartId
+	cartId := cartId + 1.
+	^cartId asString!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 00:43:55' prior: 50873196!
+createCartWithClient: aClientId password: aPassword 
+	
+	|cart cartIdStr clientSalesBook|
+	authenticator authenticate: aClientId password: aPassword.
+	
+	clientSalesBook := salesBook at: aClientId ifAbsent: [salesBook at: aClientId put: OrderedCollection new].
+	
+	cart := Cart acceptingItemsOf: catalog.
+	cartIdStr := self nextCartId.
+	carts at: cartIdStr put: {cart. clientSalesBook}.
+	
+	^cartIdStr.! !
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test11_NewInterfaceHasNoSales stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 00:46:16'!
+PASSED!
+
+----SNAPSHOT----(30 November 2020 00:46:24) CuisUniversity-4384.image priorSource: 17336652!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 01:20:13'!
+assertOnInvalidCartIdFor: aBlock
+	
+	aBlock on: Error 	do: [^self error: self class invalidCartIdErrorDescription.	]
+	
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 01:21:11' prior: 50873217!
+addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
+	
+	|cart|
+	self assertOnInvalidCartIdFor:
+	[
+		cart := (carts at: aCartId) first.
+		cart add: aBookQuantity of: aBookIsbn. 	
+	]
+	
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 01:21:57' prior: 50873228!
+checkoutCart: aCartId cardNumeber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientAccount clientCart clientSalesBook cashier creditCard today|
+	
+	self assertOnInvalidCartIdFor: [clientAccount := carts at: aCartId ].
+	
+	clientCart := clientAccount first.
+	clientSalesBook := clientAccount second.
+	creditCard := CreditCard expiringOn: (Month month: 5 year: 2025) "Change this!! anExpDate".
+	
+	[
+	today := DateAndTime now.
+	cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: today registeringOn: clientSalesBook.
+	]
+	on: Error
+	do: [^self error: self class emptyCartErrorDescription].
+	
+	cashier checkOut.
+	
+	^self transactionId
+	! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test11_NewInterfaceHasNoSales stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 01:22:02'!
+PASSED!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 01:22:39' prior: 50873343!
+listCart: aCartId
+	|clientAccount clientCart|
+	
+	self assertOnInvalidCartIdFor: [clientAccount := carts at: aCartId].
+	
+	clientCart  := clientAccount first.
+	^self listCartWithQuantity: clientCart .
+	! !
+!TusLibrosInterface methodsFor: 'asserts' stamp: 'PJ 11/30/2020 01:27:58'!
+assertOnEmptyCartFor: aBlock
+	
+	aBlock on: Error 	do: [^self error: self class emptyCartErrorDescription	]
+	
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 01:28:39' prior: 50873593!
+checkoutCart: aCartId cardNumeber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientAccount clientCart clientSalesBook cashier creditCard today|
+	
+	self assertOnInvalidCartIdFor: [clientAccount := carts at: aCartId ].
+	
+	clientCart := clientAccount first.
+	clientSalesBook := clientAccount second.
+	creditCard := CreditCard expiringOn: (Month month: 5 year: 2025) "Change this!! anExpDate".
+	
+	self assertOnEmptyCartFor:[
+		today := DateAndTime now.
+		cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: today registeringOn: clientSalesBook.
+	].
+	
+	cashier checkOut.
+	
+	^self transactionId
+	! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PJ 11/30/2020 01:28:40'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test11_NewInterfaceHasNoSales stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 01:28:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test11_NewInterfaceHasNoSales stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 01:44:10'!
+PASSED!
+
+!testRun: #TusLibrosInterfazTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 11/30/2020 01:50:51'!
+PASSED!
+
+self proceed!
+
+----SNAPSHOT----(30 November 2020 02:11:46) CuisUniversity-4384.image priorSource: 17341545!
