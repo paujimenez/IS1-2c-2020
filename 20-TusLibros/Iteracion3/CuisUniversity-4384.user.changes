@@ -35945,3 +35945,212 @@ listCart: aCartId
 ----SNAPSHOT----(1 December 2020 22:21:26) CuisUniversity-4384.image priorSource: 17301894!
 
 ----QUIT----(1 December 2020 22:21:37) CuisUniversity-4384.image priorSource: 17303008!
+
+----STARTUP---- (2 December 2020 13:07:19) as C:\Users\paujimenez\Documents\Ingenieria1\cuisWindows64\20-windows64-TusLibros3\CuisUniversity-4384.image!
+
+
+----End fileIn of C:\Users\paujimenez\Documents\Ingenieria1\IS1-2c-2020\20-TusLibros\Iteracion3\TusLibros-Iteracion3.st----!
+!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 12/2/2020 13:09:31' prior: 50878282!
+createCreditCard: anExpDate
+	"As per Maxi, the credit card doesn't use the number and owner because it is not relevant for this iteration given that it was implemented in the previous one."
+	
+	|monthNumber yearNumber month|
+	
+	monthNumber := (anExpDate collect: [:digit | digit] from: 1 to: 2) asNumber.
+	yearNumber := (anExpDate collect: [:digit | digit] from: 3 to: 6) asNumber.
+	month := (Month month: monthNumber year: yearNumber).
+	^CreditCard expiringOn: month.
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:10:44' prior: 50878211!
+checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientOrder clientCart clientSalesBook cashier creditCard |
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId ].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart := clientOrder cart.
+	clientSalesBook := clientOrder salesBook.
+	
+	"As per Maxi, the credit card doesn't use the number and owner because it is not relevant for this iteration given that it was implemented in the previous one."
+	creditCard := self createCreditCard: anExpDate.
+	
+	cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook.
+	cashier checkOut.
+	
+	clientOrders removeKey: aCartId.
+	
+	^self transactionId
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:34' prior: 50878198!
+addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
+	
+	|clientOrder cart|
+	self assertOnInvalidCartIdFor: 	[		clientOrder := clientOrders at: aCartId	].
+	self assertOnExpiredOrder: clientOrder.
+	
+	cart := clientOrder cart.
+	cart add: aBookQuantity of: aBookIsbn.
+	clientOrder updateLastActivity: clock now.
+	
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:49' prior: 50878234!
+createCartWithClient: aClientId password: aPassword 
+	
+	|cart cartIdStr clientSalesBook clientOrder|
+	authenticator authenticate: aClientId password: aPassword.
+	
+	clientSalesBook := salesBook at: aClientId ifAbsent: [salesBook at: aClientId put: OrderedCollection new].
+	
+	cart := Cart acceptingItemsOf: catalog.
+	cartIdStr := self nextCartId.
+	clientOrder := ClientOrder withCart: cart salesBook: clientSalesBook startTime: clock now.
+	clientOrders at: cartIdStr put: clientOrder.
+	
+	^cartIdStr.! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:59' prior: 50878253!
+listCart: aCartId
+	|clientOrder clientCart|
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart  := clientOrder cart.
+	clientOrder updateLastActivity: clock now.
+	^self listCartWithQuantity: clientCart .
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:13:22' prior: 50878265!
+listPurchasesFor: aClientId password: aPassword
+	
+	|purchaseList total clientSalesBook|
+	
+	authenticator authenticate: aClientId password: aPassword.
+	
+	total := 0.
+	purchaseList := OrderedCollection new.
+	
+	clientSalesBook := salesBook at: aClientId ifAbsent: [^purchaseList ].
+	
+	clientSalesBook do: [:sale |
+		purchaseList addAllLast: sale itemsSold.
+		total := total + sale total.
+	].
+	
+	purchaseList add: total.
+	^purchaseList ! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PJ 12/2/2020 13:14:00'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PJ 12/2/2020 13:14:01'!
+PASSED!
+
+----SNAPSHOT----(2 December 2020 13:19:41) CuisUniversity-4384.image priorSource: 17448751!

@@ -1131,7 +1131,7 @@ assertOnInvalidCartIdFor: aBlock
 	! !
 
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 20:28:18'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:34'!
 addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
 	
 	|clientOrder cart|
@@ -1144,7 +1144,7 @@ addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
 	
 	! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:09:09'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:10:44'!
 checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
 	
 	|clientOrder clientCart clientSalesBook cashier creditCard |
@@ -1155,6 +1155,7 @@ checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName
 	clientCart := clientOrder cart.
 	clientSalesBook := clientOrder salesBook.
 	
+	"As per Maxi, the credit card doesn't use the number and owner because it is not relevant for this iteration given that it was implemented in the previous one."
 	creditCard := self createCreditCard: anExpDate.
 	
 	cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook.
@@ -1165,7 +1166,7 @@ checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName
 	^self transactionId
 	! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:19:19'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:49'!
 createCartWithClient: aClientId password: aPassword 
 	
 	|cart cartIdStr clientSalesBook clientOrder|
@@ -1180,7 +1181,7 @@ createCartWithClient: aClientId password: aPassword
 	
 	^cartIdStr.! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:20:36'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:59'!
 listCart: aCartId
 	|clientOrder clientCart|
 	
@@ -1192,7 +1193,7 @@ listCart: aCartId
 	^self listCartWithQuantity: clientCart .
 	! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 00:27:13'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:13:22'!
 listPurchasesFor: aClientId password: aPassword
 	
 	|purchaseList total clientSalesBook|
@@ -1213,8 +1214,9 @@ listPurchasesFor: aClientId password: aPassword
 	^purchaseList ! !
 
 
-!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 11/30/2020 22:29:33'!
+!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 12/2/2020 13:09:31'!
 createCreditCard: anExpDate
+	"As per Maxi, the credit card doesn't use the number and owner because it is not relevant for this iteration given that it was implemented in the previous one."
 	
 	|monthNumber yearNumber month|
 	
