@@ -33413,3 +33413,2535 @@ PASSED!
 PASSED!
 
 ----QUIT----(30 November 2020 23:21:14) CuisUniversity-4384.image priorSource: 17435661!
+
+----STARTUP---- (1 December 2020 20:18:21) as /home/pablo/Documents/Ingenieria1/cuis_TusLibros3/CuisUniversity-4384.image!
+
+
+Object subclass: #ClientOrder
+	instanceVariableNames: 'cart salesBook expTime lastActivity'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+
+!classDefinition: #ClientOrder category: 'TusLibros-Iteracion3' stamp: 'PGTA 12/1/2020 20:23:28'!
+Object subclass: #ClientOrder
+	instanceVariableNames: 'cart salesBook expTime lastActivity'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+
+!classDefinition: #TusLibrosInterface category: 'TusLibros-Iteracion3' stamp: 'PGTA 12/1/2020 20:28:17'!
+Object subclass: #TusLibrosInterface
+	instanceVariableNames: 'catalog authenticator clientOrders cartId salesBook merchantProcessor transactionId clock'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+!TusLibrosInterface methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 20:28:17' prior: 50869099!
+createCartWithClient: aClientId password: aPassword 
+	
+	|cart cartIdStr clientSalesBook clientOrder|
+	authenticator authenticate: aClientId password: aPassword.
+	
+	clientSalesBook := salesBook at: aClientId ifAbsent: [salesBook at: aClientId put: OrderedCollection new].
+	
+	cart := Cart acceptingItemsOf: catalog.
+	cartIdStr := self nextCartId.
+	clientOrder := ClientOrder withCart: cart salesBook: clientSalesBook startTime: clock now.
+	clientOrders at: cartIdStr put: clientOrder.
+	
+	^cartIdStr.! !
+!TusLibrosInterface methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 20:28:18' prior: 50869077!
+checkoutCart: aCartId cardNumeber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientOrder clientCart clientSalesBook cashier creditCard |
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId ].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart := clientOrder cart.
+	clientSalesBook := clientOrder salesBook.
+	
+	creditCard := self createCreditCard: anExpDate.
+	
+	self assertOnEmptyCartFor:[		cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook	].
+	
+	cashier checkOut.
+	
+	^self transactionId
+	! !
+!TusLibrosInterface methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 20:28:18' prior: 50869130!
+listCart: aCartId
+	|clientOrder clientCart|
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId].
+	
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart  := clientOrder cart.
+	clientOrder updateLastActivity: clock now.
+	^self listCartWithQuantity: clientCart .
+	! !
+!TusLibrosInterface methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 20:28:18' prior: 50869064!
+addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
+	
+	|clientOrder cart|
+	self assertOnInvalidCartIdFor: 	[		clientOrder := clientOrders at: aCartId	].
+	self assertOnExpiredOrder: clientOrder.
+	
+	cart := clientOrder cart.
+	cart add: aBookQuantity of: aBookIsbn.
+	clientOrder updateLastActivity: clock now.
+	
+	! !
+!TusLibrosInterface methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 20:28:18' prior: 50869031!
+initializeWithCatalog: aCatalog authenticator: anAuthenticator merchantProcessor: aMerchantProcessor clock: aClock   
+	
+	catalog := aCatalog.
+	authenticator := anAuthenticator.
+	merchantProcessor := aMerchantProcessor.
+	clock := aClock.
+	cartId := 0.
+	transactionId := 0.
+	clientOrders := Dictionary new.
+	salesBook := Dictionary new.! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:28:42'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:38:28'!
+PASSED!
+
+!classDefinition: #TusLibrosInterfaceTest category: 'TusLibros-Iteracion3' stamp: 'PGTA 12/1/2020 20:41:57'!
+TestCase subclass: #TusLibrosInterfaceTest
+	instanceVariableNames: 'testObjectsFactory authenticateBehavior clockSimulator tusLibrosIface'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+!TusLibrosInterfaceTest methodsFor: 'setup' stamp: 'PGTA 12/1/2020 20:41:52' prior: 50868073 overrides: 16927572!
+setUp 
+
+	testObjectsFactory := StoreTestObjectsFactory new.
+	authenticateBehavior := [:aClientId :aPassword|].
+	clockSimulator := DateAndTime now.
+	tusLibrosIface := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp clock: self.! !
+!TusLibrosInterfaceTest methodsFor: '1-create and list cart' stamp: 'PGTA 12/1/2020 20:42:25' prior: 50868102!
+test01_CannotCreateCartWithInvalidClient
+
+	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidClientErrorDescription ].
+	
+	self should: [tusLibrosIface createCartWithClient: '1239' password: 'test1234']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidClientErrorDescription.! !
+!TusLibrosInterfaceTest methodsFor: '1-create and list cart' stamp: 'PGTA 12/1/2020 20:42:37' prior: 50868120!
+test02_CannotCreateCartWithInvalidPassword
+
+	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidPasswordErrorDescription].
+	
+	self should: [tusLibrosIface createCartWithClient: '1239' password: 'invalid']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidPasswordErrorDescription.! !
+!TusLibrosInterfaceTest methodsFor: '1-create and list cart' stamp: 'PGTA 12/1/2020 20:43:14' prior: 50868138!
+test03_InterfaceCanCreateACartAndIsEmpty
+
+	| cartId cartList| 
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	cartList := tusLibrosIface 	listCart: cartId.
+	
+	self assert: cartList isEmpty.
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:43:18'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '1-create and list cart' stamp: 'PGTA 12/1/2020 20:43:34' prior: 50868152!
+test04_InterfaceCannotListAnInvalidCartId
+
+	| cartId invalidCartId| 
+	
+	invalidCartId := 'invalid'.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self assert: (cartId = invalidCartId) not.
+	
+	self should: [tusLibrosIface 	listCart: invalidCartId]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	! !
+!TusLibrosInterfaceTest methodsFor: '1-create and list cart' stamp: 'PGTA 12/1/2020 20:43:52' prior: 50868171!
+test05_InterfaceCanCreateManyCarts
+
+	| cartId1 cartId2| 
+	
+	cartId1 := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	cartId2 := tusLibrosIface createCartWithClient: '1238' password: 'test123'.
+	
+	self assert: (tusLibrosIface 	listCart: cartId1) isEmpty.
+	self assert: (tusLibrosIface 	listCart: cartId2) isEmpty.
+	! !
+!TusLibrosInterfaceTest methodsFor: '2-add books and list cart' stamp: 'PGTA 12/1/2020 20:44:08' prior: 50868188!
+test06_InterfaceCanAddBooksIntoACartAndListThem
+
+	| cartId cartList bookIsbn| 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 5.
+	
+	cartList := tusLibrosIface 	listCart: cartId.
+	
+	self assert: 2 equals: cartList size.
+	self assert: bookIsbn equals: (cartList at: 1).
+	self assert: 5 equals: (cartList at: 2).	
+	! !
+!TusLibrosInterfaceTest methodsFor: '2-add books and list cart' stamp: 'PGTA 12/1/2020 20:44:29' prior: 50868209!
+test07_InterfaceCannotAddBooksIntoAnInvalidCart
+
+	| cartId bookIsbn invalidCartId|
+	
+	invalidCartId := 'invalid'. 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self assert: (invalidCartId = cartId) not.
+	
+	self should: [tusLibrosIface addToCart: invalidCartId isbn: bookIsbn quantity: 5]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+		
+	self should: [tusLibrosIface listCart: invalidCartId]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:44:30'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 20:44:55' prior: 50868236!
+test08_InterfaceCannotCheckoutAnInvalidCart
+
+	| cartId bookIsbn invalidCartId|
+	
+	invalidCartId := 'invalid'. 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self assert: (invalidCartId = cartId) not.
+	
+	self should: [tusLibrosIface checkoutCart: invalidCartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 20:45:13' prior: 50868261!
+test09_InterfaceCannotCheckoutAnEmptyCart
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface emptyCartErrorDescription.
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 20:45:38' prior: 50868279!
+test10_InterfaceSuccessfullyMakesASale
+
+	| cartId bookIsbn transactionId|
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	transactionId := tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	self assert: transactionId isEmpty not.
+	
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:45:41'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '4-list purchases' stamp: 'PGTA 12/1/2020 20:46:05' prior: 50868300!
+test11_NewInterfaceHasNoSales
+
+	| purchaseList|
+	
+	tusLibrosIface := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: CashierTest new setUp clock: self.
+	
+	purchaseList := 	tusLibrosIface listPurchasesFor: '1234' password: 'test1234'.
+	
+	self assert: purchaseList isEmpty.! !
+!TusLibrosInterfaceTest methodsFor: '4-list purchases' stamp: 'PGTA 12/1/2020 20:46:13' prior: 50870050!
+test11_NewInterfaceHasNoSales
+
+	| purchaseList|
+	
+	purchaseList := 	tusLibrosIface listPurchasesFor: '1234' password: 'test1234'.
+	
+	self assert: purchaseList isEmpty.! !
+!TusLibrosInterfaceTest methodsFor: '4-list purchases' stamp: 'PGTA 12/1/2020 20:46:16' prior: 50870063!
+test11_NewInterfaceHasNoSales
+
+	| purchaseList |
+	
+	purchaseList := 	tusLibrosIface listPurchasesFor: '1234' password: 'test1234'.
+	
+	self assert: purchaseList isEmpty.! !
+!TusLibrosInterfaceTest methodsFor: '4-list purchases' stamp: 'PGTA 12/1/2020 20:46:48' prior: 50868312!
+test12_CannotListPurchasesForAnInvalidClient
+	
+	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidClientErrorDescription ].	
+	
+	self should: [tusLibrosIface listPurchasesFor: '1234' password: 'test1234']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidClientErrorDescription.! !
+!TusLibrosInterfaceTest methodsFor: '4-list purchases' stamp: 'PGTA 12/1/2020 20:47:02' prior: 50868330!
+test13_CannotListPurchasesForAClientWithAnInvalidPassword
+	
+	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidPasswordErrorDescription].	
+	
+	self should: [tusLibrosIface listPurchasesFor: '1234' password: 'test1234']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidPasswordErrorDescription .! !
+!TusLibrosInterfaceTest methodsFor: '4-list purchases' stamp: 'PGTA 12/1/2020 20:47:27' prior: 50868349!
+test14_InterfaceCanListOneClientPurchase
+
+	| cartId bookIsbn purchaseList clientId password total quantity|
+	
+	clientId := '1239'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	total := testObjectsFactory itemSellByTheStorePrice * quantity.
+	
+	cartId := tusLibrosIface createCartWithClient: clientId password: password .
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: quantity.
+	
+	tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList := tusLibrosIface listPurchasesFor: clientId password: password.
+	
+	self assert: 3 equals: purchaseList size.
+	self assert: bookIsbn equals: (purchaseList at: 1).
+	self assert: quantity equals: (purchaseList at: 2).
+	self assert: total equals: (purchaseList at: 3).
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:47:28'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '4-list purchases' stamp: 'PGTA 12/1/2020 20:47:53' prior: 50868382!
+test15_InterfaceCanListMoreThanOnePurchaseFromAClient
+
+	| cartId1 cartId2 bookIsbn1 bookIsbn2 purchaseList clientId password total quantity|
+	
+	clientId := '1239'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn1 := testObjectsFactory itemSellByTheStore.
+	bookIsbn2 := testObjectsFactory secondItemSellByTheStore.
+	total := (testObjectsFactory itemSellByTheStorePrice * quantity) + (testObjectsFactory secondItemSellByTheStorePrice * (quantity + 1)).
+		
+	cartId1 := tusLibrosIface createCartWithClient: clientId password: password .
+	tusLibrosIface addToCart: cartId1 isbn: bookIsbn1 quantity: quantity.
+	tusLibrosIface checkoutCart: cartId1 cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	cartId2 := tusLibrosIface createCartWithClient: clientId password: password .
+	tusLibrosIface addToCart: cartId2 isbn: bookIsbn2 quantity: (quantity + 1).
+	tusLibrosIface checkoutCart: cartId2 cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList := tusLibrosIface listPurchasesFor: clientId password: password.
+	
+	self assert: 5 equals: purchaseList size.
+	self assert: bookIsbn1 equals: (purchaseList at: 1).
+	self assert: quantity equals: (purchaseList at: 2).
+	self assert: bookIsbn2 equals: (purchaseList at: 3).
+	self assert: (quantity + 1) equals: (purchaseList at: 4).
+	self assert: total equals: (purchaseList at: 5).
+	! !
+!TusLibrosInterfaceTest methodsFor: '4-list purchases' stamp: 'PGTA 12/1/2020 20:48:20' prior: 50868431!
+test16_InterfaceCanListPurchasesFromMoreThanOneClient
+	
+	| cartId1 cartId2 bookIsbn1 bookIsbn2 purchaseList1 purchaseList2 clientId1 clientId2 password total1 total2 quantity|
+	
+	clientId1 := '1239'.
+	clientId2 := '5678'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn1 := testObjectsFactory itemSellByTheStore.
+	bookIsbn2 := testObjectsFactory secondItemSellByTheStore.
+	total1 := (testObjectsFactory itemSellByTheStorePrice * quantity).
+	total2 := (testObjectsFactory secondItemSellByTheStorePrice * (quantity + 1)).
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password .
+	tusLibrosIface addToCart: cartId1 isbn: bookIsbn1 quantity: quantity.
+	tusLibrosIface checkoutCart: cartId1 cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList1 := tusLibrosIface listPurchasesFor: clientId1 password: password.
+	
+	cartId2 := tusLibrosIface createCartWithClient: clientId2 password: password .
+	tusLibrosIface addToCart: cartId2 isbn: bookIsbn2 quantity: (quantity + 1).
+	tusLibrosIface checkoutCart: cartId2 cardNumeber: '14556458' expDate: '102030' ownerName: 'Ana Sanchez'.
+	
+	purchaseList2 := tusLibrosIface listPurchasesFor: clientId2 password: password.
+	
+	self assert: 3 equals: purchaseList1 size.
+	self assert: bookIsbn1 equals: (purchaseList1 at: 1).
+	self assert: quantity equals: (purchaseList1 at: 2).
+	self assert: total1 equals: (purchaseList1 at: 3).
+	
+	self assert: 3 equals: purchaseList2 size.
+	self assert: bookIsbn2 equals: (purchaseList2 at: 1).
+	self assert: (quantity + 1) equals: (purchaseList2 at: 2).
+	self assert: total2 equals: (purchaseList2 at: 3).
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:48:24'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 20:48:43' prior: 50868488!
+test17_InterfaceCannotListAnExpiredCart
+	
+	| cartId1 clientId1 password |
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	
+	self advance30Minutes.
+	
+	self should: [tusLibrosIface listCart: cartId1]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface expiredCartErrorDescription.
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 20:49:04' prior: 50868507!
+test18_InterfaceCannotAddToAnExpiredCart
+	
+	| cartId1 clientId1 password bookIsbn|
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	
+	self advance30Minutes.
+	
+	self should: [tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5.]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface expiredCartErrorDescription.
+	
+	
+	
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:49:06'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 20:49:23' prior: 50868529!
+test19_InterfaceCannotCheckoutAnExpiredCart
+	
+	| cartId1 clientId1 password bookIsbn|
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5.
+	
+	self advance30Minutes.
+	
+	self should: [tusLibrosIface checkoutCart: cartId1 cardNumeber: '124345' expDate: '052025' ownerName: 'pepito']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface expiredCartErrorDescription.
+	
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 20:49:43' prior: 50868554!
+test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart
+	
+	| cartId1 clientId1 password bookIsbn|
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	tusLibrosIface := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: (CashierTest new setUp) clock: self.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	
+	self advance15minutes.
+	
+	tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5.
+	
+	self advance15minutes.
+	
+	self shouldnt: [tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5] raise: Error.
+	self shouldnt: [tusLibrosIface listCart: cartId1 ] raise: Error.
+	self shouldnt: [tusLibrosIface checkoutCart: cartId1 cardNumeber: '1213545' expDate: '052025' ownerName: 'alguien'] raise: Error.
+	
+	
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 20:50:05' prior: 50868582!
+test21_InterfaceUpdatesTheExpirationTimeAfterListCart
+	
+	| cartId1 clientId1 password bookIsbn |
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	
+	self advance15minutes.
+	
+	tusLibrosIface listCart: cartId1.
+	
+	self advance15minutes.
+	
+	self shouldnt: [tusLibrosIface listCart: cartId1.] raise: Error.
+	self shouldnt: [tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5] raise: Error.
+	self shouldnt: [tusLibrosIface checkoutCart: cartId1 cardNumeber: '1213545' expDate: '052025' ownerName: 'alguien'] raise: Error.
+	
+	
+	
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 20:50:11'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '1-create and list cart' stamp: 'PGTA 12/1/2020 20:58:47' prior: 50869628!
+test01_CannotCreateCartWithInvalidClient
+
+	authenticateBehavior := [:aClientId :aPassword| self error: TusLibrosInterface invalidClientErrorDescription ].
+	
+	self should: [tusLibrosIface createCartWithClient: 'invalid' password: 'test1234']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidClientErrorDescription.! !
+!TusLibrosInterfaceTest methodsFor: '1-create and list cart' stamp: 'PGTA 12/1/2020 21:02:41' prior: 50869753!
+test04_InterfaceCannotListAnInvalidCartId
+
+	| cartId invalidCartId | 
+	
+	invalidCartId := 'invalid'.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self assert: (cartId = invalidCartId) not.
+	
+	self should: [tusLibrosIface 	listCart: invalidCartId]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 21:02:46'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '1-create and list cart' stamp: 'PGTA 12/1/2020 21:02:57' prior: 50869769!
+test05_InterfaceCanCreateManyCarts
+
+	| cartId1 cartId2| 
+	
+	cartId1 := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	cartId2 := tusLibrosIface createCartWithClient: '1238' password: 'test123'.
+	
+	self assert: (tusLibrosIface 	listCart: cartId1) isEmpty.
+	self assert: (tusLibrosIface 	listCart: cartId2) isEmpty.! !
+!TusLibrosInterfaceTest methodsFor: '2-add books and list cart' stamp: 'PGTA 12/1/2020 21:06:03' prior: 50869784!
+test06_InterfaceCanAddBooksIntoACartAndListThem
+
+	| cartId cartList bookIsbn | 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 5.
+	
+	cartList := tusLibrosIface 	listCart: cartId.
+	
+	self assert: 2 equals: cartList size.
+	self assert: bookIsbn equals: (cartList at: 1).
+	self assert: 5 equals: (cartList at: 2).	
+	! !
+!TusLibrosInterfaceTest methodsFor: '2-add books and list cart' stamp: 'PGTA 12/1/2020 21:06:13' prior: 50869802!
+test07_InterfaceCannotAddBooksIntoAnInvalidCart
+
+	| cartId bookIsbn invalidCartId |
+	
+	invalidCartId := 'invalid'. 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self assert: (invalidCartId = cartId) not.
+	
+	self should: [tusLibrosIface addToCart: invalidCartId isbn: bookIsbn quantity: 5]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+		
+	self should: [tusLibrosIface listCart: invalidCartId]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '2-add books and list cart' stamp: 'PGTA 12/1/2020 21:11:26' prior: 50870842!
+test07_InterfaceCannotAddBooksIntoAnInvalidCart
+
+	| cartId bookIsbn invalidCartId |
+	
+	invalidCartId := 'invalid'. 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self assert: (invalidCartId = cartId) not.
+	
+	self should: [tusLibrosIface addToCart: invalidCartId isbn: bookIsbn quantity: 5]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 21:12:47'!
+test22_InterfaceRemovesCartAfterCheckOut
+	
+	| cartId1 clientId1 password bookIsbn |
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	
+	self advance15minutes.
+	
+	tusLibrosIface listCart: cartId1.
+	
+	self advance15minutes.
+	
+	self shouldnt: [tusLibrosIface listCart: cartId1.] raise: Error.
+	self shouldnt: [tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5] raise: Error.
+	self shouldnt: [tusLibrosIface checkoutCart: cartId1 cardNumeber: '1213545' expDate: '052025' ownerName: 'alguien'] raise: Error.
+	
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 21:18:53'!
+test22_InterfaceCannotCheckOutSameCartTwice
+	
+	| cartId bookIsbn transactionId |
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	transactionId := tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	self  should: [transactionId := tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 21:19:13' prior: 50870910!
+test22_InterfaceCannotCheckOutSameCartTwice
+	
+	| cartId bookIsbn transactionId |
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	transactionId := tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	self  should: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 21:20:04' prior: 50870934!
+test22_InterfaceCannotCheckOutSameCartTwice
+	
+	| cartId bookIsbn |
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self  shouldnt: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error.
+	
+	self  should: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	
+	! !
+
+!methodRemoval: TusLibrosInterfaceTest #test22_InterfaceRemovesCartAfterCheckOut stamp: 'PGTA 12/1/2020 21:20:28'!
+test22_InterfaceRemovesCartAfterCheckOut
+	
+	| cartId1 clientId1 password bookIsbn |
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	
+	self advance15minutes.
+	
+	tusLibrosIface listCart: cartId1.
+	
+	self advance15minutes.
+	
+	self shouldnt: [tusLibrosIface listCart: cartId1.] raise: Error.
+	self shouldnt: [tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5] raise: Error.
+	self shouldnt: [tusLibrosIface checkoutCart: cartId1 cardNumeber: '1213545' expDate: '052025' ownerName: 'alguien'] raise: Error.
+	
+	
+	
+	!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:20:36'!
+FAILURE!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 21:23:20' prior: 50869274!
+checkoutCart: aCartId cardNumeber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientOrder clientCart clientSalesBook cashier creditCard |
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId ].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart := clientOrder cart.
+	clientSalesBook := clientOrder salesBook.
+	
+	creditCard := self createCreditCard: anExpDate.
+	
+	self assertOnEmptyCartFor:[		cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook	].
+	
+	cashier checkOut.
+	
+	clientOrders removeKey: aCartId.
+	
+	^self transactionId
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:23:21'!
+FAILURE!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:23:27'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:23:32'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 21:28:32'!
+test22_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice
+	
+	| cartId bookIsbn |
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self  shouldnt: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error.
+	
+	self  should: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 21:28:49'!
+test23_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice
+	
+	| cartId bookIsbn |
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self  shouldnt: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error.
+	
+	self  should: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	
+	! !
+
+!methodRemoval: TusLibrosInterfaceTest #test22_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice stamp: 'PGTA 12/1/2020 21:28:49'!
+test22_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice
+	
+	| cartId bookIsbn |
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self  shouldnt: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error.
+	
+	self  should: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	
+	!
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 21:30:46' prior: 50871238!
+test23_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice
+	
+	| cartId clientId password |
+	
+	clientId := '1239'.
+	password := 'test123'.
+	
+	cartId := tusLibrosIface createCartWithClient: clientId password: password.
+	
+	self advance30Minutes.
+	
+	self should: [tusLibrosIface listCart: cartId]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface expiredCartErrorDescription.
+	
+	self should: [tusLibrosIface listCart: cartId]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test23_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice stamp: 'PGTA 12/1/2020 21:30:49'!
+FAILURE!
+
+!testRun: #TusLibrosInterfaceTest #test23_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice stamp: 'PGTA 12/1/2020 21:31:00'!
+FAILURE!
+
+!testRun: #TusLibrosInterfaceTest #test23_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice stamp: 'PGTA 12/1/2020 21:31:17'!
+FAILURE!
+
+!methodRemoval: TusLibrosInterfaceTest #test23_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice stamp: 'PGTA 12/1/2020 21:54:05'!
+test23_InvalidCartErrorIsRaisedAfterListAnExpiredCartTwice
+	
+	| cartId clientId password |
+	
+	clientId := '1239'.
+	password := 'test123'.
+	
+	cartId := tusLibrosIface createCartWithClient: clientId password: password.
+	
+	self advance30Minutes.
+	
+	self should: [tusLibrosIface listCart: cartId]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface expiredCartErrorDescription.
+	
+	self should: [tusLibrosIface listCart: cartId]
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:54:09'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '5-cart expiration' stamp: 'PGTA 12/1/2020 21:54:18' prior: 50870958!
+test22_InterfaceCannotCheckOutSameCartTwice
+	
+	| cartId bookIsbn |	
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self  shouldnt: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error.
+	
+	self  should: [tusLibrosIface checkoutCart: cartId cardNumeber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	
+	! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 21:58:07'!
+checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientOrder clientCart clientSalesBook cashier creditCard |
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId ].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart := clientOrder cart.
+	clientSalesBook := clientOrder salesBook.
+	
+	creditCard := self createCreditCard: anExpDate.
+	
+	self assertOnEmptyCartFor:[		cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook	].
+	
+	cashier checkOut.
+	
+	clientOrders removeKey: aCartId.
+	
+	^self transactionId
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:07' prior: 50870553!
+test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart
+	
+	| cartId1 clientId1 password bookIsbn|
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	tusLibrosIface := testObjectsFactory createTusLibrosInterfaceWith: self andMerchant: (CashierTest new setUp) clock: self.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	
+	self advance15minutes.
+	
+	tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5.
+	
+	self advance15minutes.
+	
+	self shouldnt: [tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5] raise: Error.
+	self shouldnt: [tusLibrosIface listCart: cartId1 ] raise: Error.
+	self shouldnt: [tusLibrosIface checkoutCart: cartId1 cardNumber: '1213545' expDate: '052025' ownerName: 'alguien'] raise: Error.
+	
+	
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:07' prior: 50870272!
+test16_InterfaceCanListPurchasesFromMoreThanOneClient
+	
+	| cartId1 cartId2 bookIsbn1 bookIsbn2 purchaseList1 purchaseList2 clientId1 clientId2 password total1 total2 quantity|
+	
+	clientId1 := '1239'.
+	clientId2 := '5678'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn1 := testObjectsFactory itemSellByTheStore.
+	bookIsbn2 := testObjectsFactory secondItemSellByTheStore.
+	total1 := (testObjectsFactory itemSellByTheStorePrice * quantity).
+	total2 := (testObjectsFactory secondItemSellByTheStorePrice * (quantity + 1)).
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password .
+	tusLibrosIface addToCart: cartId1 isbn: bookIsbn1 quantity: quantity.
+	tusLibrosIface checkoutCart: cartId1 cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList1 := tusLibrosIface listPurchasesFor: clientId1 password: password.
+	
+	cartId2 := tusLibrosIface createCartWithClient: clientId2 password: password .
+	tusLibrosIface addToCart: cartId2 isbn: bookIsbn2 quantity: (quantity + 1).
+	tusLibrosIface checkoutCart: cartId2 cardNumber: '14556458' expDate: '102030' ownerName: 'Ana Sanchez'.
+	
+	purchaseList2 := tusLibrosIface listPurchasesFor: clientId2 password: password.
+	
+	self assert: 3 equals: purchaseList1 size.
+	self assert: bookIsbn1 equals: (purchaseList1 at: 1).
+	self assert: quantity equals: (purchaseList1 at: 2).
+	self assert: total1 equals: (purchaseList1 at: 3).
+	
+	self assert: 3 equals: purchaseList2 size.
+	self assert: bookIsbn2 equals: (purchaseList2 at: 1).
+	self assert: (quantity + 1) equals: (purchaseList2 at: 2).
+	self assert: total2 equals: (purchaseList2 at: 3).
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:07' prior: 50870531!
+test19_InterfaceCannotCheckoutAnExpiredCart
+	
+	| cartId1 clientId1 password bookIsbn|
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5.
+	
+	self advance30Minutes.
+	
+	self should: [tusLibrosIface checkoutCart: cartId1 cardNumber: '124345' expDate: '052025' ownerName: 'pepito']
+		raise: Error - MessageNotUnderstood
+		withMessageText: TusLibrosInterface expiredCartErrorDescription.
+	
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:08' prior: 50870111!
+test14_InterfaceCanListOneClientPurchase
+
+	| cartId bookIsbn purchaseList clientId password total quantity|
+	
+	clientId := '1239'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	total := testObjectsFactory itemSellByTheStorePrice * quantity.
+	
+	cartId := tusLibrosIface createCartWithClient: clientId password: password .
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: quantity.
+	
+	tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList := tusLibrosIface listPurchasesFor: clientId password: password.
+	
+	self assert: 3 equals: purchaseList size.
+	self assert: bookIsbn equals: (purchaseList at: 1).
+	self assert: quantity equals: (purchaseList at: 2).
+	self assert: total equals: (purchaseList at: 3).
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:08' prior: 50870583!
+test21_InterfaceUpdatesTheExpirationTimeAfterListCart
+	
+	| cartId1 clientId1 password bookIsbn |
+	
+	clientId1 := '1239'.
+	password := 'test123'.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId1 := tusLibrosIface createCartWithClient: clientId1 password: password.
+	
+	self advance15minutes.
+	
+	tusLibrosIface listCart: cartId1.
+	
+	self advance15minutes.
+	
+	self shouldnt: [tusLibrosIface listCart: cartId1.] raise: Error.
+	self shouldnt: [tusLibrosIface addToCart: cartId1 isbn: bookIsbn quantity: 5] raise: Error.
+	self shouldnt: [tusLibrosIface checkoutCart: cartId1 cardNumber: '1213545' expDate: '052025' ownerName: 'alguien'] raise: Error.
+	
+	
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:08' prior: 50869911!
+test08_InterfaceCannotCheckoutAnInvalidCart
+
+	| cartId bookIsbn invalidCartId|
+	
+	invalidCartId := 'invalid'. 
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self assert: (invalidCartId = cartId) not.
+	
+	self should: [tusLibrosIface checkoutCart: invalidCartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:08' prior: 50870225!
+test15_InterfaceCanListMoreThanOnePurchaseFromAClient
+
+	| cartId1 cartId2 bookIsbn1 bookIsbn2 purchaseList clientId password total quantity|
+	
+	clientId := '1239'.
+	password := 'test123'.
+	quantity := 2.
+	bookIsbn1 := testObjectsFactory itemSellByTheStore.
+	bookIsbn2 := testObjectsFactory secondItemSellByTheStore.
+	total := (testObjectsFactory itemSellByTheStorePrice * quantity) + (testObjectsFactory secondItemSellByTheStorePrice * (quantity + 1)).
+		
+	cartId1 := tusLibrosIface createCartWithClient: clientId password: password .
+	tusLibrosIface addToCart: cartId1 isbn: bookIsbn1 quantity: quantity.
+	tusLibrosIface checkoutCart: cartId1 cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	cartId2 := tusLibrosIface createCartWithClient: clientId password: password .
+	tusLibrosIface addToCart: cartId2 isbn: bookIsbn2 quantity: (quantity + 1).
+	tusLibrosIface checkoutCart: cartId2 cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	purchaseList := tusLibrosIface listPurchasesFor: clientId password: password.
+	
+	self assert: 5 equals: purchaseList size.
+	self assert: bookIsbn1 equals: (purchaseList at: 1).
+	self assert: quantity equals: (purchaseList at: 2).
+	self assert: bookIsbn2 equals: (purchaseList at: 3).
+	self assert: (quantity + 1) equals: (purchaseList at: 4).
+	self assert: total equals: (purchaseList at: 5).
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:08' prior: 50869933!
+test09_InterfaceCannotCheckoutAnEmptyCart
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface emptyCartErrorDescription.
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:08' prior: 50869948!
+test10_InterfaceSuccessfullyMakesASale
+
+	| cartId bookIsbn transactionId|
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	transactionId := tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	self assert: transactionId isEmpty not.
+	
+	! !
+!TusLibrosInterfaceTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/1/2020 21:58:08' prior: 50871431!
+test22_InterfaceCannotCheckOutSameCartTwice
+	
+	| cartId bookIsbn |	
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	self  shouldnt: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error.
+	
+	self  should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface invalidCartIdErrorDescription.
+	
+	
+	! !
+
+!methodRemoval: TusLibrosInterface #checkoutCart:cardNumeber:expDate:ownerName: stamp: 'PGTA 12/1/2020 21:58:08'!
+checkoutCart: aCartId cardNumeber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientOrder clientCart clientSalesBook cashier creditCard |
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId ].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart := clientOrder cart.
+	clientSalesBook := clientOrder salesBook.
+	
+	creditCard := self createCreditCard: anExpDate.
+	
+	self assertOnEmptyCartFor:[		cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook	].
+	
+	cashier checkOut.
+	
+	clientOrders removeKey: aCartId.
+	
+	^self transactionId
+	!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 21:58:13'!
+PASSED!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:02:37' prior: 50871454!
+checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientOrder clientCart clientSalesBook cashier creditCard |
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId ].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart := clientOrder cart.
+	clientSalesBook := clientOrder salesBook.
+	
+	creditCard := self createCreditCard: anExpDate.
+	
+	"self assertOnEmptyCartFor:[		cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook	]."
+	cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook.
+	cashier checkOut.
+	
+	clientOrders removeKey: aCartId.
+	
+	^self transactionId
+	! !
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 22:02:46'!
+FAILURE!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 22:02:46'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 22:02:46'!
+FAILURE!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 22:03:43'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 22:07:27'!
+InterfaceRaisesCashierErrorIfCartIsEmpty
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface emptyCartErrorDescription.
+	
+	! !
+
+!methodRemoval: TusLibrosInterfaceTest #test09_InterfaceCannotCheckoutAnEmptyCart stamp: 'PGTA 12/1/2020 22:07:27'!
+test09_InterfaceCannotCheckoutAnEmptyCart
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface emptyCartErrorDescription.
+	
+	!
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 22:07:36'!
+test09_InterfaceRaisesCashierErrorIfCartIsEmpty
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface emptyCartErrorDescription.
+	
+	! !
+
+!methodRemoval: TusLibrosInterfaceTest #InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/1/2020 22:07:36'!
+InterfaceRaisesCashierErrorIfCartIsEmpty
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: TusLibrosInterface emptyCartErrorDescription.
+	
+	!
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 22:07:43' prior: 50872131!
+test09_InterfaceRaisesCashierErrorIfCartIsEmpty
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cashier emptyCartErrorDescription.
+	
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/1/2020 22:07:44'!
+ERROR!
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 22:08:08' prior: 50872161!
+test09_InterfaceRaisesCashierErrorIfCartIsEmpty
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cashier emptyCartErrorDescription.
+	
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/1/2020 22:08:09'!
+ERROR!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/1/2020 22:08:18'!
+ERROR!
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 22:08:50' prior: 50872180!
+test09_InterfaceRaisesCashierErrorIfCartIsEmpty
+
+	| cartId|
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	
+	self should: [tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez']
+		raise: Error - MessageNotUnderstood 
+		withMessageText: Cashier cartCanNotBeEmptyErrorMessage.
+	
+	! !
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/1/2020 22:08:52'!
+PASSED!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:09:09' prior: 50871928!
+checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
+	
+	|clientOrder clientCart clientSalesBook cashier creditCard |
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId ].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart := clientOrder cart.
+	clientSalesBook := clientOrder salesBook.
+	
+	creditCard := self createCreditCard: anExpDate.
+	
+	cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook.
+	cashier checkOut.
+	
+	clientOrders removeKey: aCartId.
+	
+	^self transactionId
+	! !
+
+!methodRemoval: TusLibrosInterface #assertOnEmptyCartFor: stamp: 'PGTA 12/1/2020 22:09:32'!
+assertOnEmptyCartFor: aBlock
+	
+	aBlock on: Error 	do: [^self error: self class emptyCartErrorDescription	]
+	
+	!
+
+----SNAPSHOT----(1 December 2020 22:09:39) CuisUniversity-4384.image priorSource: 17202317!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:19:19' prior: 50869255!
+createCartWithClient: aClientId password: aPassword 
+	
+	|cart cartIdStr clientSalesBook clientOrder|
+	authenticator authenticate: aClientId password: aPassword.
+	
+	clientSalesBook := salesBook at: aClientId ifAbsent: [salesBook at: aClientId put: OrderedCollection new].
+	
+	cart := Cart acceptingItemsOf: catalog.
+	cartIdStr := self nextCartId.
+	clientOrder := ClientOrder withCart: cart salesBook: clientSalesBook startTime: clock now.
+	clientOrders at: cartIdStr put: clientOrder.
+	
+	^cartIdStr.! !
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:20:36' prior: 50869297!
+listCart: aCartId
+	|clientOrder clientCart|
+	
+	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId].
+	self assertOnExpiredOrder: clientOrder.
+	
+	clientCart  := clientOrder cart.
+	clientOrder updateLastActivity: clock now.
+	^self listCartWithQuantity: clientCart .
+	! !
+
+----SNAPSHOT----(1 December 2020 22:21:26) CuisUniversity-4384.image priorSource: 17301894!
+
+----QUIT----(1 December 2020 22:21:37) CuisUniversity-4384.image priorSource: 17303008!
