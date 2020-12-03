@@ -35946,22 +35946,196 @@ listCart: aCartId
 
 ----QUIT----(1 December 2020 22:21:37) CuisUniversity-4384.image priorSource: 17303008!
 
-----STARTUP---- (2 December 2020 13:07:19) as C:\Users\paujimenez\Documents\Ingenieria1\cuisWindows64\20-windows64-TusLibros3\CuisUniversity-4384.image!
+----STARTUP---- (2 December 2020 23:51:10) as /home/pablo/Documents/Ingenieria1/cuis_TusLibros3/CuisUniversity-4384.image!
 
 
-----End fileIn of C:\Users\paujimenez\Documents\Ingenieria1\IS1-2c-2020\20-TusLibros\Iteracion3\TusLibros-Iteracion3.st----!
-!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 12/2/2020 13:09:31' prior: 50878282!
-createCreditCard: anExpDate
-	"As per Maxi, the credit card doesn't use the number and owner because it is not relevant for this iteration given that it was implemented in the previous one."
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+
+!classDefinition: #CreditCardTest category: 'TusLibros-Iteracion3' stamp: 'PGTA 12/2/2020 23:55:00'!
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+!CreditCardTest methodsFor: 'no messages' stamp: 'PGTA 12/2/2020 23:55:31'!
+test01_newCreditCardCantHaveEmptyNumber
 	
-	|monthNumber yearNumber month|
+	self should: [ CreditCard withNumber: '' owner: 'Pepe Sánchez' expirationDate: '022021'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardNumberErrorDescription.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:56:01'!
+test02_cannotCreateCreditCardWithEmptyExpirationDate
 	
-	monthNumber := (anExpDate collect: [:digit | digit] from: 1 to: 2) asNumber.
-	yearNumber := (anExpDate collect: [:digit | digit] from: 3 to: 6) asNumber.
-	month := (Month month: monthNumber year: yearNumber).
-	^CreditCard expiringOn: month.
+	self should: [ CreditCard withNumber: '1234123' owner: 'Pepe Sánchez' expirationDate: ''. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardExpirationDateErrorDescription.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:56:23'!
+test03_cannotCreateCreditCardWithInvalidInputExpirationDate
+	
+	self should: [ CreditCard withNumber: '1234123' owner: 'Pepe Sánchez' expirationDate: '022021abc'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardExpirationDateErrorDescription.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:57:02'!
+test04_cannotCreateCreditCardWithInvalidInputStringInNumber
+	
+	self should: [ CreditCard withNumber: '1234dfgh123' owner: 'Pepe Sánchez' expirationDate: '022021'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardNumberErrorDescription.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:57:16'!
+test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate
+	
+	self should: [ CreditCard withNumber: '1234123' owner: 'Pepe Sánchez' expirationDate: '022021111'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardExpirationDateErrorDescription.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:57:28'!
+test06_cannotCreateCreditCardWithInvalidMonthExpirationDate
+	
+	self should: [ CreditCard withNumber: '1234123' owner: 'Pepe Sánchez' expirationDate: '232050'. ]
+		raise: Error.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:57:41'!
+test07_cannotCreateCreditCardWithEmptyOwnerString
+	
+	self should: [ CreditCard withNumber: '1234123' owner: '' expirationDate: '022021'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardOwnerErrorDescription.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:57:53'!
+test08_creditCardKnowsItsCardNumber
+	| ccard |
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022021'.
+	self assert: '1234123' equals: ccard cardNumber.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:58:08'!
+test09_creditCardKnowsItsOwnerName
+	| ccard |
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022021'.
+	self assert: 'Pepe' equals: ccard ownerName.! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:58:24'!
+test10_creditCardKnowsItsExpirationDate
+	| ccard expDate |
+	
+	expDate := GregorianMonthOfYear yearNumber: 2021 monthNumber: 2.
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022021'.
+	self assert: expDate = ccard expirationDate! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/2/2020 23:58:42'!
+test11_creditCardKnowsIfItsExpired
+	| ccard |
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022019'.
+	self assert: ccard isExpired.! !
+
+!classDefinition: #CreditCard category: 'TusLibros-Iteracion3' stamp: 'PGTA 12/2/2020 23:59:23'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration number'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+!CreditCard methodsFor: 'initialization' stamp: 'PGTA 12/2/2020 23:59:19'!
+cardNumber
+	^number.! !
+
+!classDefinition: #CreditCard category: 'TusLibros-Iteracion3' stamp: 'PGTA 12/2/2020 23:59:37'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration number expirationDate'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+!CreditCard methodsFor: 'initialization' stamp: 'PGTA 12/2/2020 23:59:35'!
+expirationDate
+
+	^expirationDate! !
+
+!classDefinition: #CreditCard category: 'TusLibros-Iteracion3' stamp: 'PGTA 12/3/2020 00:00:32'!
+Object subclass: #CreditCard
+	instanceVariableNames: 'expiration number expirationDate ownerName'
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+!CreditCard methodsFor: 'initialization' stamp: 'PGTA 12/3/2020 00:00:30'!
+initializeWithNumber: aCreditCardNumberString owner: aCreditCardOwnerName expirationDate: aCreditCardExpirationDateString 
+
+	| yearNumber monthNumber |
+	
+	aCreditCardNumberString isEmpty ifTrue: [ ^self error: self class wrongCreditCardNumberErrorDescription ].
+	aCreditCardNumberString do: [:aChar | aChar isDigit ifFalse: [ ^self error: self class wrongCreditCardNumberErrorDescription ] ].
+
+	aCreditCardOwnerName isEmpty ifTrue: [ ^self error: self class wrongCreditCardOwnerErrorDescription ].
+	
+	aCreditCardExpirationDateString isEmpty ifTrue: [ ^self error: self class wrongCreditCardExpirationDateErrorDescription ].
+	aCreditCardExpirationDateString do: [:aChar | aChar isDigit ifFalse: [ ^self error: self class wrongCreditCardExpirationDateErrorDescription ] ].
+	aCreditCardExpirationDateString size > 6 ifTrue: [^self error: self class wrongCreditCardExpirationDateErrorDescription].
+	
+	monthNumber := (aCreditCardExpirationDateString collect: [:digit | digit] from: 1 to: 2) asNumber.
+	yearNumber := (aCreditCardExpirationDateString collect: [:digit | digit] from: 3 to: 6) asNumber.
+
+	expirationDate := GregorianMonthOfYear yearNumber: yearNumber monthNumber: monthNumber.
+	number := aCreditCardNumberString.
+	ownerName := aCreditCardOwnerName.
 	! !
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:10:44' prior: 50878211!
+!CreditCard methodsFor: 'old' stamp: 'PGTA 12/3/2020 00:00:49'!
+isExpired
+	| today |
+	today := FixedGregorianDate today.
+	
+	^expirationDate < (GregorianMonthOfYear year: today year month: today month).! !
+!CreditCard methodsFor: 'old' stamp: 'PGTA 12/3/2020 00:00:59'!
+ownerName
+	^ownerName! !
+!CreditCard class methodsFor: 'instance creation' stamp: 'PGTA 12/3/2020 00:04:28'!
+withNumber: aCreditCardNumberString owner: aCreditCardOwnerName expirationDate: aCreditCardExpirationDateString
+	
+	^self new initializeWithNumber: aCreditCardNumberString owner: aCreditCardOwnerName expirationDate: aCreditCardExpirationDateString ! !
+!CreditCard class methodsFor: 'old' stamp: 'PGTA 12/3/2020 00:05:05'!
+wrongCreditCardExpirationDateErrorDescription
+	^'Wrong credit card expiration date'! !
+!CreditCard class methodsFor: 'old' stamp: 'PGTA 12/3/2020 00:05:18'!
+wrongCreditCardNumberErrorDescription
+	^'Wrong credit card number'! !
+!CreditCard class methodsFor: 'old' stamp: 'PGTA 12/3/2020 00:05:28'!
+wrongCreditCardOwnerErrorDescription
+	^'Invalid credit card owner'! !
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PGTA 12/3/2020 00:07:06'!
+PASSED!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/3/2020 00:10:31' prior: 50872306!
 checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
 	
 	|clientOrder clientCart clientSalesBook cashier creditCard |
@@ -35972,8 +36146,7 @@ checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName
 	clientCart := clientOrder cart.
 	clientSalesBook := clientOrder salesBook.
 	
-	"As per Maxi, the credit card doesn't use the number and owner because it is not relevant for this iteration given that it was implemented in the previous one."
-	creditCard := self createCreditCard: anExpDate.
+	creditCard := CreditCard withNumber: aCreditCardNumber owner: aCreditCardOwner expirationDate: anExpDate.
 	
 	cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook.
 	cashier checkOut.
@@ -35982,175 +36155,855 @@ checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName
 	
 	^self transactionId
 	! !
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:34' prior: 50878198!
-addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
+
+!methodRemoval: TusLibrosInterface #createCreditCard: stamp: 'PGTA 12/3/2020 00:10:45'!
+createCreditCard: anExpDate
 	
-	|clientOrder cart|
-	self assertOnInvalidCartIdFor: 	[		clientOrder := clientOrders at: aCartId	].
-	self assertOnExpiredOrder: clientOrder.
+	|monthNumber yearNumber month|
 	
-	cart := clientOrder cart.
-	cart add: aBookQuantity of: aBookIsbn.
-	clientOrder updateLastActivity: clock now.
+	monthNumber := (anExpDate collect: [:digit | digit] from: 1 to: 2) asNumber.
+	yearNumber := (anExpDate collect: [:digit | digit] from: 3 to: 6) asNumber.
+	month := (Month month: monthNumber year: yearNumber).
+	^CreditCard expiringOn: month.
+	!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/3/2020 00:11:21'!
+ERROR!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/3/2020 00:11:21'!
+ERROR!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/3/2020 00:11:21'!
+ERROR!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/3/2020 00:11:21'!
+ERROR!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/3/2020 00:11:21'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/3/2020 00:11:21'!
+FAILURE!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/3/2020 00:11:21'!
+FAILURE!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/3/2020 00:11:21'!
+FAILURE!
+
+Month fromString: '04'!
+
+Month fromString: '4/2010'!
+
+Month fromString: '042010'!
+
+Month month: 04 year: 2010!
+!CreditCard methodsFor: 'old' stamp: 'PGTA 12/3/2020 00:18:31' prior: 50872540!
+initializeWithNumber: aCreditCardNumberString owner: aCreditCardOwnerName expirationDate: aCreditCardExpirationDateString 
+
+	| yearNumber monthNumber |
+	
+	aCreditCardNumberString isEmpty ifTrue: [ ^self error: self class wrongCreditCardNumberErrorDescription ].
+	aCreditCardNumberString do: [:aChar | aChar isDigit ifFalse: [ ^self error: self class wrongCreditCardNumberErrorDescription ] ].
+
+	aCreditCardOwnerName isEmpty ifTrue: [ ^self error: self class wrongCreditCardOwnerErrorDescription ].
+	
+	aCreditCardExpirationDateString isEmpty ifTrue: [ ^self error: self class wrongCreditCardExpirationDateErrorDescription ].
+	aCreditCardExpirationDateString do: [:aChar | aChar isDigit ifFalse: [ ^self error: self class wrongCreditCardExpirationDateErrorDescription ] ].
+	aCreditCardExpirationDateString size > 6 ifTrue: [^self error: self class wrongCreditCardExpirationDateErrorDescription].
+	
+	monthNumber := (aCreditCardExpirationDateString collect: [:digit | digit] from: 1 to: 2) asNumber.
+	yearNumber := (aCreditCardExpirationDateString collect: [:digit | digit] from: 3 to: 6) asNumber.
+
+	expirationDate := Month month: monthNumber year: yearNumber.
+	number := aCreditCardNumberString.
+	ownerName := aCreditCardOwnerName.
+	! !
+!CreditCard methodsFor: 'testing' stamp: 'PGTA 12/3/2020 00:19:35' prior: 50868869!
+isExpiredOn: aDate 
+	
+	^expirationDate start < (Month month: aDate monthIndex year: aDate yearNumber) start ! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/3/2020 00:21:00' prior: 50872488!
+test10_creditCardKnowsItsExpirationDate
+	| ccard expDate |
+	
+	expDate := Month month: 02 year: 2021.
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022021'.
+	self assert: expDate = ccard expirationDate! !
+!CreditCardTest methodsFor: 'as yet unclassified' stamp: 'PGTA 12/3/2020 00:22:10' prior: 50872499!
+test11_creditCardKnowsIfItsExpired
+	| ccard |
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022019'.
+	self assert: (ccard isExpiredOn: (Month month: 04 year: 2020)).! !
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PGTA 12/3/2020 00:22:19'!
+PASSED!
+
+!methodRemoval: CreditCard #isExpired stamp: 'PGTA 12/3/2020 00:22:54'!
+isExpired
+	| today |
+	today := FixedGregorianDate today.
+	
+	^expirationDate < (GregorianMonthOfYear year: today year month: today month).!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PGTA 12/3/2020 00:23:00'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/3/2020 00:23:10'!
+ERROR!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/3/2020 00:23:46'!
+ERROR!
+
+!methodRemoval: CreditCard #initializeExpiringOn: stamp: 'PGTA 12/3/2020 00:24:42'!
+initializeExpiringOn: aMonth 
+	
+	expiration := aMonth !
+
+!methodRemoval: CreditCard class #expiringOn: stamp: 'PGTA 12/3/2020 00:25:22'!
+expiringOn: aMonth 
+	
+	^self new initializeExpiringOn: aMonth!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PGTA 12/3/2020 00:25:30'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/3/2020 00:25:34'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/3/2020 00:25:34'!
+ERROR!
+
+(today monthIndex) asString, (today yearNumber + 1) asString!
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'PGTA 12/3/2020 00:28:04' prior: 50868987!
+notExpiredCreditCard
+	
+	^CreditCard withNumber: '123456' owner: 'Pepito' expirationDate: (today monthIndex) asString, (today yearNumber + 1) asString.! !
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/3/2020 00:28:06'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/3/2020 00:28:14'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PGTA 12/3/2020 00:28:14'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PGTA 12/3/2020 00:28:14'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/3/2020 00:28:14'!
+ERROR!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/3/2020 00:28:14'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PGTA 12/3/2020 00:28:14'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/3/2020 00:28:14'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/3/2020 00:28:14'!
+ERROR!
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'PGTA 12/3/2020 00:28:57' prior: 50868980!
+expiredCreditCard
+	
+	^CreditCard withNumber: '123456' owner: 'Pepito' expirationDate: (today monthIndex) asString, (today yearNumber - 1) asString.! !
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/3/2020 00:29:05'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PGTA 12/3/2020 00:29:05'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PGTA 12/3/2020 00:29:05'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/3/2020 00:29:05'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/3/2020 00:29:05'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PGTA 12/3/2020 00:29:05'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/3/2020 00:29:05'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PGTA 12/3/2020 00:29:11'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/3/2020 00:29:23'!
+PASSED!
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/3/2020 00:33:20'!
+test10b_InterfaceTransactionIDIsDifferentForDifferentCheckOuts
+
+	| cartId bookIsbn transactionId|
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	
+	transactionId := tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	self assert: transactionId isEmpty not.
 	
 	! !
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:49' prior: 50878234!
-createCartWithClient: aClientId password: aPassword 
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/3/2020 00:35:19' prior: 50873226!
+test10b_InterfaceTransactionIDIsDifferentForDifferentCheckOuts
+
+	| cartId bookIsbn transactionId1 transactionId2 |
 	
-	|cart cartIdStr clientSalesBook clientOrder|
-	authenticator authenticate: aClientId password: aPassword.
+	bookIsbn := testObjectsFactory itemSellByTheStore.
 	
-	clientSalesBook := salesBook at: aClientId ifAbsent: [salesBook at: aClientId put: OrderedCollection new].
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
 	
-	cart := Cart acceptingItemsOf: catalog.
-	cartIdStr := self nextCartId.
-	clientOrder := ClientOrder withCart: cart salesBook: clientSalesBook startTime: clock now.
-	clientOrders at: cartIdStr put: clientOrder.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	transactionId1 := tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
 	
-	^cartIdStr.! !
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:59' prior: 50878253!
-listCart: aCartId
-	|clientOrder clientCart|
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	transactionId2 := tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
 	
-	self assertOnInvalidCartIdFor: [clientOrder := clientOrders at: aCartId].
-	self assertOnExpiredOrder: clientOrder.
+	self assert: (transactionId1 = transactionId2) not.! !
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/3/2020 00:36:06' prior: 50873244!
+test10b_InterfaceTransactionIDIsDifferentForDifferentCheckOuts
+
+	| cartId bookIsbn transactionId1 transactionId2 |
 	
-	clientCart  := clientOrder cart.
-	clientOrder updateLastActivity: clock now.
-	^self listCartWithQuantity: clientCart .
-	! !
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:13:22' prior: 50878265!
-listPurchasesFor: aClientId password: aPassword
+	bookIsbn := testObjectsFactory itemSellByTheStore.
 	
-	|purchaseList total clientSalesBook|
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	transactionId1 := tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
 	
-	authenticator authenticate: aClientId password: aPassword.
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	transactionId2 := tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
 	
-	total := 0.
-	purchaseList := OrderedCollection new.
-	
-	clientSalesBook := salesBook at: aClientId ifAbsent: [^purchaseList ].
-	
-	clientSalesBook do: [:sale |
-		purchaseList addAllLast: sale itemsSold.
-		total := total + sale total.
-	].
-	
-	purchaseList add: total.
-	^purchaseList ! !
+	self assert: (transactionId1 = transactionId2) not.! !
 
-!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PJ 12/2/2020 13:14:00'!
+!testRun: #TusLibrosInterfaceTest #test10b_InterfaceTransactionIDIsDifferentForDifferentCheckOuts stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test10b_InterfaceTransactionIDIsDifferentForDifferentCheckOuts stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/3/2020 00:36:09'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PJ 12/2/2020 13:14:01'!
+----SNAPSHOT----(3 December 2020 00:40:10) CuisUniversity-4384.image priorSource: 17303101!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PJ 12/2/2020 13:14:01'!
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/3/2020 00:40:14'!
 PASSED!
 
-----SNAPSHOT----(2 December 2020 13:19:41) CuisUniversity-4384.image priorSource: 17448751!
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PGTA 12/3/2020 00:40:14'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/3/2020 00:40:14'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:40:14'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PGTA 12/3/2020 00:40:14'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PGTA 12/3/2020 00:40:14'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PGTA 12/3/2020 00:40:14'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PGTA 12/3/2020 00:40:14'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PGTA 12/3/2020 00:40:14'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10b_InterfaceTransactionIDIsDifferentForDifferentCheckOuts stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/3/2020 00:40:15'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test01NewCartsAreCreatedEmpty stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test02CanNotAddItemsThatDoNotBelongToStore stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test03AfterAddingAnItemTheCartIsNotEmptyAnymore stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test04CanNotAddNonPositiveNumberOfItems stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test05CanNotAddMoreThanOneItemNotSellByTheStore stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test06CartRemembersAddedItems stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test07CartDoesNotHoldNotAddedItems stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test08CartRemembersTheNumberOfAddedItems stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test09CartDoesntAddAnyItemsIntoTheListWhenItIsEmpty stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CartTest #test10CartAddsItsItemsIntoTheListWhenItIsNotEmpty stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CashierTest #test01CanNotCheckoutAnEmptyCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CashierTest #test02CalculatedTotalIsCorrect stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CashierTest #test03CanNotCheckoutWithAnExpiredCreditCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CashierTest #test04CheckoutRegistersASale stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CashierTest #test05CashierChargesCreditCardUsingMerchantProcessor stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CashierTest #test06CashierDoesNotSaleWhenTheCreditCardHasNoCredit stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test01_newCreditCardCantHaveEmptyNumber stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test02_cannotCreateCreditCardWithEmptyExpirationDate stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test03_cannotCreateCreditCardWithInvalidInputExpirationDate stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test04_cannotCreateCreditCardWithInvalidInputStringInNumber stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test06_cannotCreateCreditCardWithInvalidMonthExpirationDate stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test07_cannotCreateCreditCardWithEmptyOwnerString stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test08_creditCardKnowsItsCardNumber stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test09_creditCardKnowsItsOwnerName stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test10_creditCardKnowsItsExpirationDate stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #CreditCardTest #test11_creditCardKnowsIfItsExpired stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test01_CannotCreateCartWithInvalidClient stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test02_CannotCreateCartWithInvalidPassword stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test03_InterfaceCanCreateACartAndIsEmpty stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test04_InterfaceCannotListAnInvalidCartId stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test05_InterfaceCanCreateManyCarts stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test06_InterfaceCanAddBooksIntoACartAndListThem stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test07_InterfaceCannotAddBooksIntoAnInvalidCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test08_InterfaceCannotCheckoutAnInvalidCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test09_InterfaceRaisesCashierErrorIfCartIsEmpty stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10b_InterfaceTransactionIDIsDifferentForDifferentCheckOuts stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test10_InterfaceSuccessfullyMakesASale stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test11_NewInterfaceHasNoSales stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test12_CannotListPurchasesForAnInvalidClient stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test13_CannotListPurchasesForAClientWithAnInvalidPassword stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test14_InterfaceCanListOneClientPurchase stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test15_InterfaceCanListMoreThanOnePurchaseFromAClient stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test16_InterfaceCanListPurchasesFromMoreThanOneClient stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test17_InterfaceCannotListAnExpiredCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test18_InterfaceCannotAddToAnExpiredCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test19_InterfaceCannotCheckoutAnExpiredCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test20_InterfaceUpdatesTheExpirationTimeAfterAddToCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test21_InterfaceUpdatesTheExpirationTimeAfterListCart stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+!testRun: #TusLibrosInterfaceTest #test22_InterfaceCannotCheckOutSameCartTwice stamp: 'PGTA 12/3/2020 00:40:24'!
+PASSED!
+
+----SNAPSHOT----(3 December 2020 00:41:16) CuisUniversity-4384.image priorSource: 17335611!
+
+----QUIT----(3 December 2020 00:42:03) CuisUniversity-4384.image priorSource: 17347514!

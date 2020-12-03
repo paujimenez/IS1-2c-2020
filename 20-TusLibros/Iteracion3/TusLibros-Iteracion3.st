@@ -285,6 +285,92 @@ debit: anAmount from: aCreditCard
 	^debitBehavior value: anAmount value: aCreditCard ! !
 
 
+!classDefinition: #CreditCardTest category: 'TusLibros-Iteracion3'!
+TestCase subclass: #CreditCardTest
+	instanceVariableNames: ''
+	classVariableNames: ''
+	poolDictionaries: ''
+	category: 'TusLibros-Iteracion3'!
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:55:31'!
+test01_newCreditCardCantHaveEmptyNumber
+	
+	self should: [ CreditCard withNumber: '' owner: 'Pepe Sánchez' expirationDate: '022021'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardNumberErrorDescription.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:56:01'!
+test02_cannotCreateCreditCardWithEmptyExpirationDate
+	
+	self should: [ CreditCard withNumber: '1234123' owner: 'Pepe Sánchez' expirationDate: ''. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardExpirationDateErrorDescription.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:56:23'!
+test03_cannotCreateCreditCardWithInvalidInputExpirationDate
+	
+	self should: [ CreditCard withNumber: '1234123' owner: 'Pepe Sánchez' expirationDate: '022021abc'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardExpirationDateErrorDescription.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:57:02'!
+test04_cannotCreateCreditCardWithInvalidInputStringInNumber
+	
+	self should: [ CreditCard withNumber: '1234dfgh123' owner: 'Pepe Sánchez' expirationDate: '022021'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardNumberErrorDescription.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:57:16'!
+test05_cannotCreateCreditCardWithMoreThanSixDigitsInExpirationDate
+	
+	self should: [ CreditCard withNumber: '1234123' owner: 'Pepe Sánchez' expirationDate: '022021111'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardExpirationDateErrorDescription.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:57:28'!
+test06_cannotCreateCreditCardWithInvalidMonthExpirationDate
+	
+	self should: [ CreditCard withNumber: '1234123' owner: 'Pepe Sánchez' expirationDate: '232050'. ]
+		raise: Error.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:57:41'!
+test07_cannotCreateCreditCardWithEmptyOwnerString
+	
+	self should: [ CreditCard withNumber: '1234123' owner: '' expirationDate: '022021'. ]
+		raise: Error - MessageNotUnderstood 
+		withMessageText: CreditCard wrongCreditCardOwnerErrorDescription.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:57:53'!
+test08_creditCardKnowsItsCardNumber
+	| ccard |
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022021'.
+	self assert: '1234123' equals: ccard cardNumber.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/2/2020 23:58:08'!
+test09_creditCardKnowsItsOwnerName
+	| ccard |
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022021'.
+	self assert: 'Pepe' equals: ccard ownerName.! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/3/2020 00:21:00'!
+test10_creditCardKnowsItsExpirationDate
+	| ccard expDate |
+	
+	expDate := Month month: 02 year: 2021.
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022021'.
+	self assert: expDate = ccard expirationDate! !
+
+!CreditCardTest methodsFor: 'tests' stamp: 'PGTA 12/3/2020 00:22:10'!
+test11_creditCardKnowsIfItsExpired
+	| ccard |
+	
+	ccard := CreditCard withNumber: '1234123' owner: 'Pepe' expirationDate: '022019'.
+	self assert: (ccard isExpiredOn: (Month month: 04 year: 2020)).! !
+
+
 !classDefinition: #TusLibrosInterfaceTest category: 'TusLibros-Iteracion3'!
 TestCase subclass: #TusLibrosInterfaceTest
 	instanceVariableNames: 'testObjectsFactory authenticateBehavior clockSimulator tusLibrosIface'
@@ -447,6 +533,23 @@ test09_InterfaceRaisesCashierErrorIfCartIsEmpty
 		withMessageText: Cashier cartCanNotBeEmptyErrorMessage.
 	
 	! !
+
+!TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/3/2020 00:36:06'!
+test10b_InterfaceTransactionIDIsDifferentForDifferentCheckOuts
+
+	| cartId bookIsbn transactionId1 transactionId2 |
+	
+	bookIsbn := testObjectsFactory itemSellByTheStore.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	transactionId1 := tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	cartId := tusLibrosIface createCartWithClient: '1239' password: 'test123'.
+	tusLibrosIface addToCart: cartId isbn: bookIsbn quantity: 2.
+	transactionId2 := tusLibrosIface checkoutCart: cartId cardNumber: '12345458' expDate: '052025' ownerName: 'Pepe Sanchez'.
+	
+	self assert: (transactionId1 = transactionId2) not.! !
 
 !TusLibrosInterfaceTest methodsFor: '3-checkout cart' stamp: 'PGTA 12/1/2020 21:58:08'!
 test10_InterfaceSuccessfullyMakesASale
@@ -958,21 +1061,52 @@ withCart: aCart salesBook: aSalesBook startTime: aDateAndTime
 
 !classDefinition: #CreditCard category: 'TusLibros-Iteracion3'!
 Object subclass: #CreditCard
-	instanceVariableNames: 'expiration'
+	instanceVariableNames: 'expiration number expirationDate ownerName'
 	classVariableNames: ''
 	poolDictionaries: ''
 	category: 'TusLibros-Iteracion3'!
 
-!CreditCard methodsFor: 'testing' stamp: 'HernanWilkinson 6/17/2013 18:39'!
+!CreditCard methodsFor: 'testing' stamp: 'PGTA 12/3/2020 00:19:35'!
 isExpiredOn: aDate 
 	
-	^expiration start < (Month month: aDate monthIndex year: aDate yearNumber) start ! !
+	^expirationDate start < (Month month: aDate monthIndex year: aDate yearNumber) start ! !
 
 
-!CreditCard methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:38'!
-initializeExpiringOn: aMonth 
+!CreditCard methodsFor: 'initialization' stamp: 'PGTA 12/3/2020 00:18:31'!
+initializeWithNumber: aCreditCardNumberString owner: aCreditCardOwnerName expirationDate: aCreditCardExpirationDateString 
+
+	| yearNumber monthNumber |
 	
-	expiration := aMonth ! !
+	aCreditCardNumberString isEmpty ifTrue: [ ^self error: self class wrongCreditCardNumberErrorDescription ].
+	aCreditCardNumberString do: [:aChar | aChar isDigit ifFalse: [ ^self error: self class wrongCreditCardNumberErrorDescription ] ].
+
+	aCreditCardOwnerName isEmpty ifTrue: [ ^self error: self class wrongCreditCardOwnerErrorDescription ].
+	
+	aCreditCardExpirationDateString isEmpty ifTrue: [ ^self error: self class wrongCreditCardExpirationDateErrorDescription ].
+	aCreditCardExpirationDateString do: [:aChar | aChar isDigit ifFalse: [ ^self error: self class wrongCreditCardExpirationDateErrorDescription ] ].
+	aCreditCardExpirationDateString size > 6 ifTrue: [^self error: self class wrongCreditCardExpirationDateErrorDescription].
+	
+	monthNumber := (aCreditCardExpirationDateString collect: [:digit | digit] from: 1 to: 2) asNumber.
+	yearNumber := (aCreditCardExpirationDateString collect: [:digit | digit] from: 3 to: 6) asNumber.
+
+	expirationDate := Month month: monthNumber year: yearNumber.
+	number := aCreditCardNumberString.
+	ownerName := aCreditCardOwnerName.
+	! !
+
+
+!CreditCard methodsFor: 'accesing' stamp: 'PGTA 12/2/2020 23:59:19'!
+cardNumber
+	^number.! !
+
+!CreditCard methodsFor: 'accesing' stamp: 'PGTA 12/2/2020 23:59:35'!
+expirationDate
+
+	^expirationDate! !
+
+!CreditCard methodsFor: 'accesing' stamp: 'PGTA 12/3/2020 00:00:59'!
+ownerName
+	^ownerName! !
 
 "-- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- "!
 
@@ -980,10 +1114,23 @@ initializeExpiringOn: aMonth
 CreditCard class
 	instanceVariableNames: ''!
 
-!CreditCard class methodsFor: 'instance creation' stamp: 'HernanWilkinson 6/17/2013 18:38'!
-expiringOn: aMonth 
+!CreditCard class methodsFor: 'instance creation' stamp: 'PGTA 12/3/2020 00:04:28'!
+withNumber: aCreditCardNumberString owner: aCreditCardOwnerName expirationDate: aCreditCardExpirationDateString
 	
-	^self new initializeExpiringOn: aMonth! !
+	^self new initializeWithNumber: aCreditCardNumberString owner: aCreditCardOwnerName expirationDate: aCreditCardExpirationDateString ! !
+
+
+!CreditCard class methodsFor: 'errors' stamp: 'PGTA 12/3/2020 00:05:05'!
+wrongCreditCardExpirationDateErrorDescription
+	^'Wrong credit card expiration date'! !
+
+!CreditCard class methodsFor: 'errors' stamp: 'PGTA 12/3/2020 00:05:18'!
+wrongCreditCardNumberErrorDescription
+	^'Wrong credit card number'! !
+
+!CreditCard class methodsFor: 'errors' stamp: 'PGTA 12/3/2020 00:05:28'!
+wrongCreditCardOwnerErrorDescription
+	^'Invalid credit card owner'! !
 
 
 !classDefinition: #Sale category: 'TusLibros-Iteracion3'!
@@ -1069,15 +1216,15 @@ defaultCatalog
 		yourself ! !
 
 
-!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:37'!
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'PGTA 12/3/2020 00:28:57'!
 expiredCreditCard
 	
-	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber - 1)! !
+	^CreditCard withNumber: '123456' owner: 'Pepito' expirationDate: (today monthIndex) asString, (today yearNumber - 1) asString.! !
 
-!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'HernanWilkinson 6/17/2013 18:36'!
+!StoreTestObjectsFactory methodsFor: 'credit card' stamp: 'PGTA 12/3/2020 00:28:04'!
 notExpiredCreditCard
 	
-	^CreditCard expiringOn: (Month month: today monthIndex year: today yearNumber + 1)! !
+	^CreditCard withNumber: '123456' owner: 'Pepito' expirationDate: (today monthIndex) asString, (today yearNumber + 1) asString.! !
 
 
 !StoreTestObjectsFactory methodsFor: 'initialization' stamp: 'HernanWilkinson 6/17/2013 18:37'!
@@ -1131,7 +1278,7 @@ assertOnInvalidCartIdFor: aBlock
 	! !
 
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:34'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 20:28:18'!
 addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
 	
 	|clientOrder cart|
@@ -1144,7 +1291,7 @@ addToCart: aCartId isbn: aBookIsbn quantity: aBookQuantity
 	
 	! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:10:44'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/3/2020 00:10:31'!
 checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName: aCreditCardOwner
 	
 	|clientOrder clientCart clientSalesBook cashier creditCard |
@@ -1155,8 +1302,7 @@ checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName
 	clientCart := clientOrder cart.
 	clientSalesBook := clientOrder salesBook.
 	
-	"As per Maxi, the credit card doesn't use the number and owner because it is not relevant for this iteration given that it was implemented in the previous one."
-	creditCard := self createCreditCard: anExpDate.
+	creditCard := CreditCard withNumber: aCreditCardNumber owner: aCreditCardOwner expirationDate: anExpDate.
 	
 	cashier := Cashier toCheckout: clientCart charging: creditCard throught: merchantProcessor on: clock now registeringOn: clientSalesBook.
 	cashier checkOut.
@@ -1166,7 +1312,7 @@ checkoutCart: aCartId cardNumber: aCreditCardNumber expDate: anExpDate ownerName
 	^self transactionId
 	! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:49'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:19:19'!
 createCartWithClient: aClientId password: aPassword 
 	
 	|cart cartIdStr clientSalesBook clientOrder|
@@ -1181,7 +1327,7 @@ createCartWithClient: aClientId password: aPassword
 	
 	^cartIdStr.! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:12:59'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PGTA 12/1/2020 22:20:36'!
 listCart: aCartId
 	|clientOrder clientCart|
 	
@@ -1193,7 +1339,7 @@ listCart: aCartId
 	^self listCartWithQuantity: clientCart .
 	! !
 
-!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 12/2/2020 13:13:22'!
+!TusLibrosInterface methodsFor: 'operations' stamp: 'PJ 11/30/2020 00:27:13'!
 listPurchasesFor: aClientId password: aPassword
 	
 	|purchaseList total clientSalesBook|
@@ -1213,18 +1359,6 @@ listPurchasesFor: aClientId password: aPassword
 	purchaseList add: total.
 	^purchaseList ! !
 
-
-!TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 12/2/2020 13:09:31'!
-createCreditCard: anExpDate
-	"As per Maxi, the credit card doesn't use the number and owner because it is not relevant for this iteration given that it was implemented in the previous one."
-	
-	|monthNumber yearNumber month|
-	
-	monthNumber := (anExpDate collect: [:digit | digit] from: 1 to: 2) asNumber.
-	yearNumber := (anExpDate collect: [:digit | digit] from: 3 to: 6) asNumber.
-	month := (Month month: monthNumber year: yearNumber).
-	^CreditCard expiringOn: month.
-	! !
 
 !TusLibrosInterface methodsFor: 'private operations' stamp: 'PJ 11/29/2020 16:02:54'!
 listCartWithQuantity: aCart
